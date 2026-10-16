@@ -1,0 +1,5019 @@
+[
+  {
+    "id": "card_d_21",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-21",
+    "circle": "牛马圈",
+    "name": "股票369健康管理公司",
+    "content": "人们对健康需求急剧增加，股价剧烈上扬。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 3000,
+      "sharePrice": 30,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_22",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-22",
+    "circle": "牛马圈",
+    "name": "股票369健康管理公司",
+    "content": "儿童健康领域创造了新纪录，股价达到历史最高点。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 4000,
+      "sharePrice": 40,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_23",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-23",
+    "circle": "牛马圈",
+    "name": "股票369健康管理公司",
+    "content": "公司经营没有达到预期目标。股价跌至历史低点。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 1000,
+      "sharePrice": 10,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_24",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-24",
+    "circle": "牛马圈",
+    "name": "股票369健康管理公司",
+    "content": "369健康乐园的音乐荒诞剧的票房收入很差。核心管理层分裂，导致股价走低。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 1000,
+      "sharePrice": 10,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_25",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-25",
+    "circle": "牛马圈",
+    "name": "股票369健康管理公司",
+    "content": "新产品上市为股价上涨带来了新的希望。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 1500,
+      "sharePrice": 15,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_26",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-26",
+    "circle": "牛马圈",
+    "name": "股票369健康管理公司",
+    "content": "风投进驻引起股价上涨。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 3000,
+      "sharePrice": 30,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_27",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-27",
+    "circle": "牛马圈",
+    "name": "股票369健康管理公司",
+    "content": "公司并购进一步增强了其领先地位，前景看好。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 2000,
+      "sharePrice": 20,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_14",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-14",
+    "circle": "牛马圈",
+    "name": "股票007游戏公司",
+    "content": "电子游戏产品销售火爆。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 2000,
+      "sharePrice": 20,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_15",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-15",
+    "circle": "牛马圈",
+    "name": "股票007游戏公司",
+    "content": "市场疲软导致公司股价下跌。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 1000,
+      "sharePrice": 10,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_16",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-16",
+    "circle": "牛马圈",
+    "name": "股票007游戏公司",
+    "content": "贸易战争引起恐慌，使公司股价暴跌。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 100,
+      "sharePrice": 1,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_17",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-17",
+    "circle": "牛马圈",
+    "name": "股票007游戏公司",
+    "content": "高通货膨胀率使公司股价下跌。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 500,
+      "sharePrice": 5,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_18",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-18",
+    "circle": "牛马圈",
+    "name": "股票007游戏公司",
+    "content": "高通货膨胀率使公司股价下跌。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 500,
+      "sharePrice": 5,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_19",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-19",
+    "circle": "牛马圈",
+    "name": "股票007游戏公司",
+    "content": "市场繁荣使公司股价上涨。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 4000,
+      "sharePrice": 40,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_20",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-20",
+    "circle": "牛马圈",
+    "name": "股票007游戏公司",
+    "content": "低利率使公司股价上涨。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 3000,
+      "sharePrice": 30,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_6",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-6",
+    "circle": "牛马圈",
+    "name": "股票UFO药业公司",
+    "content": "金融风暴引发股灾。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 100,
+      "sharePrice": 1,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_7",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-7",
+    "circle": "牛马圈",
+    "name": "股票UFO药业公司",
+    "content": "该制药商历史悠久，拥有多项适合70岁以上人群的专利药品。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 3000,
+      "sharePrice": 30,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_8",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-8",
+    "circle": "牛马圈",
+    "name": "股票UFO药业公司",
+    "content": "利率变化造成公司股份下跌。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 500,
+      "sharePrice": 5,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_9",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-9",
+    "circle": "牛马圈",
+    "name": "股票UFO药业公司",
+    "content": "利率变化造成公司股份下跌。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 1000,
+      "sharePrice": 10,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_10",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-10",
+    "circle": "牛马圈",
+    "name": "股票UFO药业公司",
+    "content": "利率变化造成公司股份下跌。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 1000,
+      "sharePrice": 10,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_11",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-11",
+    "circle": "牛马圈",
+    "name": "股票UFO药业公司",
+    "content": "通货膨胀恐慌使公司股价上涨。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 2000,
+      "sharePrice": 20,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_12",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-12",
+    "circle": "牛马圈",
+    "name": "股票UFO药业公司",
+    "content": "市场需求使公司股价上涨。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 4000,
+      "sharePrice": 40,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_13",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-13",
+    "circle": "牛马圈",
+    "name": "股票UFO药业公司",
+    "content": "市场需求使公司股价上涨。只有你才能按此价格购买该股票。每个人都可按此价格出售该股票。",
+    "effect": {
+      "cost": 5000,
+      "sharePrice": 50,
+      "shares": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_2",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-2",
+    "circle": "牛马圈",
+    "name": "CAS基金",
+    "content": "本基金公司聘请一位明星基金经理，备受市场青睐。只有你能以此价格购买任意数量该基金。每个人都可按此价格出售该基金。",
+    "effect": {
+      "cost": 20
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_3",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-3",
+    "circle": "牛马圈",
+    "name": "CAS基金",
+    "content": "本基金公司聘请一位明星基金经理，备受市场青睐。只有你能以此价格购买任意数量该基金。每个人都可按此价格出售该基金。",
+    "effect": {
+      "cost": 40
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_4",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-4",
+    "circle": "牛马圈",
+    "name": "CAS基金",
+    "content": "本基金公司聘请一位明星基金经理，备受市场青睐。只有你能以此价格购买任意数量该基金。每个人都可按此价格出售该基金。",
+    "effect": {
+      "cost": 10
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_28",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-28",
+    "circle": "牛马圈",
+    "name": "优先股-ME矿业股",
+    "content": "国内占主导地位的电力公司，发行高投资收益率优先股。国家公用事业委员会制定公平的红利和价格。每个人都可按此价格购买或出售任意数量该股票。",
+    "effect": {
+      "qualityPoints": 10,
+      "cost": 1200,
+      "passiveIncome": 12
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_42",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-42",
+    "circle": "牛马圈",
+    "name": "银行票据",
+    "content": "一家大银行提供这种特殊的票据给客户。保证有利息并在持有一段时间后可以回购。每个人都可以按此价格买或卖。",
+    "effect": {
+      "qualityPoints": 20,
+      "cost": 4000,
+      "passiveIncome": 40
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_43",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-43",
+    "circle": "牛马圈",
+    "name": "银行票据",
+    "content": "一家大银行提供这种特殊的票据给客户。保证有利息并在持有一段时间后可以回购。每个人都可以按此价格买或卖。",
+    "effect": {
+      "qualityPoints": 30,
+      "cost": 5000,
+      "passiveIncome": 350
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_51",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-51",
+    "circle": "牛马圈",
+    "name": "失业保险",
+    "content": "购买失业保险，免受失业影响1次。",
+    "effect": {
+      "cost": 200
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_52",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-52",
+    "circle": "牛马圈",
+    "name": "财产保险",
+    "content": "购买一切财产保险，免受一切财产风险1次。",
+    "effect": {
+      "cost": 200
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_53",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-53",
+    "circle": "牛马圈",
+    "name": "重疾保险",
+    "content": "为自己及家人购买一切重疾保险，免受一切重疾风险1次。",
+    "effect": {
+      "cost": 1500
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_54",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-54",
+    "circle": "牛马圈",
+    "name": "意外保险",
+    "content": "为自己及家人购买一切意外保险，免受一切意外风险1次。",
+    "effect": {
+      "cost": 400
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_55",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-55",
+    "circle": "牛马圈",
+    "name": "全面持续行保险",
+    "content": "为自己及家人购买全面的保险，未来疾病、医疗、意外、失业和财产损失只受到30%影响。（每月增加其他支出=总收入的3%）\n非劳务收入：购买时总收入的1%",
+    "effect": {},
+    "status": true
+  },
+  {
+    "id": "card_d_29",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-29",
+    "circle": "牛马圈",
+    "name": "待售公寓2室1厅",
+    "content": "有人准备出售公寓，该公寓位于名校附近，出租率很高。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 200,
+      "cost": 40000,
+      "passiveIncome": 400
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_30",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-30",
+    "circle": "牛马圈",
+    "name": "待售公寓2室1厅",
+    "content": "银行卖抵押品：一套2室1厅公寓，该公寓临近办公区和中心商业区。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 220,
+      "cost": 40000,
+      "passiveIncome": 400
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_31",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-31",
+    "circle": "牛马圈",
+    "name": "待售公寓2室1厅",
+    "content": "有位年轻夫妇喜添丁，要搬到更大的公寓中去，急于出售他们原本居住的2室1厅公寓。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 160,
+      "cost": 55000,
+      "passiveIncome": 550
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_32",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-32",
+    "circle": "牛马圈",
+    "name": "待售公寓2室1厅",
+    "content": "房主经营企业获得成功，喜搬新居。现欲出售原来居住的2室1厅公寓。房屋状况良好，配套设备完善。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 100,
+      "cost": 60000,
+      "passiveIncome": 600
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_33",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-33",
+    "circle": "牛马圈",
+    "name": "待售公寓2室1厅",
+    "content": "房主结婚，想出售原来居住的2室1厅公寓。地段一般，需要装修。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 100,
+      "cost": 50000,
+      "passiveIncome": 500
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_34",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-34",
+    "circle": "牛马圈",
+    "name": "待售公寓3室2厅",
+    "content": "银行六个月未收到房贷还款，银行取消了该抵押房产的赎回权并进行拍卖，目前房市不景气。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 150,
+      "cost": 50000,
+      "passiveIncome": 500
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_35",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-35",
+    "circle": "牛马圈",
+    "name": "待售公寓3室2厅",
+    "content": "出于某种考虑，房主要搬到城外去住，买主可以用比较低的首期支付买到这幢房子。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 200,
+      "cost": 50000,
+      "passiveIncome": 500
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_36",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-36",
+    "circle": "牛马圈",
+    "name": "待售公寓3室2厅",
+    "content": "高速公路管理部分出售老区的3室2厅居家一套。市场萧条，无人竞买。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": -100,
+      "cost": 50000,
+      "passiveIncome": 500
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_37",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-37",
+    "circle": "牛马圈",
+    "name": "待售公寓3室2厅",
+    "content": "政府查封的房产中有优质的3室2厅居家出售。房产维护良好，租房稳定。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 280,
+      "cost": 65000,
+      "passiveIncome": 650
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_38",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-38",
+    "circle": "牛马圈",
+    "name": "待售公寓3室2厅",
+    "content": "失业增加，市场萧条。有3室2厅房子出售，状况良好。可以为购买者带来比较好得投资收益。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 200,
+      "cost": 50000,
+      "passiveIncome": 500
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_39",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-39",
+    "circle": "牛马圈",
+    "name": "你发现了一宗买卖",
+    "content": "公司收回已搬走的经理3室2厅的住宅房。该住宅房已经挂牌6个月了，刚贬值。如需要可向银行借款。",
+    "effect": {
+      "qualityPoints": 250,
+      "cost": 45000,
+      "passiveIncome": 450
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_40",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-40",
+    "circle": "牛马圈",
+    "name": "你发现了一宗买卖",
+    "content": "一幢3室2厅的住宅房，被政府机构收回。你可以向政府购买并且将该住宅房出租。如需要，可向银行借款。",
+    "effect": {
+      "qualityPoints": 220,
+      "cost": 35000,
+      "passiveIncome": 350
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_1",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-1",
+    "circle": "牛马圈",
+    "name": "健康补给站",
+    "content": "商业环境的全球化急速发展，市场需要一个永续经营的支撑平台，整合符合社会文化的各种优质健康产品和线上与线下服务，可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 300,
+      "cost": 15000,
+      "passiveIncome": 150
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_5",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-5",
+    "circle": "牛马圈",
+    "name": "财富加油站",
+    "content": "联合更多有志愿的人们深入和持续地学习财富文化，并把财富人生的智慧应用于生活和个人事业的发展中去，充分实践，并传播给大众，推动社会健康发展。可以自己接受这笔生意，也可以卖给别的玩家。",
+    "effect": {
+      "qualityPoints": 400,
+      "cost": 15000,
+      "passiveIncome": 150
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_41",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-41",
+    "circle": "牛马圈",
+    "name": "投资鲜花店",
+    "content": "随着西方节日的盛行，以及现代人生活品质的提高，中小城市出现了对鲜花需求的热潮。拟计划投资一家鲜花店，可以自己接受这笔生意，也可以卖给别的玩家。",
+    "effect": {
+      "qualityPoints": 400,
+      "cost": 50000,
+      "passiveIncome": 500
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_49",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-49",
+    "circle": "牛马圈",
+    "name": "投资健康有机甜品店",
+    "content": "随着生活品质的改善，以及有机食品概念的提出，大中城市出现了对健康有机食品需求的热潮。你计划投资一个健康有机甜品店。可以自己接受这笔生意，也可以卖给别的玩家。",
+    "effect": {
+      "qualityPoints": 300,
+      "cost": 15000,
+      "passiveIncome": 150
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_50",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-50",
+    "circle": "牛马圈",
+    "name": "投资物流公司",
+    "content": "随着网络生活的普及，线上购物成为大众消费的主要渠道，大中小城市对物流的需求也日趋增大。你计划投资一个物流公司。可以自己接受这笔生意，也可以卖给别的玩家。",
+    "effect": {
+      "qualityPoints": 400,
+      "cost": 15000,
+      "passiveIncome": 150
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_44",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-44",
+    "circle": "牛马圈",
+    "name": "朋友借钱",
+    "content": "朋友失业需￥5000。他答应工作后还￥10000，可以选择自己接受，也可以卖给其他玩家。选择借给朋友钱的玩家向银行支付￥5000，然后掷骰子，如点数＞3，获得￥10000，否则没收入。",
+    "effect": {
+      "cost": 5000
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_45",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-45",
+    "circle": "牛马圈",
+    "name": "拆迁房",
+    "content": "坐落在繁华地段的拆迁房，可能被改建成商铺。可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "qualityPoints": 0,
+      "cost": 5000,
+      "passiveIncome": 50
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_46",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-46",
+    "circle": "牛马圈",
+    "name": "兼职办机械公司",
+    "content": "你发明了一个新的生产小型机械产品的方法，筹备开公司生产并销售。开始没有利润，工作时间长，没有额外工资。可以自己接受这笔生意，也可以卖给别的玩家。",
+    "effect": {
+      "qualityPoints": 0,
+      "cost": 3000,
+      "passiveIncome": 30
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_47",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-47",
+    "circle": "牛马圈",
+    "name": "兼职办软件公司",
+    "content": "你开发出一个有趣的游戏软件，筹备开公司生产并销售。开始没有利润，工作时间长，有额外工资。可以自己接受这笔生意，也可以卖给别的玩家。",
+    "effect": {
+      "qualityPoints": 100,
+      "cost": 5000,
+      "passiveIncome": 50
+    },
+    "status": true
+  },
+  {
+    "id": "card_d_48",
+    "type": "small",
+    "category": "小机会卡",
+    "code": "D-48",
+    "circle": "牛马圈",
+    "name": "稀有的玉石",
+    "content": "在一个交易会上，你发现了宋朝的3件精致玉器，每件售价￥500，可以自己接受这笔生意，也可以卖给其他玩家。",
+    "effect": {
+      "cost": 1500,
+      "passiveIncome": 15
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_1",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-1",
+    "circle": "牛马圈/老板圈",
+    "name": "3室2厅住宅待售",
+    "content": "由于业务需要现金，业主急于出售该住宅。目前该房产已全部租出，房客很满意。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:7000|抵押贷款:58000",
+    "effect": {
+      "downPayment": 7000,
+      "cost": 7000,
+      "loan": 58000,
+      "passiveIncome": 150
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_2",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-2",
+    "circle": "牛马圈/老板圈",
+    "name": "3室2厅住宅待售",
+    "content": "业主是位成功的商人，他被调离本地。该住宅状况及好，可按照当地最高租金出租。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:12000|抵押贷款:55000",
+    "effect": {
+      "downPayment": 12000,
+      "cost": 12000,
+      "loan": 55000,
+      "passiveIncome": 400
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_3",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-3",
+    "circle": "牛马圈/老板圈",
+    "name": "3室2厅住宅待售",
+    "content": "由于离婚，私人住宅区3室2厅的住宅待售。已挂牌5个月。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:20000|抵押贷款:50000",
+    "effect": {
+      "downPayment": 20000,
+      "cost": 20000,
+      "loan": 50000,
+      "passiveIncome": 500
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_4",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-4",
+    "circle": "牛马圈/老板圈",
+    "name": "3室2厅住宅待售",
+    "content": "中上等阶层住宅区内良好住宅，3室2厅，带全套家具，社区内有很好的学校和室外游泳池。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:20000|抵押贷款:105000",
+    "effect": {
+      "downPayment": 20000,
+      "cost": 20000,
+      "loan": 105000,
+      "passiveIncome": 0,
+      "expense": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_5",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-5",
+    "circle": "牛马圈/老板圈",
+    "name": "3室2厅住宅待售",
+    "content": "该住宅有很好的升值潜力，但需要等待一段时间。目前该房子租金收入不高，但仍有月流动现金。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:8000|抵押贷款:57000",
+    "effect": {
+      "downPayment": 8000,
+      "cost": 8000,
+      "loan": 57000,
+      "passiveIncome": 300
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_6",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-6",
+    "circle": "牛马圈/老板圈",
+    "name": "3室2厅住宅待售",
+    "content": "业主继承人出售可分式3室2厅住宅。该住宅位于高尔夫球场出口附近，购买该住宅的业主自动取得高尔夫会员资格。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:10000|抵押贷款:105000",
+    "effect": {
+      "downPayment": 10000,
+      "cost": 10000,
+      "loan": 105000,
+      "passiveIncome": 0,
+      "expense": 100
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_7",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-7",
+    "circle": "牛马圈/老板圈",
+    "name": "3室2厅住宅待售",
+    "content": "被解职的经理靠新工作的工资不能支付开销，必须出售这套住宅。该住宅所处地区正在建设。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:9000|抵押贷款:61000",
+    "effect": {
+      "downPayment": 9000,
+      "cost": 9000,
+      "loan": 61000,
+      "passiveIncome": 300
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_8",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-8",
+    "circle": "牛马圈/老板圈",
+    "name": "3室2厅住宅待售",
+    "content": "位于通往高尔夫球场的路边，除当前的月现金流量外，尚有升值潜力。可获得较高的租金收入和良好的融资支持。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:7000|抵押贷款:68000",
+    "effect": {
+      "downPayment": 7000,
+      "cost": 7000,
+      "loan": 68000,
+      "passiveIncome": 300
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_9",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-9",
+    "circle": "牛马圈/老板圈",
+    "name": "4室公寓待售",
+    "content": "财务紧张的业主因连续数年拖延纳税被迫出售4室公寓楼房。业主不在本地居住。房产记录不全。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:16000|抵押贷款:64000",
+    "effect": {
+      "downPayment": 16000,
+      "cost": 16000,
+      "loan": 64000,
+      "passiveIncome": 750
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_10",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-10",
+    "circle": "牛马圈/老板圈",
+    "name": "4室公寓待售",
+    "content": "由于欠税，业主被强制迁出。4室公寓楼待售，该建筑周围正在重建。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:20000|抵押贷款:60000",
+    "effect": {
+      "downPayment": 20000,
+      "cost": 20000,
+      "loan": 60000,
+      "passiveIncome": 400
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_11",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-11",
+    "circle": "牛马圈/老板圈",
+    "name": "4室公寓待售",
+    "content": "位于高档社区、维护良好的4室公寓待售。房客稳定、证件齐全。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:15000|抵押贷款:110000",
+    "effect": {
+      "downPayment": 15000,
+      "cost": 15000,
+      "loan": 110000,
+      "passiveIncome": 600
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_12",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-12",
+    "circle": "牛马圈/老板圈",
+    "name": "4室公寓待售",
+    "content": "紧靠新公路的老式公寓待售。业主正准备搬到更安静的地区。价格优惠，希望尽快出售。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:15000|抵押贷款:75000",
+    "effect": {
+      "downPayment": 15000,
+      "cost": 15000,
+      "loan": 75000,
+      "passiveIncome": 500
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_13",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-13",
+    "circle": "牛马圈/老板圈",
+    "name": "4室公寓待售",
+    "content": "出售重建地区的4室公寓楼房。已全部租出，出售后业主负责修理。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:20000|抵押贷款:80000",
+    "effect": {
+      "downPayment": 20000,
+      "cost": 20000,
+      "loan": 80000,
+      "passiveIncome": 800
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_15",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-15",
+    "circle": "牛马圈/老板圈",
+    "name": "2室公寓待售",
+    "content": "业主家喜添贵子，需搬到更大的房子居住。给房子维护良好，周围风景优美且该房已出租给稳定的房客。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:8000|抵押贷款:42000",
+    "effect": {
+      "downPayment": 8000,
+      "cost": 8000,
+      "loan": 42000,
+      "passiveIncome": 240
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_16",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-16",
+    "circle": "牛马圈/老板圈",
+    "name": "2室公寓待售",
+    "content": "为支付医院账单，业主被迫出售房产。该房产已全部租出，房客准备继续居住。记录齐全，是很好的投资机会。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:12000|抵押贷款:48000",
+    "effect": {
+      "downPayment": 12000,
+      "cost": 12000,
+      "loan": 48000,
+      "passiveIncome": 400
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_17",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-17",
+    "circle": "牛马圈/老板圈",
+    "name": "2室公寓待售",
+    "content": "由于所得税问题，需要尽快出售该房产。房客准备继续居住。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:8000|抵押贷款:37000",
+    "effect": {
+      "downPayment": 8000,
+      "cost": 8000,
+      "loan": 37000,
+      "passiveIncome": 320
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_18",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-18",
+    "circle": "牛马圈/老板圈",
+    "name": "2室公寓待售",
+    "content": "这套2室公寓在当地是最好的。业主将要退休，打算搬到孙子、孙女附近居住，所以业主现在要出售该房产。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:7000|抵押贷款:63000",
+    "effect": {
+      "downPayment": 7000,
+      "cost": 7000,
+      "loan": 63000,
+      "passiveIncome": 140
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_19",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-19",
+    "circle": "牛马圈/老板圈",
+    "name": "2室公寓待售",
+    "content": "由于业主调离，有位置理想、维护良好的2室公寓出售。对某些投资者是一个非常好的投资机会。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:6000|抵押贷款:54000",
+    "effect": {
+      "downPayment": 6000,
+      "cost": 6000,
+      "loan": 54000,
+      "passiveIncome": 300
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_20",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-20",
+    "circle": "牛马圈/老板圈",
+    "name": "8室公寓待售",
+    "content": "将要退休的业主出售以前评估的8室公寓楼房。拥有专业管理人员，记录齐全。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:40000|抵押贷款:200000",
+    "effect": {
+      "downPayment": 40000,
+      "cost": 40000,
+      "loan": 200000,
+      "passiveIncome": 950
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_21",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-21",
+    "circle": "牛马圈/老板圈",
+    "name": "8室公寓待售",
+    "content": "业主由于遇到法律纠纷，被强制出售8室公寓楼房。由于抵押权人比较合作，这笔贷款没有争议。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:40000|抵押贷款:160000",
+    "effect": {
+      "downPayment": 40000,
+      "cost": 40000,
+      "loan": 160000,
+      "passiveIncome": 1600
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_22",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-22",
+    "circle": "牛马圈/老板圈",
+    "name": "8室公寓待售",
+    "content": "业主急需现金以保持合伙企业股份。为筹资现出售8室公寓楼房。实在是很好的机会。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:32000|抵押贷款:128000",
+    "effect": {
+      "downPayment": 32000,
+      "cost": 32000,
+      "loan": 128000,
+      "passiveIncome": 1700
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_23",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-23",
+    "circle": "牛马圈/老板圈",
+    "name": "8室公寓待售",
+    "content": "业主为再投资以合理价格出售8室公寓楼房。为你提供可靠的金融支持，你只需支付首期付款。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:40000|抵押贷款:180000",
+    "effect": {
+      "downPayment": 40000,
+      "cost": 40000,
+      "loan": 180000,
+      "passiveIncome": 1700
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_24",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-24",
+    "circle": "牛马圈/老板圈",
+    "name": "公寓楼待售",
+    "content": "一栋12套公寓楼出售，房主为长期居住在外地的商人。有很多人求租这栋建筑里的公寓。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:50000|抵押贷款:300000",
+    "effect": {
+      "downPayment": 50000,
+      "cost": 50000,
+      "loan": 300000,
+      "passiveIncome": 2400
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_25",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-25",
+    "circle": "牛马圈/老板圈",
+    "name": "公寓楼待售",
+    "content": "将要退休的业主出售有24套公寓的旧楼房，该公寓楼靠近社区大学，已全部租出，月流动现金良好。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:50000|抵押贷款:500000",
+    "effect": {
+      "downPayment": 50000,
+      "cost": 50000,
+      "loan": 500000,
+      "passiveIncome": 2800
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_26",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-26",
+    "circle": "牛马圈/老板圈",
+    "name": "公寓楼待售",
+    "content": "业主退休，急需出售2栋楼房，共24套公寓。由业主在现场管理。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:75000|抵押贷款:500000",
+    "effect": {
+      "downPayment": 75000,
+      "cost": 75000,
+      "loan": 500000,
+      "passiveIncome": 3400
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_27",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-27",
+    "circle": "牛马圈/老板圈",
+    "name": "公寓楼待售",
+    "content": "退休基金出售一栋60套对业主取消抵押品赎回权的组合公寓。现场管理良好。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:200000|抵押贷款:1000000",
+    "effect": {
+      "downPayment": 200000,
+      "cost": 200000,
+      "loan": 1000000,
+      "passiveIncome": 11000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_28",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-28",
+    "circle": "牛马圈/老板圈",
+    "name": "品牌加盟店待售",
+    "content": "由于业主过分扩张造成资金紧张，被迫出售加盟店，内有30台录像机和弹球机，经营用地是长期合同。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:20000|抵押贷款:80000",
+    "effect": {
+      "downPayment": 20000,
+      "cost": 20000,
+      "loan": 80000,
+      "passiveIncome": 1600
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_29",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-29",
+    "circle": "牛马圈/老板圈",
+    "name": "品牌加盟店待售",
+    "content": "因业主去世，一家成功的品牌加盟店待售。继承人居住在其他地区。所有经营用地都是长期合同。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:40000|抵押贷款:160000",
+    "effect": {
+      "downPayment": 40000,
+      "cost": 40000,
+      "loan": 160000,
+      "passiveIncome": 2700
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_30",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-30",
+    "circle": "牛马圈/老板圈",
+    "name": "品牌加盟店待售",
+    "content": "4家经营良好、靠近繁忙路口的品牌加盟店待售。业主要退休，搬到其他社区居住。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:100000|抵押贷款:200000",
+    "effect": {
+      "downPayment": 100000,
+      "cost": 100000,
+      "loan": 200000,
+      "passiveIncome": 3600
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_31",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-31",
+    "circle": "牛马圈/老板圈",
+    "name": "品牌加盟店待售",
+    "content": "由于业主破产，现有业务繁忙、经营良好的品牌加盟店出售。该店位于繁忙的告诉路旁。业主不明，所有合同都已经结清。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:30000|抵押贷款:120000",
+    "effect": {
+      "downPayment": 30000,
+      "cost": 30000,
+      "loan": 120000,
+      "passiveIncome": 2500
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_32",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-32",
+    "circle": "牛马圈/老板圈",
+    "name": "品牌加盟店待售",
+    "content": "健康租住火锅店。紧跟着迅速兴起的营养快餐潮流。紧邻大学，处于交通要道。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:100000|抵押贷款:400000",
+    "effect": {
+      "downPayment": 100000,
+      "cost": 100000,
+      "loan": 400000,
+      "passiveIncome": 5000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_33",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-33",
+    "circle": "牛马圈/老板圈",
+    "name": "小型购物商场待售",
+    "content": "银行已经从破产业主手中收回的购物商场，当前利用率50%，今日出售。可以自己接受这笔生意，业可以卖给其他玩家。\n\n备注：首付:50000|抵押贷款:0",
+    "effect": {
+      "downPayment": 50000,
+      "cost": 50000,
+      "passiveIncome": 800
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_34",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-34",
+    "circle": "牛马圈/老板圈",
+    "name": "商务连锁酒店待售",
+    "content": "业主退休，希望马上出售该酒店。客户主要为旅游者。5室3厅。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:30000|抵押贷款:120000",
+    "effect": {
+      "downPayment": 30000,
+      "cost": 30000,
+      "loan": 120000,
+      "passiveIncome": 1000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_35",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-35",
+    "circle": "牛马圈/老板圈",
+    "name": "4S店待售",
+    "content": "4S店，卖家想尽快出手。主要经营地点在高速发展区域。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:50000|抵押贷款:300000",
+    "effect": {
+      "downPayment": 50000,
+      "cost": 50000,
+      "loan": 300000,
+      "passiveIncome": 1500
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_37",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-37",
+    "circle": "牛马圈/老板圈",
+    "name": "股份制有限公司合伙人",
+    "content": "经营良好的网络公司刚研发的一款网络游戏，开发商需要资本做宣传和推广。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:20000|抵押贷款:0",
+    "effect": {
+      "downPayment": 20000,
+      "cost": 20000,
+      "passiveIncome": 800
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_38",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-38",
+    "circle": "牛马圈/老板圈",
+    "name": "股份制有限公司合伙人",
+    "content": "营养师想扩大经营2-3年的健康餐饮连锁企业，因此急需吸纳资本。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:30000|抵押贷款:0",
+    "effect": {
+      "downPayment": 30000,
+      "cost": 30000,
+      "passiveIncome": 1000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_39",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-39",
+    "circle": "牛马圈/老板圈",
+    "name": "股份制有限公司合伙人",
+    "content": "成功英语培训机构想扩大场所以及增加教学设备，需要与股东平均分摊成本。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:25000|抵押贷款:0",
+    "effect": {
+      "downPayment": 25000,
+      "cost": 25000,
+      "passiveIncome": 1000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_40",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-40",
+    "circle": "牛马圈/老板圈",
+    "name": "股份制有限公司合伙人",
+    "content": "非特许汉堡包将其分店数量增加了1倍。业主急需追加权益资本以获得经营贷款。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:30000|抵押贷款:0",
+    "effect": {
+      "downPayment": 30000,
+      "cost": 30000,
+      "passiveIncome": 1500
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_42",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-42",
+    "circle": "牛马圈/老板圈",
+    "name": "创办饮食文化连锁企业",
+    "content": "餐饮服务市场几近饱和，呈现出多、杂、乱的现象，你计划创办饮食文化连锁企业，倡导和普及健康的饮食方式。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:100000|抵押贷款:150000",
+    "effect": {
+      "downPayment": 100000,
+      "cost": 100000,
+      "loan": 150000,
+      "passiveIncome": 3200
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_44",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-44",
+    "circle": "牛马圈/老板圈",
+    "name": "创立瑜伽养生馆连锁机构",
+    "content": "健康养生之风盛行，你邀请一位知名的瑜伽师加盟，共同创办心圆心瑜伽养生馆连锁机构。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:120000|抵押贷款:180000",
+    "effect": {
+      "downPayment": 120000,
+      "cost": 120000,
+      "loan": 180000,
+      "passiveIncome": 3500
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_45",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-45",
+    "circle": "牛马圈/老板圈",
+    "name": "合伙开办艺术培训学校",
+    "content": "飞扬艺术培训学校新增音乐和舞蹈两个培训中心，需引进新的股东资本。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:60000|抵押贷款:120000",
+    "effect": {
+      "downPayment": 60000,
+      "cost": 60000,
+      "loan": 120000,
+      "passiveIncome": 2300
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_46",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-46",
+    "circle": "牛马圈/老板圈",
+    "name": "创办自然生态旅游公司",
+    "content": "你所在的城市是刚刚被批准的国家级生态旅游城市，为抓住这大好的投资开发时机，你计划创办了云边自然生态旅游公司。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:30000|抵押贷款:110000",
+    "effect": {
+      "downPayment": 30000,
+      "cost": 30000,
+      "loan": 110000,
+      "passiveIncome": 900
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_47",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-47",
+    "circle": "牛马圈/老板圈",
+    "name": "开办网店",
+    "content": "越来越多的人习惯网上购物，电子商务发展迅速，可以有效降低商业成本。有朋友计划集资创办一家瓦昂上综合类图书店。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:25000|抵押贷款:30000",
+    "effect": {
+      "downPayment": 25000,
+      "cost": 25000,
+      "loan": 30000,
+      "passiveIncome": 700
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_48",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-48",
+    "circle": "牛马圈/老板圈",
+    "name": "数码婚纱影楼",
+    "content": "现阶段的结婚主体已经慢慢过度到了00后的年轻人，他们对婚纱照的重视和要求已经越发的明显。你现在有一个机会可以以较低的价格收购一个经营不善的老式照相馆，通过装修，用新设备和新的经营模式来发展自己的婚纱影楼。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:40000|抵押贷款:70000",
+    "effect": {
+      "downPayment": 40000,
+      "cost": 40000,
+      "loan": 70000,
+      "passiveIncome": 1300
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_49",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-49",
+    "circle": "牛马圈/老板圈",
+    "name": "加盟直销系统",
+    "content": "随着商业经济的发展，产品同质化问题日益突出，为增强竞争力，天地人健康产业集团开始创新商业运作模式，重新构建了直销系统，许多人加盟经销。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:40000|抵押贷款:0",
+    "effect": {
+      "downPayment": 40000,
+      "cost": 40000,
+      "passiveIncome": 1800
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_50",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-50",
+    "circle": "牛马圈/老板圈",
+    "name": "汽车美容中心",
+    "content": "随着老百姓收入的提高，越来越多的家庭拥有了自己的汽车，汽车美容得到大家的重视，你觉得这是创办一个汽车美容中心的好机会。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:50000|抵押贷款:120000",
+    "effect": {
+      "downPayment": 50000,
+      "cost": 50000,
+      "loan": 120000,
+      "passiveIncome": 2300
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_51",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-51",
+    "circle": "牛马圈/老板圈",
+    "name": "水果批发超市",
+    "content": "你在一个生意很好的水果批发超市工作，由于老板打算卖掉超市移民国外，你有机会可以低价接手。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:17000|抵押贷款:63000",
+    "effect": {
+      "downPayment": 17000,
+      "cost": 17000,
+      "loan": 63000,
+      "passiveIncome": 1200
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_52",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-52",
+    "circle": "牛马圈/老板圈",
+    "name": "开办职业介绍所",
+    "content": "朋友要移民国外，想将其一直经营的职业介绍所转让给你，经过考证这家职业介绍所运营和资产状况均为良好，你决定接受过来。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:25000|抵押贷款:45000",
+    "effect": {
+      "downPayment": 25000,
+      "cost": 25000,
+      "loan": 45000,
+      "passiveIncome": 750
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_53",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-53",
+    "circle": "牛马圈/老板圈",
+    "name": "有机食品店",
+    "content": "随着生活水平的提高和大家对健康的重视，越来越多的人选择食品有机食品。一个新建成的高档小区还没有这类的商店，你发现这是一个很好的机会。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:150000|抵押贷款:55000",
+    "effect": {
+      "downPayment": 150000,
+      "cost": 150000,
+      "loan": 55000,
+      "passiveIncome": 1250
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_54",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-54",
+    "circle": "牛马圈/老板圈",
+    "name": "面包坊",
+    "content": "你计划投资加盟开设一家“味多多”面包坊，因为你看好其美妙多样的口味和独特有效的经营管理模式。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:15000|抵押贷款:60000",
+    "effect": {
+      "downPayment": 15000,
+      "cost": 15000,
+      "loan": 60000,
+      "passiveIncome": 800
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_55",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-55",
+    "circle": "牛马圈/老板圈",
+    "name": "洗衣店",
+    "content": "忙碌的工作生活以及对从繁琐的家务劳动中解脱的愿望，使人们对相关服务的需求日渐扩大，你决定在新建成的A社区开设一家洗衣店。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:20000|抵押贷款:60000",
+    "effect": {
+      "downPayment": 20000,
+      "cost": 20000,
+      "loan": 60000,
+      "passiveIncome": 1150
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_56",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-56",
+    "circle": "牛马圈/老板圈",
+    "name": "申办商务会所",
+    "content": "随着服务业的兴起，越来越多的商务人员开始追求一个高品质，健康休闲的交流平台，来结成一个长期互助合作的关系以拓展市场。你计划创办一个商务会所，来满足日益增长的市场需求。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:20000|抵押贷款:80000",
+    "effect": {
+      "downPayment": 20000,
+      "cost": 20000,
+      "loan": 80000,
+      "passiveIncome": 1000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_57",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-57",
+    "circle": "牛马圈/老板圈",
+    "name": "SPA护理中心",
+    "content": "对健康身心的追求使得都市人愈加注重身体的养生和心情的调理，你和朋友计划投资一家SPA护理中心。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:40000|抵押贷款:90000",
+    "effect": {
+      "downPayment": 40000,
+      "cost": 40000,
+      "loan": 90000,
+      "passiveIncome": 1400
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_58",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-58",
+    "circle": "牛马圈/老板圈",
+    "name": "开办房产中介公司",
+    "content": "随着市政的贷款利率支持，房地产业又将出现较高的增幅。你预感到此趋势，但由于资金不足且风险较大，故由炒房转入房产中介。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:30000|抵押贷款:100000",
+    "effect": {
+      "downPayment": 30000,
+      "cost": 30000,
+      "loan": 100000,
+      "passiveIncome": 1500
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_59",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-59",
+    "circle": "牛马圈/老板圈",
+    "name": "开办健康餐厅",
+    "content": "当今的美食餐饮遍地开花，人们在充分享受外出就餐的美味与便捷的同时，又会为食物的来源及安全性产生担忧，于是你决定开办一家有机食材健康餐厅。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:50000|抵押贷款:100000",
+    "effect": {
+      "downPayment": 50000,
+      "cost": 50000,
+      "loan": 100000,
+      "passiveIncome": 1800
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_60",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-60",
+    "circle": "牛马圈/老板圈",
+    "name": "小型动物园",
+    "content": "随着有车一族的增加，很多家庭都喜欢在周末自驾到郊区游玩，你计划在万隆山庄旁筹办一个小型生态动物园。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:70000|抵押贷款:130000",
+    "effect": {
+      "downPayment": 70000,
+      "cost": 70000,
+      "loan": 130000,
+      "passiveIncome": 2800
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_14",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-14",
+    "circle": "牛马圈/老板圈",
+    "name": "10亩土地",
+    "content": "有朋友急需用钱，他以低于市场价格出售一块10亩的土地，价格：￥5000/亩。你可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:50000|抵押贷款:0",
+    "effect": {
+      "downPayment": 50000,
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_36",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-36",
+    "circle": "牛马圈/老板圈",
+    "name": "元代青花瓷器待售",
+    "content": "元代青花瓷器，对于收藏家将是很好的投资机会。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:40000|抵押贷款:0",
+    "effect": {
+      "downPayment": 40000,
+      "cost": 40000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_41",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-41",
+    "circle": "牛马圈/老板圈",
+    "name": "稀有的紫檀木家具",
+    "content": "在一个交易会上，你发现了一组紫檀木家具，卖价￥30000。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:30000|抵押贷款:0",
+    "effect": {
+      "downPayment": 30000,
+      "cost": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_43",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-43",
+    "circle": "牛马圈/老板圈",
+    "name": "金币拍卖",
+    "content": "收藏品拍卖会上，有16世纪西班牙皇家新大陆金币10枚拍卖，每枚￥1000。可以自己接受这笔生意，也可以卖给其他玩家。\n\n备注：首付:自有资金全额支付|抵押贷款:0",
+    "effect": {
+      "cost": 10000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_61",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-61",
+    "circle": "牛马圈/老板圈",
+    "name": "全面持续性保险",
+    "content": "为自己及家人购买全面的保险，未来疾病、医疗、意外、失业和财产损失均不受影响（趸交￥50000，或每月增加其他支出=总收入的10%）\n非劳务收入：购买时总收入的3%\n\n备注：首付:None|抵押贷款:None",
+    "effect": {
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_a_62",
+    "type": "big",
+    "category": "大机会卡",
+    "code": "A-62",
+    "circle": "牛马圈/老板圈",
+    "name": "全面持续性保险",
+    "content": "为自己及家人购买全面的保险，未来疾病、医疗、意外、失业和财产损失只受到40%影响。（趸交￥20000，或每月增加其他支出=总收入的4%）\n非劳务收入：购买时总收入的1%\n\n备注：首付:None|抵押贷款:None",
+    "effect": {
+      "cost": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_12",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-12",
+    "circle": "全圈层通用",
+    "name": "求购三室二厅公寓",
+    "content": "市场需要供出租的三室二厅公寓，每套出价￥140000，买家使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清场相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 140000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_14",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-14",
+    "circle": "全圈层通用",
+    "name": "求购三室二厅公寓",
+    "content": "市场需要供出租的三室二厅公寓，每套出价￥150000，买家使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清场相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 150000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_19",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-19",
+    "circle": "全圈层通用",
+    "name": "求购三室二厅公寓",
+    "content": "市场需要供出租的三室二厅公寓，每套出价￥135000，买家使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清场相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 135000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_4",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-4",
+    "circle": "全圈层通用",
+    "name": "求购三室二厅住宅",
+    "content": "求购供出租的房屋，三室二厅，每套出价￥140000，买主使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 140000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_8",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-8",
+    "circle": "全圈层通用",
+    "name": "求购三室二厅住宅",
+    "content": "求购供出租的房屋，三室二厅，每套出价￥130000，买主使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 130000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_10",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-10",
+    "circle": "全圈层通用",
+    "name": "求购三室二厅住宅",
+    "content": "求购供出租的房屋，三室二厅，每套出价￥150000，买主使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 150000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_11",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-11",
+    "circle": "全圈层通用",
+    "name": "求购三室二厅住宅",
+    "content": "求购供出租的房屋，三室二厅，每套出价￥135000，买主使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 135000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_1",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-1",
+    "circle": "全圈层通用",
+    "name": "求购公寓",
+    "content": "市场急需公寓房，2室、4室、8室，任意户型均可，每间房出价￥25000，买房使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 25000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_2",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-2",
+    "circle": "全圈层通用",
+    "name": "求购公寓",
+    "content": "市场急需公寓房，2室、4室、8室，任意户型均可，每间房出价￥40000，买房使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 40000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_3",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-3",
+    "circle": "全圈层通用",
+    "name": "求购公寓",
+    "content": "市场急需公寓房，2室、4室、8室，任意户型均可，每间房出价￥30000，买房使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 30000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_5",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-5",
+    "circle": "全圈层通用",
+    "name": "求购公寓",
+    "content": "市场急需公寓房，2室、4室、8室，任意户型均可，每间房出价￥35000，买房使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 35000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_7",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-7",
+    "circle": "全圈层通用",
+    "name": "求购公寓",
+    "content": "市场急需公寓房，2室、4室、8室，任意户型均可，每间房出价￥40000，买房使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 40000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_9",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-9",
+    "circle": "全圈层通用",
+    "name": "求购公寓",
+    "content": "市场急需公寓房，2室、4室、8室，任意户型均可，每间房出价￥35000，买房使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 35000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_16",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-16",
+    "circle": "全圈层通用",
+    "name": "求购公寓楼",
+    "content": "求购12套以上的公寓楼，不动产投资信托公司每套报价￥30000，使用自有资金购买。资金来源在另一城市出售组合式公寓楼所得。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 30000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_18",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-18",
+    "circle": "全圈层通用",
+    "name": "求购公寓楼",
+    "content": "求购12套以上的公寓楼，不动产投资信托公司每套报价￥40000，使用自有资金购买。资金来源在另一城市出售组合式公寓楼所得。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 40000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_15",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-15",
+    "circle": "全圈层通用",
+    "name": "求购二室一厅公寓",
+    "content": "市场需要供出租的二室一厅公寓，每套出价￥65000，买家使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 65000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_17",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-17",
+    "circle": "全圈层通用",
+    "name": "求购二室一厅公寓",
+    "content": "市场需要供出租的二室一厅公寓，每套出价￥100000，买家使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 100000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_20",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-20",
+    "circle": "全圈层通用",
+    "name": "求购二室一厅公寓",
+    "content": "市场需要供出租的二室一厅公寓，每套出价￥80000，买家使用自有资金购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 80000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_26",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-26",
+    "circle": "全圈层通用",
+    "name": "求购4S店",
+    "content": "市场急需一家汽车清洗公司，出价￥50000，每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 50000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_27",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-27",
+    "circle": "全圈层通用",
+    "name": "求购购物商场",
+    "content": "某著名零售商欲进驻你市，现需要购买一个小型购物商场，出价￥100000。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 100000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_28",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-28",
+    "circle": "全圈层通用",
+    "name": "小机械公司购买者",
+    "content": "工程师拥有一套新的机械生产技术，现欲购买一家小型机械公司，报价现金￥100000。任何拥有这种小型机械公司的人均可按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 100000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_29",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-29",
+    "circle": "全圈层通用",
+    "name": "求购软件公司",
+    "content": "大型综合集团公司求购编制软件及相关产品的公司，报价现金￥100000。拥有软件公司的每个人均可按此价格出售公司。\n\n备注：如果你要出售，就放弃从此公司获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 100000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_30",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-30",
+    "circle": "全圈层通用",
+    "name": "求购商务连锁酒店",
+    "content": "一对夫妻打算经营新的事业，他们拥有足够资金，现预购买一营利性的提供住宿和早餐的连锁酒店，他们愿意为此支付￥250000。拥有提供连锁酒店且能盈利的玩家都可按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 250000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_41",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-41",
+    "circle": "全圈层通用",
+    "name": "收购艺术培训中心",
+    "content": "飞扬艺术培训学校被并购，新任控股股东欲调整股东结构以推行新的市场计划，现以总价￥280000购买你所有的音乐和舞蹈两个培训中心。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 280000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_42",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-42",
+    "circle": "全圈层通用",
+    "name": "求购旅游公司",
+    "content": "因政府拟对城市景区和旅游服务进行整体规划，引进某著名旅游集团进驻，你的云边自然生态旅游公司因为地理位置优越和良好的信誉而被新进集团公司看中，他们愿意出价￥280000购买你的企业，每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 280000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_43",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-43",
+    "circle": "全圈层通用",
+    "name": "收购图书网店",
+    "content": "你与朋友共同集资创办的网上综合类图书店经过两年的成长，已经有了一定规模和稳定的客户积累。有大型图书发行集团看中了你们的网店，愿意出价￥100000收购。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 100000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_44",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-44",
+    "circle": "全圈层通用",
+    "name": "求购数码婚纱影楼",
+    "content": "有婚庆策划公司需要扩大经营，他们计划收购一家婚纱服务公司来配合自己现有的业务。他们愿意出价￥200000，每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 200000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_45",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-45",
+    "circle": "全圈层通用",
+    "name": "直销公司经销商身份转让",
+    "content": "因直销商业模式还在不断探索和起步阶段，市场人员行为难以规范，你加盟天地人健康产业集团七年的发展，依然无法大范围地形成持续稳定的顾客消费，你计划以￥60000的销售价格转让该经销商身份。每个人可以按此价格转让，转让者直接从银行获得这笔资金。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 60000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_46",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-46",
+    "circle": "全圈层通用",
+    "name": "求购汽车美容中心",
+    "content": "汽车美容是一个新兴行业，某汽车制造集团打算在你市建立分公司，他们准备收购一家汽车美容服务公司来服务自己的汽车客户，愿意出价￥270000。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 270000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_47",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-47",
+    "circle": "全圈层通用",
+    "name": "股份转让-饮食文化连锁企业",
+    "content": "你创办的饮食文化连锁企业成长迅速，有某国际健康管理集团愿意以￥350000的价格购买您持有的40%的股份。每个人都可以按此价格转让，转让者直接从银行获得这笔资金。\n\n备注：如果你打算转让，应先清偿相关抵押贷款，并且非劳务收入减至￥1800",
+    "effect": {
+      "marketPrice": 350000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_48",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-48",
+    "circle": "全圈层通用",
+    "name": "求购水果批发超市",
+    "content": "从水果之乡来城市考察市场的某先生，急需找到一个可以顺利把家乡水果卖出去的途径，经过他仔细调查比较，最后决定收购一个现成的水果批发超市，他愿意出价￥100000。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 100000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_49",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-49",
+    "circle": "全圈层通用",
+    "name": "股份转让-瑜伽养生馆连锁机构",
+    "content": "因管理层矛盾问题，心圆心瑜伽养生馆连锁机构在过去一年业绩表现刚刚持平，此时你又有了新的打算，你计划出让80%的股份给你的合作伙伴，他愿意出价￥400000购买。每个人可以按此价格转让，转让者直接从银行获得这笔资金。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并且非劳务收入减至￥1000",
+    "effect": {
+      "marketPrice": 400000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_50",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-50",
+    "circle": "全圈层通用",
+    "name": "求购有机食品店",
+    "content": "以某大型有机农场为依托的生活管理服务公司开始通过社区服务站的方式来推进市场计划，你的有机食品店经他们考察评估后，估值价格￥95000。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 95000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_51",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-51",
+    "circle": "全圈层通用",
+    "name": "求购洗衣店",
+    "content": "你所在的A社区有退休干部像出自帮助儿媳妇开一家洗衣店，但因为不了解相关设备的购买情况，特向你咨询。刚好你打算转让自己的洗衣店，他愿意出价￥100000元。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 100000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_52",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-52",
+    "circle": "全圈层通用",
+    "name": "收购商务会所",
+    "content": "经本事商业总会决议，计划收购5家不同行业的商务会所，统一按照国家公共服务准则建制和管理，每家出价￥170000。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 170000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_53",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-53",
+    "circle": "全圈层通用",
+    "name": "收购SPA护理中心",
+    "content": "SPA护理服务单位越来越多，竞争日益激烈。有一著名养生机构拟定新的市场计划，他们打算收购3家SPA护理中心来进行改建，每家出价￥200000。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 200000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_54",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-54",
+    "circle": "全圈层通用",
+    "name": "收购房产中介公司",
+    "content": "1+1房地产开发公司计划收购3家房产中介公司，每家出价￥180000。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 180000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_55",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-55",
+    "circle": "全圈层通用",
+    "name": "求购健康餐厅",
+    "content": "越来越多的人意识到健康饮食的重要性，你的大学同学打算改行，他想要购买一家有机食材健康餐厅，他愿意出价￥200000。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 200000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_56",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-56",
+    "circle": "全圈层通用",
+    "name": "小型动物园股份转让",
+    "content": "因为动物饲养和管理等技术问题一直未能得到有效解决，你越来越有独木难支和力不从心的感觉，经过慎重考虑，你计划以40%股份为条件引进某大型动物园的成熟管理系统，同时你还可以获得他们￥300000的资金支持。每个人可按此价格转让，转让者直接从银行获得这笔资金。\n\n备注：如果你打算出售，应先偿清相关抵押贷款，且非劳务收入减至￥1500",
+    "effect": {
+      "marketPrice": 300000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_58",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-58",
+    "circle": "全圈层通用",
+    "name": "求购鲜花店",
+    "content": "你的鲜花店位于政府“城市广场”项目规划圈内，有房产开发商看中了你的鲜花店，愿意以￥50000的价格购买。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 50000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_59",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-59",
+    "circle": "全圈层通用",
+    "name": "求购面包店",
+    "content": "今年下半年你们全家有一个相对长期的国外旅游计划，你计划把面包坊出售给你的面包师傅，他愿意出价￥90000元。每个人都可以按此价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 90000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_60",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-60",
+    "circle": "全圈层通用",
+    "name": "求购股份制有限公司",
+    "content": "市场求购股份有限公司，收购价为原成本价的3倍。任何有限合伙人公司都会受此影响，有意购买此类公司的玩家也可参加。\n\n备注：如果你拥有此类公司，从银行获得现金，并立即减少相应的非劳务收入。",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_61",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-61",
+    "circle": "全圈层通用",
+    "name": "求购股份制有限公司",
+    "content": "市场求购股份有限公司，收购价为原成本价的3倍。任何有限合伙人公司都会受此影响，有意购买此类公司的玩家也可参加。\n\n备注：如果你拥有此类公司，从银行获得现金，并立即减少相应的非劳务收入。",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_6",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-6",
+    "circle": "全圈层通用",
+    "name": "通货膨胀爆发",
+    "content": "通货膨胀率高达8%，房屋贷款利率升至13%，因无法偿还房贷，您拥有的所有三房二厅出租公寓或住宅被银行回收。\n\n备注：您必须将拥有的三室二厅房屋交给银行，并注销从这些资产中可获得的非劳务收入。",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_40",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-40",
+    "circle": "全圈层通用",
+    "name": "新政策出台",
+    "content": "为防止金融危机造成的经济进一步衰退，政府推出政策，促使经济回暖，市场复苏，房产交易明显增加。凡手里有住房按揭的玩家均受此影响。\n\n备注：房产非劳务收入增加50%",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_13",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-13",
+    "circle": "全圈层通用",
+    "name": "利率下降",
+    "content": "房屋抵押贷款利率下降到5%，您拥有的三室二厅出租公寓或住宅，将可以一每套高于原价￥50000的价格出售。\n\n备注：如果你打算出售，应先清偿相关抵押贷款，并放弃目前从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 50000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_34",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-34",
+    "circle": "全圈层通用",
+    "name": "送股-股票007",
+    "content": "业绩上升，公司送股。拥有007股票的玩家将他们拥有的007股票数量翻番。\n\n备注：无红利，此时不能交易，股票一股变两股。",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_35",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-35",
+    "circle": "全圈层通用",
+    "name": "重组-股票007",
+    "content": "公司重组。过分扩张和市场衰退导致公司蒙受巨额损失，股东权益减少50%，拥有007股票的人缩减股票（不用支付现金，股票总成本不变。）\n\n备注：无红利，此时不能交易，股票每两股并成一股。",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_37",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-37",
+    "circle": "全圈层通用",
+    "name": "好消息-股票UFO",
+    "content": "好消息，拥有UFO股票的玩家股票数量翻番。\n\n备注：无红利，此时不能交易，股票一股变两股。",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_36",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-36",
+    "circle": "全圈层通用",
+    "name": "财务丑闻-股票UFO",
+    "content": "公司财务丑闻使公司蒙受巨大损失，陷入困境，所有股东权益减半。\n\n备注：无红利，此时不能交易，股票每两股并成一股。",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_24",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-24",
+    "circle": "全圈层通用",
+    "name": "品牌加盟店经营业绩提升",
+    "content": "你加盟企业的新产品获奖，知名度因此提高，销售额翻了一番。这需要你花费更多的精力，但你每月净收入增加￥250。\n\n备注：每个拥有一家品牌加盟店的人都会因而增加每月非劳务收入￥250",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_25",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-25",
+    "circle": "全圈层通用",
+    "name": "品牌加盟店经营业绩提升",
+    "content": "你的企业找到一家大客户，销售额上升到了150%。这给你带来了更多的问题，也要花费更多的精力，但你每月净收入增加￥400\n\n备注：每个拥有一家品牌加盟店的人都会因而增加每月非劳务收入￥400",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_31",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-31",
+    "circle": "全圈层通用",
+    "name": "品牌加盟店遭遇损失",
+    "content": "加盟品牌店遭遇原料污染事件，生意与品牌形象受到重创。任何拥有品牌加盟店的玩家都遭到该损失。\n\n备注：非劳务收入：￥-150",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_39",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-39",
+    "circle": "全圈层通用",
+    "name": "金融危机",
+    "content": "金融危机，楼价暴跌。凡手里有住房按揭的玩家，均受此影响。\n\n备注：房产非劳务收入缩减50%",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_57",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-57",
+    "circle": "全圈层通用",
+    "name": "职业介绍所业绩下滑",
+    "content": "因新的劳工政策出台，职业介绍方面的中介服务机构客户数量骤减，今年业绩较去年同期下滑70%。\n\n备注：有职业介绍所的玩家非劳务收入减少￥500",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_21",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-21",
+    "circle": "全圈层通用",
+    "name": "紫檀木家具价格飙升",
+    "content": "由于家具装饰之风盛行，珍稀紫檀木家具价格飙升至￥300000\n\n备注：每位拥有紫檀木家具的玩家都可按此价格出售。",
+    "effect": {
+      "marketPrice": 300000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_22",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-22",
+    "circle": "全圈层通用",
+    "name": "收藏家求购青花瓷瓶",
+    "content": "古董市场交易活跃，青花瓷瓶备受青睐，有收藏家高价求购元朝青花瓷瓶。\n\n备注：价格：￥200000",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_23",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-23",
+    "circle": "全圈层通用",
+    "name": "老城区拆迁房改造",
+    "content": "城市规划要求：老城区必须改建成商业区，否则不予批准。建筑商因此需要购买一些商业繁华，交通便利地段的拆迁房。报价均为每套￥150000\n\n备注：如果你打算出售，就放弃从这一资产中可获得的非劳务收入。",
+    "effect": {
+      "marketPrice": 150000,
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_32",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-32",
+    "circle": "全圈层通用",
+    "name": "收藏家求购金币",
+    "content": "收藏家求购16世纪西班牙皇家新大陆金币。\n\n备注：每枚金币：￥5000",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_33",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-33",
+    "circle": "全圈层通用",
+    "name": "收购土地",
+    "content": "房地产市场火热，绿色生态开发区扩建，有地产商想以高价收购土地。\n\n备注：每亩土地：￥20000",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_38",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-38",
+    "circle": "全圈层通用",
+    "name": "收购古董玉器",
+    "content": "因环保与可持续发展理念的推行，国际玉石开采和供给受到相应节制，以致玉质古物交易活跃，有古董行高价收购宋朝精致玉器。\n\n备注：每件出价：￥5000",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_62",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-62",
+    "circle": "全圈层通用",
+    "name": "银行提供20倍保单贷款",
+    "content": "市场环境宽松，某银行决定放宽信贷要求，为有购买保险、信用记录良好的客户提供低息贷款，贷款额度是每年保费的20倍，利息为1%，每月还息，无贷款期限。\n\n备注：如果你贷款利息支出低于总收入的20%，无不良信用记录，即可申请此贷款。",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_c_63",
+    "type": "market",
+    "category": "市场信息卡",
+    "code": "C-63",
+    "circle": "全圈层通用",
+    "name": "银行提供40倍保单贷款",
+    "content": "市场环境宽松，某银行决定放宽信贷要求，为有购买保险、信用记录良好的客户提供低息贷款，贷款额度是每年保费的40倍，利息为1%，每月还息，无贷款期限。\n\n备注：如果你贷款利息支出低于总收入的20%，无不良信用记录，即可申请此贷款。",
+    "effect": {
+      "marketEvent": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_1",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-1",
+    "circle": "全圈层通用",
+    "name": "疾病",
+    "content": "因长期过度熬夜而生病\n\n备注：自由选项:休假调养身体，停赛一轮。|全套费用:None",
+    "effect": {
+      "timePoints": 1100,
+      "cashDelta": -400
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_2",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-2",
+    "circle": "全圈层通用",
+    "name": "失业",
+    "content": "因就业竞争过大失业了，向银行支付你的总支出，停赛一轮。\n\n备注：自由选项:参加在岗技能培训。|全套费用:None",
+    "effect": {
+      "payTotalExpense": true,
+      "skipRound": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_3",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-3",
+    "circle": "全圈层通用",
+    "name": "家庭关系不和",
+    "content": "因家庭不关系不和，影响到你的工作。\n\n备注：自由选项:参加家庭关系经营课程，用心学习，调整目前的状态。|全套费用:None",
+    "effect": {
+      "timePoints": 1500,
+      "cashDelta": -500
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_4",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-4",
+    "circle": "全圈层通用",
+    "name": "项目亏损",
+    "content": "因管理不善，你的项目出现小额亏损。\n\n备注：自由选项:重新梳理项目架构及工作流程，调整团队的工作方式。|全套费用:None",
+    "effect": {
+      "timePoints": 1700,
+      "cashDelta": -700
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_5",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-5",
+    "circle": "全圈层通用",
+    "name": "生意市场",
+    "content": "因消费者需求发生变化，你的生意销售额缩减。\n\n备注：自由选项:组织市场调查，重新针对新的消费者偏好制定销售方案。|全套费用:None",
+    "effect": {
+      "timePoints": 1600,
+      "cashDelta": -1000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_6",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-6",
+    "circle": "全圈层通用",
+    "name": "货物丢失",
+    "content": "新进的一批货物丢失。\n\n备注：自由选项:更换仓储地点，并为新的货物购买保险。|全套费用:None",
+    "effect": {
+      "timePoints": 1800,
+      "cashDelta": -1500
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_7",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-7",
+    "circle": "全圈层通用",
+    "name": "现金流断链",
+    "content": "本月的消费超出预算，导致现金流断链，只能借债\n\n备注：自由选项:参加培训学习财务管理。|全套费用:None",
+    "effect": {
+      "timePoints": 1000,
+      "cashDelta": -400
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_8",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-8",
+    "circle": "全圈层通用",
+    "name": "打官司",
+    "content": "惹上了一起官司。\n\n备注：自由选项:开始雇佣自己的律师顾问|全套费用:None",
+    "effect": {
+      "timePoints": 1600,
+      "cashDelta": -1000,
+      "percentCashLoss": 0.5
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_9",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-9",
+    "circle": "全圈层通用",
+    "name": "财物被盗",
+    "content": "遭遇盗贼，财物丢失。\n\n备注：自由选项:安装防盗设施。|全套费用:None",
+    "effect": {
+      "timePoints": 950,
+      "cashDelta": -650
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_10",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-10",
+    "circle": "全圈层通用",
+    "name": "商业机密泄露",
+    "content": "新项目计划泄露。\n\n备注：自由选项:组织进行信息安全培训。|全套费用:None",
+    "effect": {
+      "timePoints": 1700,
+      "cashDelta": -1300
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_11",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-11",
+    "circle": "全圈层通用",
+    "name": "租客不交房租",
+    "content": "租客未交房租就离开。\n\n备注：自由选项:与房产中介建立关系，委托代办。|全套费用:None",
+    "effect": {
+      "timePoints": 1400,
+      "cashDelta": -900
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_12",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-12",
+    "circle": "全圈层通用",
+    "name": "被勒索",
+    "content": "在外出旅游时被勒索。\n\n备注：自由选项:与专业旅行社合作。|全套费用:None",
+    "effect": {
+      "timePoints": 700,
+      "cashDelta": -400
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_13",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-13",
+    "circle": "全圈层通用",
+    "name": "失火",
+    "content": "家中电路老化，导致失火。\n\n备注：自由选项:请专业人员负责定期检查更换。|全套费用:None",
+    "effect": {
+      "timePoints": 2700,
+      "cashDelta": -2000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_14",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-14",
+    "circle": "全圈层通用",
+    "name": "遭遇水淹",
+    "content": "汽车遭遇水淹。\n\n备注：自由选项:为车购买保险。|全套费用:None",
+    "effect": {
+      "timePoints": 1500,
+      "cashDelta": -1200
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_15",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-15",
+    "circle": "全圈层通用",
+    "name": "亲人生病",
+    "content": "亲人生病需要照顾，停赛一轮。\n\n备注：自由选项:聘用健康管家。|全套费用:None",
+    "effect": {
+      "timePoints": 700,
+      "skipRound": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_16",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-16",
+    "circle": "全圈层通用",
+    "name": "购买全套杀毒软件",
+    "content": "电脑系统遭遇病毒破坏，找专业人员修理。\n\n备注：自由选项:购买全套杀毒软件|全套费用:None",
+    "effect": {
+      "timePoints": 750,
+      "cashDelta": -400
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_17",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-17",
+    "circle": "全圈层通用",
+    "name": "拖车费",
+    "content": "车子半路抛锚，施救拖车费。\n\n备注：自由选项:购买汽车救援会员服务。|全套费用:None",
+    "effect": {
+      "timePoints": 930,
+      "cashDelta": -750
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_18",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-18",
+    "circle": "全圈层通用",
+    "name": "失业",
+    "content": "因就业竞争过大失业了，向银行支付你的总支出，停赛一轮。\n\n备注：自由选项:参加在岗技能培训。|全套费用:None",
+    "effect": {
+      "payTotalExpense": true,
+      "skipRound": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_19",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-19",
+    "circle": "全圈层通用",
+    "name": "失业",
+    "content": "因就业竞争过大失业了，向银行支付你的总支出，停赛一轮。\n\n备注：自由选项:参加在岗技能培训。|全套费用:None",
+    "effect": {
+      "payTotalExpense": true,
+      "skipRound": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_20",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-20",
+    "circle": "全圈层通用",
+    "name": "失业",
+    "content": "因就业竞争过大失业了，向银行支付你的总支出，停赛一轮。\n\n备注：自由选项:参加在岗技能培训。|全套费用:None",
+    "effect": {
+      "payTotalExpense": true,
+      "skipRound": true
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_21",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-21",
+    "circle": "全圈层通用",
+    "name": "买书",
+    "content": "发现一本找了很久的书\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -50
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_22",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-22",
+    "circle": "全圈层通用",
+    "name": "手机维修费",
+    "content": "手机掉入水里，送去维修\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -200
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_23",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-23",
+    "circle": "全圈层通用",
+    "name": "购买一个新的吸尘器",
+    "content": "购买一个新的吸尘器\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -480
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_24",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-24",
+    "circle": "全圈层通用",
+    "name": "给父母过生日",
+    "content": "给父母过生日\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -300
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_25",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-25",
+    "circle": "全圈层通用",
+    "name": "看医生",
+    "content": "打篮球扭伤手指，看医生。\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -200
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_26",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-26",
+    "circle": "全圈层通用",
+    "name": "购买食品搅拌机",
+    "content": "购买食品搅拌机\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -790
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_27",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-27",
+    "circle": "全圈层通用",
+    "name": "请朋友听音乐会",
+    "content": "晚餐、门票及咖啡花费\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -300
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_28",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-28",
+    "circle": "全圈层通用",
+    "name": "幸运体育彩票抽奖",
+    "content": "幸运体育彩票抽奖\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -100
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_29",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-29",
+    "circle": "全圈层通用",
+    "name": "玩保龄球游戏",
+    "content": "玩保龄球游戏\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -50
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_30",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-30",
+    "circle": "全圈层通用",
+    "name": "周末和朋友在郊外BBQ",
+    "content": "周末和朋友在郊外BBQ\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -80
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_31",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-31",
+    "circle": "全圈层通用",
+    "name": "给小侄子过生日送礼物",
+    "content": "给小侄子过生日送礼物\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -100
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_32",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-32",
+    "circle": "全圈层通用",
+    "name": "周末和朋友在郊外BBQ",
+    "content": "周末和朋友在郊外BBQ\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -80
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_33",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-33",
+    "circle": "全圈层通用",
+    "name": "结婚纪念日",
+    "content": "结婚纪念日\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -500
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_34",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-34",
+    "circle": "全圈层通用",
+    "name": "家里空调坏了",
+    "content": "家里空调坏了，送去维修\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -300
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_35",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-35",
+    "circle": "全圈层通用",
+    "name": "全家春节度假",
+    "content": "全家春节度假\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -2000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_36",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-36",
+    "circle": "全圈层通用",
+    "name": "重新粉刷居室",
+    "content": "重新粉刷居室\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -600
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_37",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-37",
+    "circle": "全圈层通用",
+    "name": "更换旧电热水器",
+    "content": "更换旧电热水器\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -450
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_38",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-38",
+    "circle": "全圈层通用",
+    "name": "补个人所得税",
+    "content": "补个人所得税\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -350
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_39",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-39",
+    "circle": "全圈层通用",
+    "name": "购买打折衣服",
+    "content": "品牌服装店年末大清仓，低价促销。\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -300
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_40",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-40",
+    "circle": "全圈层通用",
+    "name": "购买LCD等离子彩电",
+    "content": "购买LCD等离子32寸彩电（你也可以用信用卡支付，如果使用信用卡，需在信用卡负债项目增加￥4000，同时信用卡月支出增加￥120）。\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -4000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_41",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-41",
+    "circle": "全圈层通用",
+    "name": "购买新墨镜",
+    "content": "购买新墨镜\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -450
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_42",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-42",
+    "circle": "全圈层通用",
+    "name": "看牙医",
+    "content": "牙疼，去看牙医\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -300
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_43",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-43",
+    "circle": "全圈层通用",
+    "name": "给父母买营养素",
+    "content": "给父母买营养素\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -350
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_44",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-44",
+    "circle": "全圈层通用",
+    "name": "观看演唱会",
+    "content": "去参加自己偶像得演唱会\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -200
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_45",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-45",
+    "circle": "全圈层通用",
+    "name": "修鞋",
+    "content": "修鞋\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -40
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_46",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-46",
+    "circle": "全圈层通用",
+    "name": "购买新型滤水机",
+    "content": "购买新型滤水机\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -300
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_47",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-47",
+    "circle": "全圈层通用",
+    "name": "冲动购物",
+    "content": "心情低落，发泄购物\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -2000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_48",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-48",
+    "circle": "全圈层通用",
+    "name": "孩子上才艺班",
+    "content": "孩子报名上才艺班（如果你有孩子的话）\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -2000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_49",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-49",
+    "circle": "全圈层通用",
+    "name": "亲戚得重病",
+    "content": "亲戚得重病需要￥300000医疗费，亲戚间筹钱治病。\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -1000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_51",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-51",
+    "circle": "全圈层通用",
+    "name": "意外",
+    "content": "遭遇交通意外住院（如已购买意外保险，则无需支付）\n\n备注：自由选项:None|全套费用:意外险一份是400元，触发去抵掉100元的损失，不划算的",
+    "effect": {
+      "cashDelta": -100
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_50",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-50",
+    "circle": "全圈层通用",
+    "name": "家人得病住院",
+    "content": "亲人得病住院（如已购买医疗保险，则无需支付）\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -8000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_52",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-52",
+    "circle": "全圈层通用",
+    "name": "可能得癌症早期",
+    "content": "被检查出可能得癌症晚期，掷一次骰子，如果点数小于或等于2，将得癌症晚期，需要住院治疗并长期购买抗癌药（可以一次性支付2w，也可以首期支付6000，同时，每月额外支出增加600。如果已购买重疾险，则无需支付）。\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_53",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-53",
+    "circle": "全圈层通用",
+    "name": "可能得癌症晚期",
+    "content": "被检查出可能得癌症晚期，掷一次骰子，如果点数小于2，将得癌症晚期，需要住院治疗并长期购买抗癌药（可以一次性支付30w，也可以首期支付5w，同时，每月额外支出增加2000。如果已购买重疾险，则无需支付）。\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "cashDelta": -300000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_54",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-54",
+    "circle": "全圈层通用",
+    "name": "离婚",
+    "content": "失去所有现金（女方失去一半现金）\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "percentCashLoss": 0.5
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_55",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-55",
+    "circle": "全圈层通用",
+    "name": "呼吸系统疾病爆发",
+    "content": "因雾霾严重，空气污染持续，导致呼吸系统疾病爆发，所有玩家均未能幸免，因此住院需支付住院费3000元，并停赛一轮，若已购买过医疗保险玩家，免住院费，仍停赛一轮；若之前做过健康管理玩家，此次疾病免疫，免住院费，免停赛。\n\n备注：自由选项:None|全套费用:银行家需要记录玩家有无做过健康管理吗？",
+    "effect": {
+      "cashDelta": -3000
+    },
+    "status": true
+  },
+  {
+    "id": "card_b_56",
+    "type": "risk",
+    "category": "风险卡",
+    "code": "B-56",
+    "circle": "全圈层通用",
+    "name": "官司",
+    "content": "不小心侵犯了某公司软件制造商版权，判处支付所有现金的一半。\n\n备注：自由选项:None|全套费用:None",
+    "effect": {
+      "percentCashLoss": 0.5
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_1",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-1",
+    "circle": "老板圈/核心圈",
+    "name": "为集团分公司引进职业经理人",
+    "content": "为自己集团下分公司引进职业经理人，其薪酬平均业内水平为30w/年，经沟通这项工作的准备和铺垫基本到位。",
+    "effect": {
+      "timePoints": 200,
+      "cost": 400000,
+      "passiveIncome": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_2",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-2",
+    "circle": "老板圈/核心圈",
+    "name": "成立财富文化教育基金会",
+    "content": "此NGO基金会是为了团结全球有志之士，来整合资源，共同传播健康的财富文化和智慧。京筹备和沟通，相关准备工作均已完成。",
+    "effect": {
+      "timePoints": 250,
+      "cost": 500000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_3",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-3",
+    "circle": "老板圈/核心圈",
+    "name": "建立个人健康管理系统",
+    "content": "健康是人生幸福的基础，你开始有意识地寻找能够提供健全的、系统的个人健康管理服务，经朋友推荐你找到了自己满意的机构。",
+    "effect": {
+      "timePoints": 80,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_4",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-4",
+    "circle": "老板圈/核心圈",
+    "name": "配置蓝图管理系统",
+    "content": "拥有圆满的财富人生一直是你的梦想，经朋友介绍你了解到蓝图系统是提供全息生命教育的平台，可以协助你制作人生地图，实现梦想。",
+    "effect": {
+      "timePoints": 80,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_5",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-5",
+    "circle": "老板圈/核心圈",
+    "name": "配置财富管理系统",
+    "content": "财富的管理是一个庞大而系统的工程，寻找合适可靠的合作者非常重要，经考察你发现了融裕财富公司的管家服务团队最符合你的理念和需求。",
+    "effect": {
+      "timePoints": 120,
+      "cost": 300000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_6",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-6",
+    "circle": "老板圈/核心圈",
+    "name": "为公司购买专利技术",
+    "content": "你的公司正在规划一个产业链的整合，为此，需要购买引进某套专利技术，经多次谈判，你可以30万的总价获得此技术。",
+    "effect": {
+      "timePoints": 100,
+      "cost": 300000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_7",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-7",
+    "circle": "老板圈/核心圈",
+    "name": "撰写家族教育与管理计划",
+    "content": "经过2个月的工作，完成家族教育与管理计划的撰写，经过家族会议决策通过后即可实施。",
+    "effect": {
+      "timePoints": 50,
+      "cost": 60000,
+      "passiveIncome": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_8",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-8",
+    "circle": "老板圈/核心圈",
+    "name": "给孩子换一所学校",
+    "content": "你非常重视正确有益的教育理念和方式对于孩子成长的影响，经过长期考察和深入交流，你找到一家真正能够在日常中落实以孩子们的健康成长为宗旨的学校。",
+    "effect": {
+      "timePoints": 50,
+      "cost": 150000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_9",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-9",
+    "circle": "老板圈/核心圈",
+    "name": "完成社区人才建设方案",
+    "content": "你计划向社区管委会就社区人才建设方面提案，经多方考察分析，现已基本完成，实施此方案对于社区环境和人们生活有很大的改善作用。",
+    "effect": {
+      "timePoints": 80,
+      "cost": 150000,
+      "passiveIncome": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_10",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-10",
+    "circle": "老板圈/核心圈",
+    "name": "建立产业联盟",
+    "content": "为更有效地配置各行业资源，你发起了筹建产业联盟的提议，反响强烈，应者云集，此项目很快就进入了实际动作阶段，你的企业愿意为此投入第一笔资金。",
+    "effect": {
+      "timePoints": 100,
+      "cost": 300000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_11",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-11",
+    "circle": "老板圈/核心圈",
+    "name": "成立家族信托",
+    "content": "家族的发展有赖于稳健的财富管理与组织架构，你决定现在就成立家族信托，以尽早为家族的管理与发展确定基本方向，以及内部经济原则。",
+    "effect": {
+      "timePoints": 200,
+      "cost": 500000,
+      "passiveIncome": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_12",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-12",
+    "circle": "老板圈/核心圈",
+    "name": "采用家族办公室服务",
+    "content": "家族办公室服务是家族管理中非常重要的一部分，经过2个月左右的筹备工作，现在你可以正式启动此项服务了。",
+    "effect": {
+      "timePoints": 150,
+      "cost": 250000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_13",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-13",
+    "circle": "老板圈/核心圈",
+    "name": "家族未来规划",
+    "content": "你对于家族未来的发展抱有极大的责任感和热情，近期已完成了整体规划，可以开始启动后续相关工作了。",
+    "effect": {
+      "timePoints": 100,
+      "cost": 150000,
+      "passiveIncome": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_14",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-14",
+    "circle": "老板圈/核心圈",
+    "name": "构建家族的共同愿景",
+    "content": "你组织家族成员召开会议，聘用专业的顾问，就家族的共同愿景进行深入探讨及制定方案，使家族工作得以有效展开。",
+    "effect": {
+      "timePoints": 120,
+      "cost": 180000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_15",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-15",
+    "circle": "老板圈/核心圈",
+    "name": "引进专业的财务顾问团队",
+    "content": "为企业引进专业的财务顾问团队，建立长期合作关系，经过筛选和沟通，这项工作已完成。",
+    "effect": {
+      "timePoints": 100,
+      "cost": 300000,
+      "passiveIncome": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_16",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-16",
+    "circle": "老板圈/核心圈",
+    "name": "引进专业的法律顾问团队",
+    "content": "为企业引进专业的法律顾问团队，建立长期合作关系，经过筛选和沟通，这项工作已经完成。",
+    "effect": {
+      "timePoints": 80,
+      "cost": 200000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_17",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-17",
+    "circle": "老板圈/核心圈",
+    "name": "引进专业的税务顾问团队",
+    "content": "为企业引进专业的税务顾问团队，建立长期合作关系，经过筛选和沟通，这项工作已完成。",
+    "effect": {
+      "timePoints": 100,
+      "cost": 300000,
+      "passiveIncome": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_18",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-18",
+    "circle": "老板圈/核心圈",
+    "name": "取得国家技术改造支持",
+    "content": "国家为促进产业资源的优化配置，出台了一系列技术改造优惠政策，你最新运作的项目正好符合此项政策要求，经过进一步的改进完善，终于取得了这项支持。",
+    "effect": {
+      "timePoints": 100,
+      "cost": 250000,
+      "passiveIncome": 40000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_19",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-19",
+    "circle": "老板圈/核心圈",
+    "name": "完成企业百年战略规划",
+    "content": "你完成的企业百年战略规划，为企业的进一步发展指明了方向，在此基础上所做出的组织优化与市场巩固均获良好的收效。",
+    "effect": {
+      "timePoints": 50,
+      "cost": 100000,
+      "passiveIncome": 40000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_20",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-20",
+    "circle": "老板圈/核心圈",
+    "name": "组办城市规划与发展高峰论坛",
+    "content": "你联合业界优秀企业，共同组办了城市规划与发展高峰论坛，从环境、文化、教育、商业等多层面探讨了城市进程中需深切关注的主题和形态。",
+    "effect": {
+      "timePoints": 100,
+      "cost": 250000,
+      "passiveIncome": 40000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_21",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-21",
+    "circle": "老板圈/核心圈",
+    "name": "构建异业联盟平台",
+    "content": "为更好地会员服务，你着手规划异业联盟平台地构建方案，经过多方探讨论证，此方案已通过决议。",
+    "effect": {
+      "timePoints": 170,
+      "cost": 500000,
+      "passiveIncome": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_22",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-22",
+    "circle": "老板圈/核心圈",
+    "name": "出任行业协会会长",
+    "content": "你准备出任本行业协会会长，重新设定工作实施计划，以尽快改善行业分散地现状，促进对资源的整合应用。",
+    "effect": {
+      "timePoints": 120,
+      "cost": 250000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_23",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-23",
+    "circle": "老板圈/核心圈",
+    "name": "制定行业规则指引",
+    "content": "明确清晰的行业规则指引有利于建立良性地合作关系，你组织行业内有责任感的企业共同研究筹办此事，经过三个多月的时间终于完成，现在可以发布实施了。",
+    "effect": {
+      "timePoints": 50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_24",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-24",
+    "circle": "老板圈/核心圈",
+    "name": "制定产业指导目录",
+    "content": "国家出台产业整合发展政策，由你的企业牵头制定产业指导目录",
+    "effect": {
+      "timePoints": 80,
+      "cost": 150000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_25",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-25",
+    "circle": "老板圈/核心圈",
+    "name": "为行业成立公益培训机构",
+    "content": "为促进本行业发展，由你牵头成立了公益培训机构，并组织业内专家为有需要的企业提供培训。",
+    "effect": {
+      "timePoints": 100,
+      "cost": 250000,
+      "passiveIncome": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_26",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-26",
+    "circle": "老板圈/核心圈",
+    "name": "完成年终奖激励计划",
+    "content": "你的企业今年获得大规模发展，团队不断壮大，为更有效地提升团队工作的积极性和创造性，人事部在你的指示下已经完成了年终奖励计划。",
+    "effect": {
+      "timePoints": 120,
+      "cost": 300000,
+      "passiveIncome": 40000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_27",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-27",
+    "circle": "老板圈/核心圈",
+    "name": "组织团队海湾考察",
+    "content": "为实现事业发展的国际化战略，你组织团队进行海外综合考察，为期45天。",
+    "effect": {
+      "timePoints": 50,
+      "cost": 100000,
+      "passiveIncome": 10000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_28",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-28",
+    "circle": "老板圈/核心圈",
+    "name": "财富文化环球主题旅游",
+    "content": "这是由你亲自主持开发的一项文化品牌高端旅游服务，首次试行非常成功。鉴于此，经公司决议后即日正式向市场推广。",
+    "effect": {
+      "timePoints": 80,
+      "cost": 150000,
+      "passiveIncome": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_29",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-29",
+    "circle": "老板圈/核心圈",
+    "name": "主办公司年会",
+    "content": "这是合作伙伴共同参与、交流和实现资源整合的一个高端平台，你们经过长达半年的精心策划和筹备，各项工作均已到位。",
+    "effect": {
+      "timePoints": 40,
+      "cost": 80000,
+      "passiveIncome": 10000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_30",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-30",
+    "circle": "老板圈/核心圈",
+    "name": "支持资源节约与环境保护专家研讨会",
+    "content": "你的企业一直深切关注资源与环境在现代文明进程中的角色和功能，最近受邀参加主办了支持资源节约与建设生态村的专业研讨会。",
+    "effect": {
+      "timePoints": 80,
+      "cost": 200000,
+      "passiveIncome": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_31",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-31",
+    "circle": "老板圈/核心圈",
+    "name": "投入环境改良",
+    "content": "你所在的城市经过多年的经济型发展模式，经济产值得以大幅度提升，然而环境破坏和资源浪费等问题同样突出，你公司率先提出进行环境改良的规划方案，经多方勘察论证，已近完善。",
+    "effect": {
+      "timePoints": 120,
+      "cost": 200000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_32",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-32",
+    "circle": "老板圈/核心圈",
+    "name": "完成集团第三战略行动纲要",
+    "content": "集团第三战略行动纲要有你负责组织团队完成，已提交董事会待决议后执行。",
+    "effect": {
+      "timePoints": 100,
+      "cost": 80000,
+      "passiveIncome": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_33",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-33",
+    "circle": "老板圈/核心圈",
+    "name": "获得国家级项目奖金",
+    "content": "你利用业余时间参加了社区“好环境-好生活”公益活动，并在活动中积极担任策划组织工作，最近，完成了一项用于污水处理的新技术研发，并通过专利审核，此项目获得国家级奖金。",
+    "effect": {
+      "timePoints": 35,
+      "cost": 150000,
+      "passiveIncome": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_34",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-34",
+    "circle": "老板圈/核心圈",
+    "name": "承办全球财富文化高峰论坛",
+    "content": "有你公司承办的全球财富文化高峰论坛将于明年10月份举行，参与此论坛将大幅度提升你公司的品牌形象与知名度，对于传播财富智慧有着重大的意义。",
+    "effect": {
+      "timePoints": 150,
+      "cost": 300000,
+      "passiveIncome": 40000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_35",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-35",
+    "circle": "老板圈/核心圈",
+    "name": "建立社区义工服务系统",
+    "content": "随着城市的发展，社区生活成了不可缺少的一部分，它对于建立友好文明的睦邻关系和提升人们幸福感有着重要的作用。你主动提出为社区开发一套用于义工组织和服务的软件系统。",
+    "effect": {
+      "timePoints": 80,
+      "cost": 120000,
+      "passiveIncome": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_36",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-36",
+    "circle": "老板圈/核心圈",
+    "name": "加入贵人俱乐部",
+    "content": "选对人是成就人生和事业的关键，为得到贵人相助，你决定加入贵人俱乐部。",
+    "effect": {
+      "timePoints": 120,
+      "cost": 200000,
+      "passiveIncome": 40000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_37",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-37",
+    "circle": "老板圈/核心圈",
+    "name": "引进会员忠诚管理系统",
+    "content": "随着企业市场的扩大，对客户服务和关系管理变得越来越重要，为此，你计划为企业引进忠诚管理系统。",
+    "effect": {
+      "timePoints": 150,
+      "cost": 200000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_f_38",
+    "type": "wealth_leisure",
+    "category": "有钱有闲卡",
+    "code": "F-38",
+    "circle": "老板圈/核心圈",
+    "name": "建立一套养老系统",
+    "content": "老龄化速度加快，老年养护正在成为一项必要而繁复的工作，你计划投入研究，为社区老人家建立一套养老系统。",
+    "effect": {
+      "timePoints": 180,
+      "cost": 250000,
+      "passiveIncome": 30000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_1",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-1",
+    "circle": "老板圈",
+    "name": "系能源环保汽车集团",
+    "content": "系能源环保汽车集团",
+    "effect": {
+      "cost": 200000,
+      "passiveIncome": 6000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_3",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-3",
+    "circle": "老板圈",
+    "name": "海水淡化工程投资集团",
+    "content": "海水淡化工程投资集团",
+    "effect": {
+      "cost": 350000,
+      "passiveIncome": 8500
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_4",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-4",
+    "circle": "老板圈",
+    "name": "生态农业",
+    "content": "生态农业",
+    "effect": {
+      "cost": 350000,
+      "passiveIncome": 8000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_5",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-5",
+    "circle": "老板圈",
+    "name": "健康生活馆环球连锁机构",
+    "content": "健康生活馆环球连锁机构",
+    "effect": {
+      "cost": 350000,
+      "passiveIncome": 10000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_7",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-7",
+    "circle": "老板圈",
+    "name": "回收资源再生集团",
+    "content": "回收资源再生集团",
+    "effect": {
+      "cost": 300000,
+      "passiveIncome": 9500
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_8",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-8",
+    "circle": "老板圈",
+    "name": "太空旅行服务",
+    "content": "太空旅行服务",
+    "effect": {
+      "cost": 350000,
+      "passiveIncome": 15000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_9",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-9",
+    "circle": "老板圈",
+    "name": "世外桃源渡假岛",
+    "content": "世外桃源渡假岛",
+    "effect": {
+      "cost": 300000,
+      "passiveIncome": 14000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_11",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-11",
+    "circle": "老板圈",
+    "name": "磁悬浮动力机车集团",
+    "content": "磁悬浮动力机车集团",
+    "effect": {
+      "cost": 280000,
+      "passiveIncome": 12000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_12",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-12",
+    "circle": "老板圈",
+    "name": "中华医学药业集团",
+    "content": "中华医学药业集团",
+    "effect": {
+      "cost": 250000,
+      "passiveIncome": 10000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_13",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-13",
+    "circle": "老板圈",
+    "name": "古玩城",
+    "content": "古玩城",
+    "effect": {
+      "cost": 150000,
+      "passiveIncome": 5000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_14",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-14",
+    "circle": "老板圈",
+    "name": "东南亚有机食品分销中心",
+    "content": "东南亚有机食品分销中心",
+    "effect": {
+      "cost": 300000,
+      "passiveIncome": 10000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_15",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-15",
+    "circle": "老板圈",
+    "name": "阿风达传媒集团",
+    "content": "阿风达传媒集团",
+    "effect": {
+      "cost": 200000,
+      "passiveIncome": 5000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_16",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-16",
+    "circle": "老板圈",
+    "name": "国际购物中心",
+    "content": "国际购物中心",
+    "effect": {
+      "cost": 450000,
+      "passiveIncome": 35000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_17",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-17",
+    "circle": "老板圈",
+    "name": "生命合伙人慈善机构",
+    "content": "生命合伙人慈善机构",
+    "effect": {
+      "cost": 350000,
+      "passiveIncome": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_19",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-19",
+    "circle": "老板圈",
+    "name": "国际物流服务集团",
+    "content": "国际物流服务集团",
+    "effect": {
+      "cost": 250000,
+      "passiveIncome": 9000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_20",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-20",
+    "circle": "老板圈",
+    "name": "圣伯纳红酒庄园",
+    "content": "圣伯纳红酒庄园",
+    "effect": {
+      "cost": 220000,
+      "passiveIncome": 7000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_2",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-2",
+    "circle": "老板圈",
+    "name": "私募投资",
+    "content": "私募股权基金月度投资收益率20%。掷一粒骰子，如果点数等于1，则每月获得投资收益，否则失去所有投资资本。",
+    "effect": {},
+    "status": true
+  },
+  {
+    "id": "card_g_6",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-6",
+    "circle": "老板圈",
+    "name": "国际玉石开采集团案",
+    "content": "参与国际玉石开采和贸易。掷一粒骰子，如果点数小于或等于2，那么月流动现金+￥5w/月，否则收益为0。",
+    "effect": {
+      "cost": 400000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_10",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-10",
+    "circle": "老板圈",
+    "name": "私家飞行员驾驶培训俱乐部",
+    "content": "你有一个机会，掷一粒骰子，如果点数大于或等于4，则月流动现金+￥5w/月，否则不能增加。",
+    "effect": {
+      "cost": 350000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_18",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-18",
+    "circle": "老板圈",
+    "name": "海洋资源开发集团",
+    "content": "海洋资源开发集团拟定投资开发深海特殊资源计划。掷一粒骰子，如果点数大于或等于3，则流动现金+￥3w/月，否则不能增加月流动现金。",
+    "effect": {
+      "cost": 180000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_21",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-21",
+    "circle": "老板圈",
+    "name": "007游戏集团公司股份",
+    "content": "有机会获得007游戏集团公司25%股份，掷一粒骰子，如果点数大于或等于3，则流动现金+￥3w/月，否则不能增加月流动现金。",
+    "effect": {
+      "cost": 150000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_22",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-22",
+    "circle": "老板圈",
+    "name": "369健康管理集团公司股份",
+    "content": "有机会获得369健康管理集团公司20%股份，掷一粒骰子，如果点数大于或等于3，则流动现金+￥1.8w/月，否则不能增加月流动现金。",
+    "effect": {
+      "cost": 120000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_23",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-23",
+    "circle": "老板圈",
+    "name": "生态农业股份",
+    "content": "有机会获得生态农业30%股份，掷一粒骰子，如果点数大于或等于3，那么流动现金+￥2.5w/月，否则不能增加月流动现金。",
+    "effect": {
+      "cost": 180000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_24",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-24",
+    "circle": "老板圈",
+    "name": "新能源科技控股集团股份",
+    "content": "有机会获得新能源科技控股集团公司10%股份，掷一粒骰子，如果点数大于或等于3，则流动现金+￥1.2w/月，否则不能增加月流动现金。",
+    "effect": {
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_25",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-25",
+    "circle": "老板圈",
+    "name": "CAS离岸基金管理",
+    "content": "向海外某资产管理公司购买CAS基金10万份，掷一粒骰子，如果点数大于或等于3，那么流动现金+￥1w/月，否则不能增加月流动现金。",
+    "effect": {
+      "cost": 80000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_26",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-26",
+    "circle": "老板圈",
+    "name": "游戏软件开发公司股份",
+    "content": "有机会购买25w股，￥0.1元/股，掷一粒骰子，如果点数为6，则股票价格涨到￥2元/股，可以从银行提取￥50w现金；如果点数小于6，则没有收入。",
+    "effect": {
+      "cost": 25000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_27",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-27",
+    "circle": "老板圈",
+    "name": "购买保险",
+    "content": "购买一份大额综合保险（可保各类风险，离婚除外。）",
+    "effect": {
+      "cost": 350000
+    },
+    "status": true
+  },
+  {
+    "id": "card_g_28",
+    "type": "investment",
+    "category": "投资卡",
+    "code": "G-28",
+    "circle": "老板圈",
+    "name": "避险储蓄投资",
+    "content": "可免受金融风暴1次",
+    "effect": {
+      "cost": 300000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_1",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-1",
+    "circle": "老板圈/核心圈",
+    "name": "参加亲子夏令营活动",
+    "content": "参加亲子夏令营活动\n\n备注：10",
+    "effect": {
+      "qualityPoints": -100,
+      "cost": 60000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_2",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-2",
+    "circle": "老板圈/核心圈",
+    "name": "参加财富动漫的策划与创作",
+    "content": "参加财富动漫的策划与创作\n\n备注：5",
+    "effect": {
+      "qualityPoints": -130,
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_3",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-3",
+    "circle": "老板圈/核心圈",
+    "name": "与朋友合作创办生活馆践行健康的生活方式",
+    "content": "与朋友合作创办生活馆践行健康的生活方式\n\n备注：15",
+    "effect": {
+      "qualityPoints": -150,
+      "cost": 200000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_4",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-4",
+    "circle": "老板圈/核心圈",
+    "name": "利用业余时间进修美术",
+    "content": "利用业余时间进修美术\n\n备注：10",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_5",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-5",
+    "circle": "老板圈/核心圈",
+    "name": "参与一个为期半年的心理成长课程",
+    "content": "参与一个为期半年的心理成长课程\n\n备注：20",
+    "effect": {
+      "qualityPoints": -100,
+      "cost": 300000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_6",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-6",
+    "circle": "老板圈/核心圈",
+    "name": "参与健康管理课程学习",
+    "content": "参与健康管理课程学习\n\n备注：5",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_7",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-7",
+    "circle": "老板圈/核心圈",
+    "name": "参与财富智慧之旅学习",
+    "content": "参与财富智慧之旅学习\n\n备注：10",
+    "effect": {
+      "qualityPoints": -100,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_8",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-8",
+    "circle": "老板圈/核心圈",
+    "name": "跟声乐老师学习声乐",
+    "content": "跟声乐老师学习声乐\n\n备注：5",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_9",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-9",
+    "circle": "老板圈/核心圈",
+    "name": "陪家人一起看芭蕾舞演出",
+    "content": "陪家人一起看芭蕾舞演出\n\n备注：5",
+    "effect": {
+      "qualityPoints": -40,
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_10",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-10",
+    "circle": "老板圈/核心圈",
+    "name": "带团队一起听歌剧",
+    "content": "带团队一起听歌剧\n\n备注：10",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_11",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-11",
+    "circle": "老板圈/核心圈",
+    "name": "受邀加入先秦历史与文化研究学会，跟随外出考试游学",
+    "content": "受邀加入先秦历史与文化研究学会，跟随外出考试游学\n\n备注：10",
+    "effect": {
+      "qualityPoints": -100,
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_12",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-12",
+    "circle": "老板圈/核心圈",
+    "name": "定期组织家居活动艺术小组活动",
+    "content": "定期组织家居活动艺术小组活动\n\n备注：10",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_13",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-13",
+    "circle": "老板圈/核心圈",
+    "name": "受邀参与未来主义发展之路寻考小组",
+    "content": "受邀参与未来主义发展之路寻考小组\n\n备注：20",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 150000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_14",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-14",
+    "circle": "老板圈/核心圈",
+    "name": "策划主办一个星期日读书会",
+    "content": "策划主办一个星期日读书会\n\n备注：5",
+    "effect": {
+      "qualityPoints": -20,
+      "cost": 20000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_15",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-15",
+    "circle": "老板圈/核心圈",
+    "name": "参与财富文化沙龙活动",
+    "content": "参与财富文化沙龙活动\n\n备注：5",
+    "effect": {
+      "qualityPoints": -20,
+      "cost": 10000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_16",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-16",
+    "circle": "老板圈/核心圈",
+    "name": "与世界顶级大师共聚",
+    "content": "与世界顶级大师共聚\n\n备注：50",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 500000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_17",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-17",
+    "circle": "老板圈/核心圈",
+    "name": "参加欧洲古典主义音乐研讨会共十期",
+    "content": "参加欧洲古典主义音乐研讨会共十期\n\n备注：15",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 150000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_18",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-18",
+    "circle": "老板圈/核心圈",
+    "name": "参加中国传统文化学习",
+    "content": "参加中国传统文化学习\n\n备注：10",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_19",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-19",
+    "circle": "老板圈/核心圈",
+    "name": "参加为期两周的国学讲座",
+    "content": "参加为期两周的国学讲座\n\n备注：10",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_20",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-20",
+    "circle": "老板圈/核心圈",
+    "name": "参与东方气质与中国文化关系研究课题",
+    "content": "参与东方气质与中国文化关系研究课题\n\n备注：15",
+    "effect": {
+      "qualityPoints": -150,
+      "cost": 25000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_21",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-21",
+    "circle": "老板圈/核心圈",
+    "name": "参加个人奥斯卡奖颁奖典礼",
+    "content": "参加个人奥斯卡奖颁奖典礼\n\n备注：20",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_22",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-22",
+    "circle": "老板圈/核心圈",
+    "name": "建立时光机科研试验中心",
+    "content": "出资建立时光机器科学试验中心，帮助未来的人们更快实现时空穿梭的神奇梦想。\n\n备注：25",
+    "effect": {
+      "qualityPoints": -20,
+      "cost": 500000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_23",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-23",
+    "circle": "老板圈/核心圈",
+    "name": "报名参加人类起源访察团系列活动",
+    "content": "报名参加人类起源访察团系列活动\n\n备注：15",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_24",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-24",
+    "circle": "老板圈/核心圈",
+    "name": "澳大利亚大堡礁的私人度假",
+    "content": "乘坐专用水上飞机，到梦幻珊瑚岛潜水，享受6个月的隐居生活。\n\n备注：20",
+    "effect": {
+      "qualityPoints": -10,
+      "cost": 250000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_25",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-25",
+    "circle": "老板圈/核心圈",
+    "name": "组织现代空间与自由交流会的活动",
+    "content": "组织现代空间与自由交流会的活动\n\n备注：40",
+    "effect": {
+      "qualityPoints": -1100,
+      "cost": 250000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_26",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-26",
+    "circle": "老板圈/核心圈",
+    "name": "北美原生态漂流探险",
+    "content": "由私人导游陪同，乘私人飞机和您的五个朋友到达北美最神秘地方漂流探险。\n\n备注：15",
+    "effect": {
+      "qualityPoints": -20,
+      "cost": 300000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_27",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-27",
+    "circle": "老板圈/核心圈",
+    "name": "报名参加环境保护考察团系列活动",
+    "content": "报名参加环境保护考察团系列活动\n\n备注：15",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_28",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-28",
+    "circle": "老板圈/核心圈",
+    "name": "建造一座森林公园",
+    "content": "倡议停止砍伐森林，出资建造1000亩森林公园供人们度假休闲。\n\n备注：20",
+    "effect": {
+      "qualityPoints": -20,
+      "cost": 400000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_29",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-29",
+    "circle": "老板圈/核心圈",
+    "name": "非洲摄影旅行",
+    "content": "与6个朋友组成探险队，深入非洲拍摄世界上最珍奇的野生动物，享受大自然的生活。\n\n备注：15",
+    "effect": {
+      "qualityPoints": -20,
+      "cost": 350000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_30",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-30",
+    "circle": "老板圈/核心圈",
+    "name": "建立财富游乐园",
+    "content": "建立一个全新的财富生活社区，以互动及体验的游戏方式，获得创造财富和管理财富的知识技能。\n\n备注：25",
+    "effect": {
+      "qualityPoints": -40,
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_31",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-31",
+    "circle": "老板圈/核心圈",
+    "name": "以你的名字命名的基金会",
+    "content": "成立以您的名字命名的基金会，用于保护南极濒临灭绝的动物。\n\n备注：25",
+    "effect": {
+      "qualityPoints": -30,
+      "cost": 450000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_32",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-32",
+    "circle": "老板圈/核心圈",
+    "name": "在瑞士的阿尔卑斯山滑雪",
+    "content": "白天乘坐直升飞机上山滑雪，晚上尽情娱乐，住宿在豪华舒适的中世纪城堡里。\n\n备注：20",
+    "effect": {
+      "qualityPoints": -20,
+      "cost": 350000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_33",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-33",
+    "circle": "老板圈/核心圈",
+    "name": "请巴菲特吃饭",
+    "content": "获得与巴菲特共进晚餐的机会\n\n备注：25",
+    "effect": {
+      "qualityPoints": -80,
+      "cost": 1000000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_34",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-34",
+    "circle": "老板圈/核心圈",
+    "name": "维也纳音乐厅个人专场",
+    "content": "在维也纳音乐厅开办个人音乐表演会，邀请6名好友与你同行，参加整个音乐盛典。\n\n备注：5",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 500000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_35",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-35",
+    "circle": "老板圈/核心圈",
+    "name": "高尔夫球度假之旅",
+    "content": "邀请您的三位朋友，到世界上顶级的度假胜地，住七星级酒店，打50场富有特色的高尔夫球。\n\n备注：15",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_36",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-36",
+    "circle": "老板圈/核心圈",
+    "name": "建造地球生物生态模拟仓",
+    "content": "出资建立地球生物生态模拟仓，聘请世界级科学家进行研究实验，为人类的太空新家园梦想努力。\n\n备注：15",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 600000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_37",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-37",
+    "circle": "老板圈/核心圈",
+    "name": "个人藏品博物馆",
+    "content": "投资修建个人藏品博物馆，以供有收藏爱好的人存放和展览，并为每一样藏品购买保险。\n\n备注：10",
+    "effect": {
+      "qualityPoints": -80,
+      "cost": 1000000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_38",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-38",
+    "circle": "老板圈/核心圈",
+    "name": "拥有私人豪华游艇",
+    "content": "自己的豪华游艇，带着家人，用一年时间环游世界用。\n\n备注：30",
+    "effect": {
+      "qualityPoints": -100,
+      "cost": 1200000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_39",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-39",
+    "circle": "老板圈/核心圈",
+    "name": "参加驾驶私人飞机培训计划",
+    "content": "参加驾驶私人飞机培训计划\n\n备注：30",
+    "effect": {
+      "qualityPoints": -100,
+      "cost": 1500000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_40",
+    "type": "quality_life",
+    "category": "品质生活卡",
+    "code": "E-40",
+    "circle": "老板圈/核心圈",
+    "name": "参加太空旅行训练计划",
+    "content": "参加太空旅行训练计划\n\n备注：100",
+    "effect": {
+      "qualityPoints": -200,
+      "cost": 9800000
+    },
+    "status": true
+  },
+  {
+    "id": "card_study_outer_001",
+    "type": "study",
+    "category": "进修学习",
+    "code": "S-1",
+    "circle": "牛马圈",
+    "name": "职业技能进修",
+    "content": "支付 5,000 元学费，提升职业技能，月薪 +2,000。",
+    "effect": {
+      "cost": 5000,
+      "laborIncome": 2000
+    },
+    "status": true
+  },
+  {
+    "id": "card_study_outer_002",
+    "type": "study",
+    "category": "进修学习",
+    "code": "S-2",
+    "circle": "牛马圈",
+    "name": "在线 MBA 预备班",
+    "content": "支付 8,000 元学费，管理能力提升，月薪 +3,000。",
+    "effect": {
+      "cost": 8000,
+      "laborIncome": 3000
+    },
+    "status": true
+  },
+  {
+    "id": "card_study_inner_001",
+    "type": "study",
+    "category": "进修学习",
+    "code": "S-3",
+    "circle": "老板圈/核心圈",
+    "name": "高管研修班",
+    "content": "支付 15,000 元学费，进入高管课程，月薪 +5,000。",
+    "effect": {
+      "cost": 15000,
+      "laborIncome": 5000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_4_study",
+    "type": "study",
+    "category": "进修学习",
+    "code": "E-4",
+    "circle": "老板圈/核心圈",
+    "name": "利用业余时间进修美术",
+    "content": "利用业余时间进修美术\n\n备注：10",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_5_study",
+    "type": "study",
+    "category": "进修学习",
+    "code": "E-5",
+    "circle": "老板圈/核心圈",
+    "name": "参与一个为期半年的心理成长课程",
+    "content": "参与一个为期半年的心理成长课程\n\n备注：20",
+    "effect": {
+      "qualityPoints": -100,
+      "cost": 300000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_6_study",
+    "type": "study",
+    "category": "进修学习",
+    "code": "E-6",
+    "circle": "老板圈/核心圈",
+    "name": "参与健康管理课程学习",
+    "content": "参与健康管理课程学习\n\n备注：5",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_7_study",
+    "type": "study",
+    "category": "进修学习",
+    "code": "E-7",
+    "circle": "老板圈/核心圈",
+    "name": "参与财富智慧之旅学习",
+    "content": "参与财富智慧之旅学习\n\n备注：10",
+    "effect": {
+      "qualityPoints": -100,
+      "cost": 100000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_8_study",
+    "type": "study",
+    "category": "进修学习",
+    "code": "E-8",
+    "circle": "老板圈/核心圈",
+    "name": "跟声乐老师学习声乐",
+    "content": "跟声乐老师学习声乐\n\n备注：5",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 50000
+    },
+    "status": true
+  },
+  {
+    "id": "card_e_18_study",
+    "type": "study",
+    "category": "进修学习",
+    "code": "E-18",
+    "circle": "老板圈/核心圈",
+    "name": "参加中国传统文化学习",
+    "content": "参加中国传统文化学习\n\n备注：10",
+    "effect": {
+      "qualityPoints": -50,
+      "cost": 100000
+    },
+    "status": true
+  }
+]

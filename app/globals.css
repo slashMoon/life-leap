@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-cosmic: #0a0e1a;
+  --accent-gold: #d4a853;
+  --text-primary: #f5f0e6;
+  --text-muted: #9ca3af;
+}
+
+body {
+  color: var(--text-primary);
+  background: radial-gradient(ellipse at center, #141b2d 0%, var(--bg-cosmic) 70%);
+  min-height: 100vh;
+}

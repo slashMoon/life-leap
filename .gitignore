@@ -1,0 +1,47 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# npm（项目使用 pnpm）
+package-lock.json
+npm-debug.log*
+
+# pnpm
+pnpm-debug.log*
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+.env
+.env*.local
+
+# debug
+yarn-debug.log*
+yarn-error.log*
+
+# prisma
+/prisma/migrations/**/migration_lock.toml
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# ide
+.idea
+.vscode

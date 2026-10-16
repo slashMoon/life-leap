@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  nickname  String
+  avatar    String?
+  createdAt DateTime @default(now())
+
+  roomPlayers RoomPlayer[]
+  gameRecords GameRecord[]
+}
+
+model Room {
+  id        String   @id @default(cuid())
+  name      String
+  password  String?
+  status    String   @default("waiting") // waiting | playing | ended
+  config    Json
+  createdAt DateTime @default(now())
+
+  players     RoomPlayer[]
+  gameRecords GameRecord[]
+}
+
+model RoomPlayer {
+  id     String @id @default(cuid())
+  roomId String
+  userId String
+  order  Int
+  status String @default("ready") // ready | playing | offline
+
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, userId])
+  @@index([roomId])
+}
+
+model Card {
+  id      String  @id @default(cuid())
+  type    String // small | big | market | risk | opportunity | etc.
+  name    String
+  content String  @db.Text
+  effect  Json
+  status  Boolean @default(true)
+}
+
+model GameRecord {
+  id       String @id @default(cuid())
+  roomId   String
+  userId   String
+  circle   String @default("牛马") // 牛马 | 老板 | 核心
+  cashFlow Json
+  asset    Json
+  netWorth Float  @default(0)
+  rank     Int?
+
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assets PlayerAsset[]
+  flows  PlayerCashFlow[]
+  events GameRoundEvent[]
+
+  @@index([roomId])
+}
+
+model PlayerAsset {
+  id            String @id @default(cuid())
+  recordId      String
+  type          String
+  name          String
+  value         Float
+  passiveIncome Float  @default(0)
+
+  record GameRecord @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@index([recordId])
+}
+
+model PlayerCashFlow {
+  id            String @id @default(cuid())
+  recordId      String
+  round         Int
+  laborIncome   Float  @default(0)
+  passiveIncome Float  @default(0)
+  totalExpense  Float  @default(0)
+  cashFlow      Float  @default(0)
+  netWorth      Float  @default(0)
+
+  record GameRecord @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@index([recordId, round])
+}
+
+model GameRoundEvent {
+  id        String  @id @default(cuid())
+  recordId  String
+  round     Int
+  eventType String
+  cardId    String?
+  content   Json
+
+  record GameRecord @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@index([recordId, round])
+}

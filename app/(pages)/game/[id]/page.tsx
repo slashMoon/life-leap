@@ -14,6 +14,8 @@ import { GameWheel } from "@/components/wheel/GameWheel";
 import { getStoredUser } from "@/lib/client/user";
 import { useGame } from "@/hooks/useGame";
 
+const TOKEN_COLORS = ["#d4a853", "#7eb6ff", "#7dcea0", "#f1948a", "#c39bd3", "#f7dc6f"];
+
 export default function GamePage() {
   const params = useParams();
   const router = useRouter();
@@ -21,15 +23,38 @@ export default function GamePage() {
   const { userId, nickname } = getStoredUser();
   const {
     player,
+    snapshot,
     rollDice,
     isRolling,
     connected,
+    synced,
+    isMyTurn,
     circle,
     cashFlow,
     resolveDecision,
     hasPendingDecision,
     repay,
-  } = useGame(roomId, userId);
+    socket,
+  } = useGame(roomId, userId, nickname);
+
+  const boardSeats = (snapshot?.seats ?? []).filter((seat) => seat.role !== "banker");
+  const tokens = boardSeats.map((seat, index) => ({
+    id: seat.userId,
+    label: seat.nickname || seat.state.identityName || seat.userId,
+    track: seat.state.track,
+    index: seat.state.boardIndex,
+    color: TOKEN_COLORS[index % TOKEN_COLORS.length],
+    active: seat.userId === snapshot?.currentUserId,
+    dice:
+      seat.userId === snapshot?.lastActorUserId ? seat.state.lastDice : null,
+  }));
+  const turnSeat = snapshot?.seats.find(
+    (seat) => seat.userId === snapshot.currentUserId
+  );
+  const activeSeat =
+    turnSeat && turnSeat.role !== "banker"
+      ? turnSeat
+      : boardSeats.find((seat) => seat.userId === userId);
 
   useEffect(() => {
     if (!player.identityId) {
@@ -53,8 +78,15 @@ export default function GamePage() {
           <Tag color="gold">第 {player.round} 回合</Tag>
           <Tag>{circle}圈</Tag>
           {player.windFireWheel && <Tag color="orange">风火轮</Tag>}
-          <Tag color={connected ? "success" : "default"}>
-            {connected ? "在线同步" : "本地 Mock"}
+          <Tag color={connected && synced ? "success" : "default"}>
+            {connected && synced ? "服务端对局" : connected ? "同步中" : "未连接"}
+          </Tag>
+          <Tag color={isMyTurn ? "gold" : "default"}>
+            {turnSeat
+              ? isMyTurn
+                ? "轮到你"
+                : `轮到 ${turnSeat.nickname}`
+              : "等待入座"}
           </Tag>
           <Link href={`/room/${roomId}`}>返回房间</Link>
         </Space>
@@ -62,11 +94,18 @@ export default function GamePage() {
 
       {!connected && (
         <Alert
+          type="warning"
+          showIcon
+          className="mb-4"
+          message="掷骰与账本由服务端计算。请同时启动 Socket 服务（pnpm dev:all）后再操作。"
+        />
+      )}
+      {connected && !synced && (
+        <Alert
           type="info"
           showIcon
           className="mb-4"
-          message="当前为本地 Mock 模式，掷骰与结算在浏览器内运行，无需 Socket 服务。"
-          closable
+          message="正在从服务端同步对局状态…"
         />
       )}
 
@@ -74,11 +113,12 @@ export default function GamePage() {
         <Col xs={24} lg={16}>
           <GameWheel
             activePosition={{
-              track: player.track,
-              index: player.boardIndex,
+              track: activeSeat?.state.track ?? player.track,
+              index: activeSeat?.state.boardIndex ?? player.boardIndex,
             }}
             lastDice={player.lastDice}
             playerLabel={nickname}
+            tokens={tokens}
           />
 
           <Space className="mt-4" direction="vertical" size="middle">
@@ -86,7 +126,7 @@ export default function GamePage() {
               value={player.lastDice}
               onRoll={rollDice}
               loading={isRolling}
-              disabled={hasPendingDecision}
+              disabled={!connected || !synced || !isMyTurn || hasPendingDecision}
             />
 
             {hasPendingDecision && (
@@ -134,7 +174,7 @@ export default function GamePage() {
             timePoints={player.timePoints}
             qualityLifePoints={player.qualityLifePoints}
             holdings={player.holdings}
-            onRepay={repay}
+            onRepay={isMyTurn ? repay : undefined}
           />
 
           <CircleProgressPanel player={player} />
@@ -152,7 +192,13 @@ export default function GamePage() {
           </Card>
 
           <div className="mt-4">
-            <ChatPanel roomId={roomId} userId={userId} />
+            <ChatPanel
+              roomId={roomId}
+              userId={userId}
+              nickname={nickname}
+              socket={socket}
+              messages={snapshot?.chat ?? []}
+            />
           </div>
         </Col>
       </Row>

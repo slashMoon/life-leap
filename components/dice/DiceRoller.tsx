@@ -10,7 +10,27 @@ interface DiceRollerProps {
   loading?: boolean;
 }
 
-const FACES = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+const PIPS: Record<number, number[]> = {
+  1: [4],
+  2: [0, 8],
+  3: [0, 4, 8],
+  4: [0, 2, 6, 8],
+  5: [0, 2, 4, 6, 8],
+  6: [0, 2, 3, 5, 6, 8],
+};
+
+function DieFace({ value }: { value: number | null }) {
+  if (value == null) return <span className="ll-die-idle">·</span>;
+  if (value < 1 || value > 6) return <span className="ll-die-num">{value}</span>;
+  const on = new Set(PIPS[value]);
+  return (
+    <span className="ll-pips" aria-hidden>
+      {Array.from({ length: 9 }, (_, index) => (
+        <i key={index} className={on.has(index) ? "on" : ""} />
+      ))}
+    </span>
+  );
+}
 
 export function DiceRoller({
   value,
@@ -27,18 +47,14 @@ export function DiceRoller({
 
   const handleRoll = async () => {
     if (disabled || loading || spinning) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const started = performance.now();
     setSpinning(true);
-    let ticks = 0;
-    const timer = setInterval(() => {
-      setDisplay(Math.floor(Math.random() * 6) + 1);
-      ticks += 1;
-      if (ticks >= 8) clearInterval(timer);
-    }, 80);
-
     try {
       await onRoll();
     } finally {
-      clearInterval(timer);
+      const remain = reduce ? 0 : 680 - (performance.now() - started);
+      if (remain > 0) await new Promise((resolve) => setTimeout(resolve, remain));
       setSpinning(false);
     }
   };
@@ -49,14 +65,10 @@ export function DiceRoller({
         type="button"
         onClick={handleRoll}
         disabled={disabled || loading || spinning}
-        className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-gold/50 bg-[var(--ll-bg-elevated)] text-4xl shadow-lg transition hover:border-gold disabled:opacity-40"
+        className={`ll-die ${spinning ? "is-spinning" : display != null ? "is-settled" : ""}`}
         aria-label="掷骰子"
       >
-        {display != null && display >= 1 && display <= 6
-          ? FACES[display - 1]
-          : display != null
-            ? display
-            : "🎲"}
+        {spinning ? <span className="ll-die-idle">◆</span> : <DieFace value={display} />}
       </button>
       <div>
         <Button
@@ -68,9 +80,9 @@ export function DiceRoller({
         >
           掷骰子
         </Button>
-        {display != null && (
-          <p className="mt-1 text-sm text-gray-400">
-            点数：<span className="text-gold font-semibold">{display}</span>
+        {display != null && !spinning && (
+          <p className="mt-1 text-sm text-[var(--ll-muted)]">
+            点数：<span className="font-semibold text-[var(--ll-gold-bright)]">{display}</span>
           </p>
         )}
       </div>

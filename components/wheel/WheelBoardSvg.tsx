@@ -8,6 +8,7 @@ import {
 } from "@/lib/constants/board";
 import type { BoardTile } from "@/types/game";
 import { TileGlyph } from "./tile-glyphs";
+import { useTokenTravel } from "./use-token-travel";
 import {
   describeArcSegment,
   labelPosition,
@@ -107,12 +108,7 @@ function PlayerMarker({
   const initial = label?.charAt(0) || "我";
   return (
     <g className="player-marker" transform={`translate(${x}, ${y})`}>
-      {active && (
-        <circle r={26} fill="none" stroke={color} strokeWidth={2} opacity={0.85}>
-          <animate attributeName="r" values="18;28;18" dur="1.8s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.85;0.25;0.85" dur="1.8s" repeatCount="indefinite" />
-        </circle>
-      )}
+      {active && <circle className="ll-token-ring" r={22} fill="none" stroke={color} strokeWidth={1.6} />}
       <circle r={16} fill="#0c0a08" stroke={color} strokeWidth={3} />
       <circle r={11} fill={color} />
       <text
@@ -239,6 +235,8 @@ function TrackRing({
   rInner,
   rOuter,
   activeIndex,
+  flashIndex,
+  flashNonce,
   track,
   onTileClick,
   onHover,
@@ -247,6 +245,8 @@ function TrackRing({
   rInner: number;
   rOuter: number;
   activeIndex?: number;
+  flashIndex?: number;
+  flashNonce?: number;
   track: "outer" | "inner";
   onTileClick?: (tile: BoardTile) => void;
   onHover: (tile: BoardTile | null) => void;
@@ -272,18 +272,25 @@ function TrackRing({
             onClick={() => onTileClick?.(tile)}
           >
             <path
+              className={isActive ? "ll-tile is-active" : "ll-tile"}
               d={describeArcSegment(CX, CY, rInner, rOuter, start, end)}
-              fill={isActive ? "rgba(212, 168, 83, 0.28)" : "#05060a"}
-              stroke="var(--ll-gold)"
-              strokeWidth={isActive ? 1.8 : 0.7}
             />
             {isActive && (
               <path
-                d={describeArcSegment(CX, CY, rInner + 3, rOuter - 3, start, end)}
-                fill="none"
+                className="ll-tile-hot"
+                d={describeArcSegment(CX, CY, rInner + 2, rOuter - 2, start, end)}
+                fill="rgba(243, 226, 179, 0.16)"
                 stroke="var(--ll-gold-bright)"
-                strokeWidth={1.4}
-                opacity={0.9}
+                strokeWidth={1.35}
+              />
+            )}
+            {flashIndex === tile.index && (
+              <path
+                key={flashNonce}
+                className="ll-land-flash"
+                d={describeArcSegment(CX, CY, rInner, rOuter, start, end)}
+                fill="rgba(243, 226, 179, 0.55)"
+                stroke="none"
               />
             )}
             <g transform={`translate(${icon.x}, ${icon.y}) rotate(${iconRotate})`}>
@@ -340,6 +347,20 @@ export function WheelBoardSvg({
     );
   }, [activePosition, tokens]);
 
+  const travel = useTokenTravel(tokens, (track, index) => {
+    const isOuter = track === "outer";
+    const total = isOuter ? OUTER_TRACK.length : INNER_TRACK.length;
+    return markerPosition(
+      CX,
+      CY,
+      track,
+      index,
+      total,
+      isOuter ? R.outerInner : R.innerInner,
+      isOuter ? R.outerOuter : R.innerOuter
+    );
+  });
+
   const tokenMarkers = useMemo(() => {
     if (!tokens?.length) return [];
     const counts = new Map<string, number>();
@@ -386,11 +407,12 @@ export function WheelBoardSvg({
             <stop offset="100%" stopColor="#05060a" />
           </radialGradient>
           <linearGradient id="llMetal" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#fff1c9" />
-            <stop offset="28%" stopColor="#f3e2b3" />
-            <stop offset="52%" stopColor="#a67c2e" />
-            <stop offset="74%" stopColor="#f0d78c" />
-            <stop offset="100%" stopColor="#8a6424" />
+            <stop offset="0%" stopColor="#fff8e4" />
+            <stop offset="18%" stopColor="#f3e2b3" />
+            <stop offset="42%" stopColor="#8d6a2e" />
+            <stop offset="58%" stopColor="#fff1c4" />
+            <stop offset="78%" stopColor="#c4923a" />
+            <stop offset="100%" stopColor="#6e5018" />
           </linearGradient>
           <linearGradient id="llDust" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="#f3e2b3" stopOpacity="0" />
@@ -428,13 +450,15 @@ export function WheelBoardSvg({
           opacity="0.7"
         />
 
+        <circle className="ll-bezel-glow" cx={CX} cy={CY} r={R.bezelOuter + 10} fill="none" stroke="rgba(212,168,83,0.28)" strokeWidth={10} />
         <circle
+          className="ll-bezel"
           cx={CX}
           cy={CY}
           r={R.bezelOuter}
           fill="none"
           stroke="url(#llMetal)"
-          strokeWidth={16}
+          strokeWidth={13}
           filter="url(#llGlow)"
         />
         <circle
@@ -451,7 +475,9 @@ export function WheelBoardSvg({
           tiles={OUTER_TRACK}
           rInner={R.outerInner}
           rOuter={R.outerOuter}
-          activeIndex={activeOuter}
+          activeIndex={travel.highlight?.track === "outer" ? travel.highlight.index : activeOuter}
+          flashIndex={travel.landed?.track === "outer" ? travel.landed.index : undefined}
+          flashNonce={travel.landed?.nonce}
           track="outer"
           onTileClick={onTileClick}
           onHover={setHovered}
@@ -471,7 +497,9 @@ export function WheelBoardSvg({
           tiles={INNER_TRACK}
           rInner={R.innerInner}
           rOuter={R.innerOuter}
-          activeIndex={activeInner}
+          activeIndex={travel.highlight?.track === "inner" ? travel.highlight.index : activeInner}
+          flashIndex={travel.landed?.track === "inner" ? travel.landed.index : undefined}
+          flashNonce={travel.landed?.nonce}
           track="inner"
           onTileClick={onTileClick}
           onHover={setHovered}
@@ -542,17 +570,21 @@ export function WheelBoardSvg({
 
         {tokenMarkers.length > 0 ? (
           <g filter="url(#llMarker)">
-            {tokenMarkers.map(({ token, x, y }) => (
-              <PlayerMarker
-                key={token.id}
-                x={x}
-                y={y}
-                label={token.label}
-                dice={token.dice}
-                color={token.color}
-                active={token.active !== false}
-              />
-            ))}
+            {tokenMarkers.map(({ token, x, y }) => {
+              const moving = travel.points[token.id];
+              const onTheWay = Boolean(travel.highlight);
+              return (
+                <PlayerMarker
+                  key={token.id}
+                  x={onTheWay && moving ? moving.x : x}
+                  y={onTheWay && moving ? moving.y : y}
+                  label={token.label}
+                  dice={onTheWay ? null : token.dice}
+                  color={token.color}
+                  active={token.active !== false}
+                />
+              );
+            })}
           </g>
         ) : (
           marker &&

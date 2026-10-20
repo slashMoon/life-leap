@@ -68,7 +68,7 @@ export default function GamePage() {
         <Typography.Title level={4} className="ll-title">
           人生跃迁 · {player.identityName ?? nickname}
         </Typography.Title>
-        <Space>
+        <Space wrap size={[8, 8]}>
           {player.identityName && (
             <Tag color="blue">{player.identityName}</Tag>
           )}

@@ -1,9 +1,10 @@
 "use client";
 
-import { Button, Card, List, Space, Tag, Typography, message } from "antd";
+import { Button, Card, Empty, Skeleton, Space, Tag, Typography, message } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { AppShell } from "@/components/shell/AppShell";
 import { useRoom, type RoomListItem } from "@/hooks/useRoom";
 import type { RoomConfig } from "@/types/game";
 import { MAX_BOARD_PLAYERS } from "@/types/identity";
@@ -20,13 +21,18 @@ export default function LobbyPage() {
   const router = useRouter();
   const { createRoom, listRooms, run, loading, error } = useRoom();
   const [rooms, setRooms] = useState<RoomListItem[]>([]);
+  const [listing, setListing] = useState(true);
+  const [joining, setJoining] = useState<string | null>(null);
 
   const loadRooms = useCallback(async () => {
+    setListing(true);
     try {
       const data = await listRooms();
       setRooms(data);
     } catch (e) {
       message.error(e instanceof Error ? e.message : "加载房间列表失败");
+    } finally {
+      setListing(false);
     }
   }, [listRooms]);
 
@@ -50,31 +56,26 @@ export default function LobbyPage() {
   };
 
   const handleJoin = (roomId: string) => {
+    setJoining(roomId);
     router.push(`/room/${roomId}`);
   };
 
   return (
-    <main className="ll-page ll-page-lg">
-      <Space align="center" className="mb-2">
-        <Typography.Title level={2} className="ll-title">
-          游戏大厅
-        </Typography.Title>
-        <Tag color="gold">Mock 数据模式</Tag>
-      </Space>
-      <Typography.Paragraph type="secondary" className="mb-6">
+    <AppShell
+      step="lobby"
+      title="游戏大厅"
+      kicker="选择一桌"
+      meta={<Tag color="gold">Mock 数据模式</Tag>}
+    >
+      <Typography.Paragraph type="secondary" className="!mb-5">
         当前使用内存模拟数据，无需连接 MySQL。
       </Typography.Paragraph>
 
       <Space className="mb-6" wrap>
-        <Button
-          type="primary"
-          size="large"
-          loading={loading}
-          onClick={handleCreate}
-        >
+        <Button type="primary" size="large" loading={loading} onClick={handleCreate}>
           创建房间
         </Button>
-        <Button size="large" onClick={loadRooms}>
+        <Button size="large" loading={listing} onClick={loadRooms}>
           刷新列表
         </Button>
         <Link href="/login">
@@ -92,49 +93,47 @@ export default function LobbyPage() {
       )}
 
       <Card title="等待中的房间" className="mb-6">
-        <List
-          dataSource={rooms}
-          locale={{ emptyText: "暂无房间，点击「创建房间」开始" }}
-          renderItem={(room) => (
-            <List.Item
-              actions={[
-                <Button
-                  key="join"
-                  type="link"
-                  onClick={() => handleJoin(room.id)}
-                >
-                  加入
-                </Button>,
-              ]}
-            >
-              <List.Item.Meta
-                title={
-                  <Space>
-                    {room.name}
-                    {room.password && <Tag>需密码</Tag>}
-                  </Space>
-                }
-                description={`${room.players?.length ?? 0} 人在线 · ${room.status}`}
-              />
-            </List.Item>
-          )}
-        />
+        {listing && rooms.length === 0 ? (
+          <Skeleton active paragraph={{ rows: 3 }} />
+        ) : rooms.length === 0 ? (
+          <Empty description="还没有房间。创建一个，即可入座。" />
+        ) : (
+          rooms.map((room) => (
+            <div key={room.id} className="ll-row">
+              <div>
+                <Space wrap>
+                  <span>{room.name}</span>
+                  {room.password ? <Tag>需密码</Tag> : null}
+                  <Tag>{room.status === "playing" ? "对局中" : "等待"}</Tag>
+                </Space>
+                <Typography.Text type="secondary" className="mt-1 block text-xs">
+                  {room.players?.length ?? 0} 人在线
+                </Typography.Text>
+              </div>
+              <Button
+                type="primary"
+                ghost
+                loading={joining === room.id}
+                onClick={() => handleJoin(room.id)}
+              >
+                加入
+              </Button>
+            </div>
+          ))
+        )}
       </Card>
 
-      <Card title="快速开始">
-        <List
-          dataSource={[
-            { title: "3–8 人开局", desc: "1 名银行家 + 随机身份" },
-            { title: "圈层跃迁", desc: "牛马圈 → 老板圈 → 核心圈" },
-            { title: "自动结算", desc: "现金流 / 资产 / 复盘一体化" },
-          ]}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta title={item.title} description={item.desc} />
-            </List.Item>
-          )}
-        />
-      </Card>
-    </main>
+      <div className="grid gap-3 sm:grid-cols-3">
+        {[
+          { title: "3–8 人开局", desc: "1 名银行家 + 随机身份" },
+          { title: "圈层跃迁", desc: "牛马圈 → 老板圈 → 核心圈" },
+          { title: "自动结算", desc: "现金流 / 资产 / 复盘一体化" },
+        ].map((item) => (
+          <Card key={item.title} className="ll-lift" size="small" title={item.title}>
+            <Typography.Text type="secondary">{item.desc}</Typography.Text>
+          </Card>
+        ))}
+      </div>
+    </AppShell>
   );
 }

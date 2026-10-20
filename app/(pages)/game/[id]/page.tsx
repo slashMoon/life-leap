@@ -1,9 +1,9 @@
 "use client";
 
-import { Alert, Card, Col, List, Row, Space, Tag, Typography } from "antd";
-import Link from "next/link";
+import { Alert, Card, Col, Empty, List, Row, Space, Tag } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { AppShell } from "@/components/shell/AppShell";
 import { CardDrawer } from "@/components/card/CardDrawer";
 import { DecisionModal } from "@/components/card/DecisionModal";
 import { CashFlowPanel } from "@/components/cash-flow/CashFlowPanel";
@@ -63,34 +63,30 @@ export default function GamePage() {
   }, [player.identityId, roomId, router]);
 
   return (
-    <main className="ll-page ll-page-xl min-h-screen">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <Typography.Title level={4} className="ll-title">
-          人生跃迁 · {player.identityName ?? nickname}
-        </Typography.Title>
-        <Space wrap size={[8, 8]}>
-          {player.identityName && (
-            <Tag color="blue">{player.identityName}</Tag>
-          )}
-          {player.identityTier && (
+    <AppShell
+      step="game"
+      roomId={roomId}
+      title={player.identityName ?? nickname}
+      kicker="对局"
+      width="xl"
+      meta={
+        <>
+          {player.identityName ? <Tag color="blue">{player.identityName}</Tag> : null}
+          {player.identityTier ? (
             <Tag>{player.identityTier === "high" ? "高产" : player.identityTier === "middle" ? "中产" : "低产"}</Tag>
-          )}
+          ) : null}
           <Tag color="gold">第 {player.round} 回合</Tag>
           <Tag>{circle}圈</Tag>
-          {player.windFireWheel && <Tag color="orange">风火轮</Tag>}
+          {player.windFireWheel ? <Tag color="orange">风火轮</Tag> : null}
           <Tag color={connected && synced ? "success" : "default"}>
             {connected && synced ? "服务端对局" : connected ? "同步中" : "未连接"}
           </Tag>
           <Tag color={isMyTurn ? "gold" : "default"}>
-            {turnSeat
-              ? isMyTurn
-                ? "轮到你"
-                : `轮到 ${turnSeat.nickname}`
-              : "等待入座"}
+            {turnSeat ? (isMyTurn ? "轮到你" : `轮到 ${turnSeat.nickname}`) : "等待入座"}
           </Tag>
-          <Link href={`/room/${roomId}`}>返回房间</Link>
-        </Space>
-      </div>
+        </>
+      }
+    >
 
       {!connected && (
         <Alert
@@ -183,8 +179,9 @@ export default function GamePage() {
             <List
               size="small"
               dataSource={player.eventLog}
+              locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="这一局还没有落子" /> }}
               renderItem={(item) => (
-                <List.Item className="py-1 text-xs text-gray-400">
+                <List.Item className="!px-0 py-1 text-xs text-[var(--ll-muted)]">
                   {item}
                 </List.Item>
               )}
@@ -202,6 +199,6 @@ export default function GamePage() {
           </div>
         </Col>
       </Row>
-    </main>
+    </AppShell>
   );
 }

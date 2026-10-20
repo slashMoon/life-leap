@@ -36,10 +36,21 @@ export function DecisionModal({
           <Tag color="gold">{tile.label}</Tag>
         </Space>
       }
-      footer={null}
+      footer={
+        <div className="ll-modal-actions">
+          <Button onClick={onDecline}>{tileType === "market" ? "保留" : "放弃"}</Button>
+          <Button
+            type="primary"
+            onClick={onAccept}
+            disabled={preview.cost > 0 && !preview.canAfford}
+          >
+            {tileType === "market" ? "出售" : "参与"}
+          </Button>
+        </div>
+      }
       closable={false}
       maskClosable={false}
-      width={480}
+      width="min(480px, calc(100vw - 32px))"
     >
       <Typography.Title level={5} style={{ marginTop: 0 }}>
         {cardName}
@@ -113,16 +124,6 @@ export function DecisionModal({
         )}
       </Card>
 
-      <Space className="flex w-full justify-end">
-        <Button onClick={onDecline}>{tileType === "market" ? "保留" : "放弃"}</Button>
-        <Button
-          type="primary"
-          onClick={onAccept}
-          disabled={preview.cost > 0 && !preview.canAfford}
-        >
-          {tileType === "market" ? "出售" : "参与"}
-        </Button>
-      </Space>
     </Modal>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Descriptions, Tag, Typography } from "antd";
+import { Card, Descriptions, Progress, Tag, Typography } from "antd";
 import {
   buildTransitionContext,
   getCircleTransitionProgress,
@@ -43,6 +43,12 @@ export function CircleProgressPanel({ player }: CircleProgressPanelProps) {
         </Tag>
       }
     >
+      <Progress
+        percent={progress.items.length ? Math.round((metCount / progress.items.length) * 100) : 0}
+        showInfo={false}
+        trailColor="rgba(255,255,255,0.08)"
+        className="!mb-3"
+      />
       <Typography.Paragraph type="secondary" className="!mb-3 text-xs">
         {progress.ruleTitle}
       </Typography.Paragraph>
@@ -51,14 +57,14 @@ export function CircleProgressPanel({ player }: CircleProgressPanelProps) {
           <Descriptions.Item
             key={item.label}
             label={
-              <span className={item.met ? "text-green-400" : ""}>
+              <span className={item.met ? "ll-up" : ""}>
                 {item.label}
               </span>
             }
           >
-            <span className={item.met ? "text-green-400" : "text-gray-300"}>
+            <span className={item.met ? "ll-up" : "text-[var(--ll-ink)]"}>
               {item.current}
-              <span className="text-gray-500"> / 目标 {item.required}</span>
+              <span className="text-[var(--ll-muted)]"> / 目标 {item.required}</span>
               {item.met && " ✓"}
             </span>
           </Descriptions.Item>

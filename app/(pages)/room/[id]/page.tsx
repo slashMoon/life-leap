@@ -1,8 +1,9 @@
 "use client";
 
-import { Alert, Button, Card, List, Result, Spin, Tag, message } from "antd";
+import { Alert, Button, Result, Spin, Tag, Tooltip, message } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { AppShell } from "@/components/shell/AppShell";
 import { getStoredUser } from "@/lib/client/user";
 import { useRoom } from "@/hooks/useRoom";
 import { useSocket } from "@/hooks/useSocket";
@@ -39,6 +40,7 @@ export default function RoomPage() {
   } = useRoom();
   const [booting, setBooting] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [pending, setPending] = useState<string | null>(null);
   const { socket, connected: roomLive } = useSocket(roomId);
 
   useEffect(() => {
@@ -110,11 +112,14 @@ export default function RoomPage() {
   const showSoloPractice = mockMode && canSoloPractice(startSnapshot) && isBanker;
 
   const handleReady = async () => {
+    setPending("ready");
     try {
       await setPlayerReady(roomId);
       message.success("已准备");
     } catch (e) {
       message.error(e instanceof Error ? e.message : "准备失败");
+    } finally {
+      setPending(null);
     }
   };
 
@@ -142,40 +147,54 @@ export default function RoomPage() {
   };
 
   const handleStart = async () => {
+    setPending("start");
     try {
       await startGame(roomId);
       message.success("游戏已开始");
       if (isBanker) {
-        router.push(`/room/${roomId}`);
         message.info("银行家请在场协助结算，玩家将自动进入棋盘");
       } else {
         router.push(`/game/${roomId}`);
       }
     } catch (e) {
       message.error(e instanceof Error ? e.message : "开始游戏失败");
+    } finally {
+      setPending(null);
     }
   };
 
   const handleBecomeBanker = async () => {
+    setPending("banker");
     try {
       await setBanker(roomId);
       message.success("你已担任银行家");
     } catch (e) {
       message.error(e instanceof Error ? e.message : "设置失败");
+    } finally {
+      setPending(null);
     }
+  };
+
+  const statusLabel = (value: string) => {
+    if (value === "ready") return "已准备";
+    if (value === "playing") return "对局中";
+    if (value === "waiting") return "等待";
+    return value;
   };
 
   if (booting) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
-        <Spin size="large" tip="正在加入房间…" />
-      </main>
+      <AppShell step="room" roomId={roomId} title="加入房间" kicker="房间" width="md">
+        <div className="ll-stage-wrap">
+          <Spin size="large" tip="正在加入房间…" />
+        </div>
+      </AppShell>
     );
   }
 
   if (loadError || !name) {
     return (
-      <main className="mx-auto max-w-lg p-6">
+      <AppShell step="room" roomId={roomId} title="加入房间失败" kicker="房间" width="md">
         <Result
           status="error"
           title="加入房间失败"
@@ -186,25 +205,24 @@ export default function RoomPage() {
             </Button>,
           ]}
         />
-      </main>
+      </AppShell>
     );
   }
 
   return (
-    <main className="ll-page ll-page-md">
-      <Card
-        title={`房间：${name}`}
-        extra={
-          <span className="flex items-center gap-2">
-            <Tag color={roomLive ? "success" : "default"}>
-              {roomLive ? "实时" : "未连接"}
-            </Tag>
-            <Tag color={status === "playing" ? "processing" : "default"}>
-              {status}
-            </Tag>
-          </span>
-        }
-      >
+    <AppShell
+      step="room"
+      roomId={roomId}
+      title={name}
+      kicker="房间"
+      width="md"
+      meta={
+        <>
+          <Tag color={roomLive ? "success" : "default"}>{roomLive ? "实时" : "未连接"}</Tag>
+          <Tag color={status === "playing" ? "processing" : "default"}>{statusLabel(status)}</Tag>
+        </>
+      }
+    >
         <Alert
           type="info"
           showIcon
@@ -231,32 +249,35 @@ export default function RoomPage() {
           />
         )}
 
-        <List
-          header={`成员（${players.length}/${MAX_ROOM_OCCUPANTS} · 玩家 ${boardPlayers.length}/${minBoardPlayers}–${MAX_BOARD_PLAYERS}）`}
-          dataSource={players}
-          locale={{ emptyText: "等待玩家加入…" }}
-          renderItem={(p) => (
-            <List.Item>
-              <div className="flex flex-wrap items-center gap-2">
-                <span>{p.nickname ?? p.userId}</span>
-                {(p.userId === userId || p.nickname === nickname) && (
-                  <Tag color="gold">我</Tag>
-                )}
-                {p.role === "banker" || p.userId === bankerUserId ? (
-                  <Tag color="purple">银行家</Tag>
-                ) : null}
-                {p.identityName ? (
-                  <Tag color="blue">{p.identityName}</Tag>
-                ) : p.role !== "banker" ? (
-                  <Tag>未选身份</Tag>
-                ) : null}
-                <span className="text-gray-500">· {p.status}</span>
+        <p className="mb-3 text-sm text-[var(--ll-muted)]">
+          成员 {players.length}/{MAX_ROOM_OCCUPANTS} · 玩家 {boardPlayers.length}/{minBoardPlayers}–{MAX_BOARD_PLAYERS}
+        </p>
+        {players.length === 0 ? (
+          <p className="ll-hint">等待玩家加入…</p>
+        ) : (
+          players.map((p) => {
+            const mine = p.userId === userId || p.nickname === nickname;
+            return (
+              <div key={p.userId} className={mine ? "ll-row is-me" : "ll-row"}>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span>{p.nickname ?? p.userId}</span>
+                  {mine ? <Tag color="gold">我</Tag> : null}
+                  {p.role === "banker" || p.userId === bankerUserId ? (
+                    <Tag color="purple">银行家</Tag>
+                  ) : null}
+                  {p.identityName ? (
+                    <Tag color="blue">{p.identityName}</Tag>
+                  ) : p.role !== "banker" ? (
+                    <Tag>未选身份</Tag>
+                  ) : null}
+                </div>
+                <Tag color={p.status === "ready" ? "success" : "default"}>{statusLabel(p.status)}</Tag>
               </div>
-            </List.Item>
-          )}
-        />
+            );
+          })
+        )}
 
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="ll-dock">
           {showSoloPractice && (
             <Button type="primary" onClick={handleSoloPractice} loading={loading}>
               单人试玩
@@ -279,7 +300,7 @@ export default function RoomPage() {
           )}
 
           {!isBanker && (
-            <Button type="primary" ghost onClick={handleReady}>
+            <Button type="primary" ghost onClick={handleReady} loading={pending === "ready"}>
               准备
             </Button>
           )}
@@ -307,30 +328,33 @@ export default function RoomPage() {
             </Tag>
           )}
 
-          <Button onClick={handleBecomeBanker} disabled={isBanker}>
+          <Button onClick={handleBecomeBanker} disabled={isBanker} loading={pending === "banker"}>
             担任银行家
           </Button>
 
-          <Button
-            type="primary"
-            ghost
-            onClick={handleStart}
-            disabled={!canStart}
-          >
-            开始游戏
-          </Button>
+          <Tooltip title={!canStart ? startBlockers.join("；") : "开始这一局"}>
+            <span>
+              <Button
+                type="primary"
+                onClick={handleStart}
+                disabled={!canStart}
+                loading={pending === "start"}
+              >
+                开始游戏
+              </Button>
+            </span>
+          </Tooltip>
 
           <Button onClick={() => router.push("/lobby")}>返回大厅</Button>
         </div>
 
         {!canStart && startBlockers.length > 0 && (
-          <ul className="mt-4 list-inside list-disc text-sm text-gray-500">
+          <ul className="ll-hint">
             {startBlockers.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
         )}
-      </Card>
-    </main>
+    </AppShell>
   );
 }

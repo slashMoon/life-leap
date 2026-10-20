@@ -1,14 +1,19 @@
 "use client";
 
-import { ConfigProvider, theme } from "antd";
+import { App as AntdApp, ConfigProvider, message, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { themeVars } from "@/lib/theme/tokens";
 
 export function AppTheme({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    message.config({ top: 72, duration: 2.4, maxCount: 3 });
+  }, []);
+
   return (
     <ConfigProvider
       locale={zhCN}
+      button={{ autoInsertSpace: false }}
       theme={{
         algorithm: theme.darkAlgorithm,
         token: {
@@ -54,7 +59,7 @@ export function AppTheme({ children }: { children: ReactNode }) {
         },
       }}
     >
-      {children}
+      <AntdApp>{children}</AntdApp>
     </ConfigProvider>
   );
 }

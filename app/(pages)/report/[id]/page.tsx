@@ -25,8 +25,8 @@ export default function ReportPage() {
   const roomId = params.id as string;
 
   return (
-    <main className="mx-auto max-w-4xl p-6">
-      <Typography.Title level={2} style={{ color: "#d4a853" }}>
+    <main className="ll-page ll-page-lg">
+      <Typography.Title level={2} className="ll-title">
         游戏复盘
       </Typography.Title>
       <Typography.Paragraph type="secondary">
@@ -35,14 +35,14 @@ export default function ReportPage() {
       <Card title="净资产变化曲线">
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={mockData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-            <XAxis dataKey="round" stroke="#9ca3af" />
-            <YAxis stroke="#9ca3af" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--ll-line)" />
+            <XAxis dataKey="round" stroke="var(--ll-muted)" />
+            <YAxis stroke="var(--ll-muted)" />
             <Tooltip />
             <Line
               type="monotone"
               dataKey="netWorth"
-              stroke="#d4a853"
+              stroke="var(--ll-gold)"
               name="净资产(万)"
             />
           </LineChart>

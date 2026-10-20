@@ -14,12 +14,8 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <Card
-        title="人生跃迁 · 登录"
-        className="w-full max-w-md"
-        styles={{ body: { background: "#141b2d" } }}
-      >
+    <main className="ll-page flex min-h-screen items-center justify-center">
+      <Card title="人生跃迁 · 登录" className="w-full max-w-md">
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item
             label="昵称"

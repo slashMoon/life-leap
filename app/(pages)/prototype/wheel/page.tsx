@@ -23,7 +23,7 @@ export default function WheelPrototypePage() {
     <main className="min-h-screen px-4 py-6 sm:px-8">
       <div className="mx-auto max-w-6xl">
         <Space align="center" className="mb-2">
-          <Typography.Title level={2} style={{ color: "#d4a853", margin: 0 }}>
+          <Typography.Title level={2} className="ll-title">
             人生跃迁 · 轮盘原型
           </Typography.Title>
           <Tag color="gold">Prototype v1</Tag>
@@ -35,11 +35,7 @@ export default function WheelPrototypePage() {
 
         <Row gutter={[24, 24]}>
           <Col xs={24} lg={16}>
-            <Card
-              styles={{ body: { background: "#0a0e1a", padding: 12 } }}
-              bordered={false}
-              className="border border-gold/20"
-            >
+            <Card className="border border-gold/20">
               <WheelBoardSvg
                 activePosition={active}
                 onTileClick={handleTileClick}

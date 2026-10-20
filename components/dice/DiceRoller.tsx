@@ -49,7 +49,7 @@ export function DiceRoller({
         type="button"
         onClick={handleRoll}
         disabled={disabled || loading || spinning}
-        className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-gold/50 bg-[#141b2d] text-4xl shadow-lg transition hover:border-gold hover:shadow-gold/20 disabled:opacity-40"
+        className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-gold/50 bg-[var(--ll-bg-elevated)] text-4xl shadow-lg transition hover:border-gold disabled:opacity-40"
         aria-label="掷骰子"
       >
         {display != null && display >= 1 && display <= 6

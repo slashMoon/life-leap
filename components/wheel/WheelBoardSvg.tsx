@@ -7,9 +7,9 @@ import {
   OUTER_TRACK,
 } from "@/lib/constants/board";
 import type { BoardTile } from "@/types/game";
+import { TileGlyph } from "./tile-glyphs";
 import {
   describeArcSegment,
-  getTileStyle,
   labelPosition,
   markerPosition,
   segmentAngles,
@@ -21,16 +21,35 @@ const CX = SIZE / 2;
 const CY = SIZE / 2;
 
 const R = {
-  outerOuter: 390,
-  outerInner: 300,
-  innerOuter: 290,
-  innerInner: 200,
-  hub: 185,
-  labelOuter: 345,
-  labelInner: 245,
-  iconOuter: 365,
-  iconInner: 265,
+  bezelOuter: 352,
+  bezelInner: 336,
+  outerOuter: 330,
+  outerInner: 232,
+  seamOuter: 228,
+  seamInner: 214,
+  innerOuter: 210,
+  innerInner: 132,
+  dimOuter: 126,
+  dimInner: 90,
 };
+
+function createStars(count: number) {
+  let seed = 20261020;
+  const next = () => {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 4294967296;
+  };
+  return Array.from({ length: count }, (_, index) => ({
+    id: index,
+    x: Math.round(next() * SIZE * 10) / 10,
+    y: Math.round(next() * SIZE * 10) / 10,
+    r: next() > 0.86 ? 1.35 : 0.7,
+    gold: next() > 0.8,
+    opacity: Math.round((0.35 + next() * 0.6) * 100) / 100,
+  }));
+}
+
+const STARS = createStars(96);
 
 export interface WheelToken {
   id: string;
@@ -75,7 +94,7 @@ function PlayerMarker({
   y,
   label,
   dice,
-  color = "#d4a853",
+  color = "var(--ll-gold)",
   active = true,
 }: {
   x: number;
@@ -89,64 +108,128 @@ function PlayerMarker({
   return (
     <g className="player-marker" transform={`translate(${x}, ${y})`}>
       {active && (
-        <circle r={28} fill="none" stroke={color} strokeWidth={2} opacity={0.6}>
-          <animate
-            attributeName="r"
-            values="22;32;22"
-            dur="1.8s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="opacity"
-            values="0.7;0.2;0.7"
-            dur="1.8s"
-            repeatCount="indefinite"
-          />
+        <circle r={26} fill="none" stroke={color} strokeWidth={2} opacity={0.85}>
+          <animate attributeName="r" values="18;28;18" dur="1.8s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.85;0.25;0.85" dur="1.8s" repeatCount="indefinite" />
         </circle>
       )}
-      <circle r={22} fill={color} opacity={0.25} />
-      <circle r={18} fill="#1a1408" stroke={color} strokeWidth={3} />
-      <circle r={14} fill={color} />
+      <circle r={16} fill="#0c0a08" stroke={color} strokeWidth={3} />
+      <circle r={11} fill={color} />
       <text
         textAnchor="middle"
         dominantBaseline="middle"
         fill="#1a1408"
-        fontSize={14}
+        fontSize={13}
         fontWeight={700}
       >
         {initial}
       </text>
       {dice != null && (
-        <g transform="translate(14, -18)">
-          <rect
-            x={-14}
-            y={-12}
-            width={28}
-            height={22}
-            rx={6}
-            fill="#f0d78c"
-            stroke="#1a1408"
-            strokeWidth={1.5}
-          />
+        <g transform="translate(14, -16)">
+          <rect x={-13} y={-11} width={26} height={20} rx={6} fill="var(--ll-gold-bright)" />
           <text
             textAnchor="middle"
             dominantBaseline="middle"
             y={1}
             fill="#1a1408"
-            fontSize={13}
+            fontSize={12}
             fontWeight={800}
           >
             {dice}
           </text>
         </g>
       )}
-      {/* 底部指针 */}
-      <polygon
-        points="0,20 -6,32 6,32"
-        fill="#f0d78c"
-        stroke="#1a1408"
-        strokeWidth={1}
+    </g>
+  );
+}
+
+function RadialLabel({
+  text,
+  mid,
+  inner,
+  outer,
+  active,
+  size,
+}: {
+  text: string;
+  mid: number;
+  inner: number;
+  outer: number;
+  active: boolean;
+  size: number;
+}) {
+  const chars = Array.from(text);
+  const rotate = (mid * 180) / Math.PI - 90;
+  return (
+    <g>
+      {chars.map((char, index) => {
+        const t = chars.length === 1 ? 0.5 : index / (chars.length - 1);
+        const pos = labelPosition(CX, CY, inner + (outer - inner) * t, mid);
+        return (
+          <text
+            key={`${char}-${index}`}
+            x={pos.x}
+            y={pos.y}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill={active ? "var(--ll-gold-bright)" : "var(--ll-ink)"}
+            fontSize={size}
+            fontWeight={active ? 700 : 500}
+            transform={`rotate(${rotate}, ${pos.x}, ${pos.y})`}
+          >
+            {char}
+          </text>
+        );
+      })}
+    </g>
+  );
+}
+
+function StartArrow({
+  radius,
+  from,
+  to,
+  labelRadius,
+}: {
+  radius: number;
+  from: number;
+  to: number;
+  labelRadius: number;
+}) {
+  const start = labelPosition(CX, CY, radius, from);
+  const end = labelPosition(CX, CY, radius, to);
+  const mid = (from + to) / 2;
+  const label = labelPosition(CX, CY, labelRadius, mid);
+  const head = labelPosition(CX, CY, radius, to);
+  const tangent = to + Math.PI / 2;
+  const hx = Math.cos(tangent);
+  const hy = Math.sin(tangent);
+  const px = -hy;
+  const py = hx;
+  return (
+    <g fill="none" stroke="var(--ll-gold-bright)" strokeWidth={1.6}>
+      <path
+        d={`M ${start.x} ${start.y} A ${radius} ${radius} 0 0 1 ${end.x} ${end.y}`}
       />
+      <path
+        d={`M ${head.x + hx * 7} ${head.y + hy * 7} L ${head.x - hx * 2 + px * 4} ${head.y - hy * 2 + py * 4} L ${head.x - hx * 2 - px * 4} ${head.y - hy * 2 - py * 4} Z`}
+        fill="var(--ll-gold-bright)"
+        stroke="none"
+      />
+      <text
+        x={label.x}
+        y={label.y}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill="var(--ll-gold-bright)"
+        fontSize={9}
+        fontWeight={700}
+        stroke="#1a1408"
+        strokeWidth={0.6}
+        paintOrder="stroke"
+      >
+        START
+      </text>
     </g>
   );
 }
@@ -155,8 +238,6 @@ function TrackRing({
   tiles,
   rInner,
   rOuter,
-  labelR,
-  iconR,
   activeIndex,
   track,
   onTileClick,
@@ -165,22 +246,22 @@ function TrackRing({
   tiles: BoardTile[];
   rInner: number;
   rOuter: number;
-  labelR: number;
-  iconR: number;
   activeIndex?: number;
   track: "outer" | "inner";
   onTileClick?: (tile: BoardTile) => void;
   onHover: (tile: BoardTile | null) => void;
 }) {
+  const labelInner = rInner + (track === "outer" ? 16 : 14);
+  const labelOuter = rOuter - (track === "outer" ? 30 : 26);
+  const iconPad = track === "outer" ? 16 : 14;
+
   return (
     <g>
       {tiles.map((tile) => {
         const { start, end, mid } = segmentAngles(tile.index, tiles.length);
-        const style = getTileStyle(tile.type);
         const isActive = activeIndex === tile.index;
-        const label = labelPosition(CX, CY, labelR, mid);
-        const icon = labelPosition(CX, CY, iconR, mid);
-        const rotate = (mid * 180) / Math.PI + 90;
+        const icon = labelPosition(CX, CY, rOuter - iconPad, mid);
+        const iconRotate = (mid * 180) / Math.PI + 90;
 
         return (
           <g
@@ -192,78 +273,30 @@ function TrackRing({
           >
             <path
               d={describeArcSegment(CX, CY, rInner, rOuter, start, end)}
-              fill={isActive ? "#3d4a28" : style.fill}
-              stroke={isActive ? "#f0d78c" : style.stroke}
-              strokeWidth={isActive ? 3.5 : 1}
-              opacity={isActive ? 1 : activeIndex !== undefined ? 0.55 : 0.92}
+              fill={isActive ? "rgba(212, 168, 83, 0.28)" : "#05060a"}
+              stroke="var(--ll-gold)"
+              strokeWidth={isActive ? 1.8 : 0.7}
             />
             {isActive && (
               <path
-                d={describeArcSegment(CX, CY, rInner - 2, rOuter + 2, start, end)}
+                d={describeArcSegment(CX, CY, rInner + 3, rOuter - 3, start, end)}
                 fill="none"
-                stroke="#f0d78c"
-                strokeWidth={2}
-                opacity={0.5}
-                strokeDasharray="6 4"
-              >
-                <animate
-                  attributeName="stroke-dashoffset"
-                  from="0"
-                  to="20"
-                  dur="1s"
-                  repeatCount="indefinite"
-                />
-              </path>
+                stroke="var(--ll-gold-bright)"
+                strokeWidth={1.4}
+                opacity={0.9}
+              />
             )}
-            <text
-              x={icon.x}
-              y={icon.y}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fontSize={track === "outer" ? 14 : 13}
-              opacity={isActive ? 1 : activeIndex !== undefined ? 0.6 : 1}
-            >
-              {style.icon}
-            </text>
-            <text
-              x={label.x}
-              y={label.y}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fill={isActive ? "#f0d78c" : "#f5f0e6"}
-              fontSize={track === "outer" ? 9.5 : 10}
-              fontWeight={isActive ? 700 : 500}
-              transform={`rotate(${rotate}, ${label.x}, ${label.y})`}
-              opacity={isActive ? 1 : activeIndex !== undefined ? 0.65 : 1}
-            >
-              {tile.label}
-            </text>
-            {isActive && (
-              <text
-                x={label.x}
-                y={label.y + (track === "outer" ? 14 : 12)}
-                textAnchor="middle"
-                fill="#f0d78c"
-                fontSize={7}
-                fontWeight={700}
-                transform={`rotate(${rotate}, ${label.x}, ${label.y + (track === "outer" ? 14 : 12)})`}
-              >
-                ▼ 当前位置
-              </text>
-            )}
-            {tile.isStart && !isActive && (
-              <g transform={`translate(${label.x}, ${label.y + 18})`}>
-                <text
-                  textAnchor="middle"
-                  fill="#d4a853"
-                  fontSize={8}
-                  fontWeight={700}
-                  transform={`rotate(${rotate}, 0, 0)`}
-                >
-                  START ▶
-                </text>
-              </g>
-            )}
+            <g transform={`translate(${icon.x}, ${icon.y}) rotate(${iconRotate})`}>
+              <TileGlyph type={tile.type} />
+            </g>
+            <RadialLabel
+              text={tile.label}
+              mid={mid}
+              inner={labelInner}
+              outer={labelOuter}
+              active={isActive}
+              size={track === "outer" ? 12 : 11}
+            />
           </g>
         );
       })}
@@ -288,9 +321,8 @@ export function WheelBoardSvg({
 
   const activeTile = useMemo(() => {
     if (!activePosition) return null;
-    const tiles =
-      activePosition.track === "outer" ? OUTER_TRACK : INNER_TRACK;
-    return tiles.find((t) => t.index === activePosition.index) ?? null;
+    const tiles = activePosition.track === "outer" ? OUTER_TRACK : INNER_TRACK;
+    return tiles.find((tile) => tile.index === activePosition.index) ?? null;
   }, [activePosition]);
 
   const marker = useMemo(() => {
@@ -331,62 +363,87 @@ export function WheelBoardSvg({
         isOuter ? R.outerInner : R.innerInner,
         isOuter ? R.outerOuter : R.innerOuter
       );
-      const pos = offsetMarker(
-        base.x,
-        base.y,
-        CX,
-        CY,
-        slot,
-        counts.get(key) ?? 1
-      );
+      const pos = offsetMarker(base.x, base.y, CX, CY, slot, counts.get(key) ?? 1);
       return { token, ...pos };
     });
   }, [tokens]);
 
-  const defs = useMemo(
-    () => (
-      <defs>
-        <radialGradient id="wheelBg" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#141b2d" />
-          <stop offset="100%" stopColor="#0a0e1a" />
-        </radialGradient>
-        <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#2a2218" />
-          <stop offset="100%" stopColor="#0a0e1a" />
-        </radialGradient>
-        <filter id="goldGlow">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <filter id="markerShadow" x="-50%" y="-50%" width="200%" height="200%">
-          <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.5" />
-        </filter>
-      </defs>
-    ),
-    []
-  );
+  const outerStart = segmentAngles(0, OUTER_TRACK.length);
+  const innerStart = segmentAngles(0, INNER_TRACK.length);
 
   return (
     <div className={`relative ${className}`}>
       <svg
         viewBox={`0 0 ${SIZE} ${SIZE}`}
-        className="mx-auto w-full max-w-[min(92vw,720px)] drop-shadow-2xl"
+        className="mx-auto aspect-square w-full max-w-[min(92vw,760px)]"
         role="img"
         aria-label="人生跃迁游戏轮盘"
       >
-        {defs}
+        <defs>
+          <radialGradient id="llHub" cx="50%" cy="42%" r="60%">
+            <stop offset="0%" stopColor="#3a2c16" />
+            <stop offset="55%" stopColor="#120e0a" />
+            <stop offset="100%" stopColor="#05060a" />
+          </radialGradient>
+          <linearGradient id="llMetal" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#fff1c9" />
+            <stop offset="28%" stopColor="#f3e2b3" />
+            <stop offset="52%" stopColor="#a67c2e" />
+            <stop offset="74%" stopColor="#f0d78c" />
+            <stop offset="100%" stopColor="#8a6424" />
+          </linearGradient>
+          <linearGradient id="llDust" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#f3e2b3" stopOpacity="0" />
+            <stop offset="40%" stopColor="#f3e2b3" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#d4a853" stopOpacity="0" />
+          </linearGradient>
+          <filter id="llGlow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="2.4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <filter id="llMarker" x="-60%" y="-60%" width="220%" height="220%">
+            <feDropShadow dx="0" dy="1" stdDeviation="1.6" floodColor="#000" floodOpacity="0.65" />
+          </filter>
+        </defs>
 
-        <circle cx={CX} cy={CY} r={R.outerOuter + 8} fill="url(#wheelBg)" />
+        <rect width={SIZE} height={SIZE} fill="#05060a" />
+        {STARS.map((star) => (
+          <circle
+            key={star.id}
+            cx={star.x}
+            cy={star.y}
+            r={star.r}
+            fill={star.gold ? "var(--ll-gold-bright)" : "#fff"}
+            opacity={star.opacity}
+          />
+        ))}
+        <path
+          d="M 80 560 C 220 420, 420 300, 700 180"
+          fill="none"
+          stroke="url(#llDust)"
+          strokeWidth="22"
+          opacity="0.7"
+        />
+
         <circle
           cx={CX}
           cy={CY}
-          r={R.outerOuter + 8}
+          r={R.bezelOuter}
           fill="none"
-          stroke="#d4a853"
-          strokeWidth={2}
+          stroke="url(#llMetal)"
+          strokeWidth={16}
+          filter="url(#llGlow)"
+        />
+        <circle
+          cx={CX}
+          cy={CY}
+          r={(R.bezelOuter + R.bezelInner) / 2}
+          fill="none"
+          stroke="#fff6d8"
+          strokeWidth={1}
           opacity={0.35}
         />
 
@@ -394,8 +451,6 @@ export function WheelBoardSvg({
           tiles={OUTER_TRACK}
           rInner={R.outerInner}
           rOuter={R.outerOuter}
-          labelR={R.labelOuter}
-          iconR={R.iconOuter}
           activeIndex={activeOuter}
           track="outer"
           onTileClick={onTileClick}
@@ -405,63 +460,88 @@ export function WheelBoardSvg({
         <circle
           cx={CX}
           cy={CY}
-          r={R.innerOuter + 4}
+          r={(R.seamOuter + R.seamInner) / 2}
           fill="none"
-          stroke="#d4a853"
-          strokeWidth={1.5}
-          opacity={0.5}
+          stroke="url(#llMetal)"
+          strokeWidth={R.seamOuter - R.seamInner}
+          filter="url(#llGlow)"
         />
 
         <TrackRing
           tiles={INNER_TRACK}
           rInner={R.innerInner}
           rOuter={R.innerOuter}
-          labelR={R.labelInner}
-          iconR={R.iconInner}
           activeIndex={activeInner}
           track="inner"
           onTileClick={onTileClick}
           onHover={setHovered}
         />
 
-        <circle cx={CX} cy={CY} r={R.hub} fill="url(#hubGlow)" stroke="#d4a853" strokeWidth={2} />
-        {LIFE_DIMENSIONS.map((dim, i) => {
-          const angle = segmentAngles(i, LIFE_DIMENSIONS.length).mid;
-          const pos = labelPosition(CX, CY, 120, angle);
-          const rotate = (angle * 180) / Math.PI + 90;
+        <StartArrow
+          radius={R.bezelOuter + 16}
+          labelRadius={R.bezelOuter + 30}
+          from={outerStart.start + 0.05}
+          to={outerStart.end - 0.02}
+        />
+        <StartArrow
+          radius={(R.seamOuter + R.seamInner) / 2}
+          labelRadius={(R.seamOuter + R.seamInner) / 2}
+          from={innerStart.start + 0.12}
+          to={innerStart.end - 0.08}
+        />
+
+        <circle cx={CX} cy={CY} r={R.dimOuter} fill="none" stroke="url(#llMetal)" strokeWidth={2.2} />
+        <circle cx={CX} cy={CY} r={R.dimInner} fill="url(#llHub)" stroke="url(#llMetal)" strokeWidth={1.4} />
+        {LIFE_DIMENSIONS.map((dimension, index) => {
+          const angle = segmentAngles(index, LIFE_DIMENSIONS.length).mid;
+          const pos = labelPosition(CX, CY, (R.dimOuter + R.dimInner) / 2, angle);
+          let rotate = (angle * 180) / Math.PI + 90;
+          const normalized = ((rotate % 360) + 360) % 360;
+          if (normalized > 90 && normalized < 270) rotate += 180;
           return (
             <text
-              key={dim}
+              key={dimension}
               x={pos.x}
               y={pos.y}
               textAnchor="middle"
               dominantBaseline="middle"
-              fill="#d4a853"
+              fill="var(--ll-gold-bright)"
               fontSize={11}
               fontWeight={600}
               transform={`rotate(${rotate}, ${pos.x}, ${pos.y})`}
             >
-              {dim}
+              {dimension}
             </text>
           );
         })}
 
         <text
-          x={CX}
-          y={CY}
+          x={CX + 2}
+          y={CY + 8}
           textAnchor="middle"
           dominantBaseline="middle"
-          fill="#f0d78c"
-          fontSize={42}
-          fontWeight={300}
-          filter="url(#goldGlow)"
+          fill="#6b501c"
+          fontSize={78}
+          fontFamily="Palatino, 'Times New Roman', serif"
+          opacity={0.85}
+        >
+          ∞
+        </text>
+        <text
+          x={CX}
+          y={CY + 4}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fill="url(#llMetal)"
+          fontSize={78}
+          fontFamily="Palatino, 'Times New Roman', serif"
+          filter="url(#llGlow)"
         >
           ∞
         </text>
 
-        {/* 玩家棋子 — 渲染在最上层 */}
         {tokenMarkers.length > 0 ? (
-          <g filter="url(#markerShadow)">
+          <g filter="url(#llMarker)">
             {tokenMarkers.map(({ token, x, y }) => (
               <PlayerMarker
                 key={token.id}
@@ -477,19 +557,14 @@ export function WheelBoardSvg({
         ) : (
           marker &&
           activeTile && (
-            <g filter="url(#markerShadow)">
-              <PlayerMarker
-                x={marker.x}
-                y={marker.y}
-                label={playerLabel}
-                dice={lastDice}
-              />
+            <g filter="url(#llMarker)">
+              <PlayerMarker x={marker.x} y={marker.y} label={playerLabel} dice={lastDice} />
             </g>
           )
         )}
       </svg>
 
-      <div className="pointer-events-none absolute bottom-2 left-1/2 w-[92%] max-w-md -translate-x-1/2 rounded-lg border border-gold/30 bg-[#141b2dcc] px-4 py-2 text-center backdrop-blur-sm">
+      <div className="ll-wheel-caption">
         {hovered ? (
           <>
             <p className="text-sm text-gold">
@@ -504,17 +579,13 @@ export function WheelBoardSvg({
               当前位置 · {activePosition.track === "outer" ? "外圈" : "内圈"} 第{" "}
               {activePosition.index + 1} 格
               {lastDice != null && (
-                <span className="ml-2 rounded bg-gold/20 px-2 py-0.5">
-                  骰子 {lastDice} 点
-                </span>
+                <span className="ml-2 rounded bg-gold/20 px-2 py-0.5">骰子 {lastDice} 点</span>
               )}
             </p>
-            <p className="text-base font-medium text-[#f0d78c]">
-              {activeTile.label}
-            </p>
+            <p className="text-base font-medium text-gold-light">{activeTile.label}</p>
           </>
         ) : (
-          <p className="text-xs text-gray-400">掷骰子后棋子会移动到对应格子</p>
+          <p className="text-xs text-[var(--ll-muted)]">掷骰子后棋子会移动到对应格子</p>
         )}
       </div>
     </div>

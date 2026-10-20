@@ -16,7 +16,7 @@ export function GameWheel({
   tokens,
 }: GameWheelProps) {
   return (
-    <div className="overflow-hidden rounded-xl border border-gold/20 bg-[#0a0e1a] p-2 sm:p-4">
+    <div className="ll-wheel-frame">
       <WheelBoardSvg
         activePosition={activePosition ?? { track: "outer", index: 0 }}
         lastDice={lastDice}

@@ -191,7 +191,7 @@ export default function RoomPage() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl p-6">
+    <main className="ll-page ll-page-md">
       <Card
         title={`房间：${name}`}
         extra={

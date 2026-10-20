@@ -47,7 +47,7 @@ export function CashFlowPanel({
         value={data.cashFlow}
         precision={0}
         valueStyle={{
-          color: data.cashFlow >= 0 ? "#52c41a" : "#ff4d4f",
+          color: data.cashFlow >= 0 ? "var(--ll-success)" : "var(--ll-danger)",
         }}
       />
       <Descriptions column={1} size="small" className="mt-4">

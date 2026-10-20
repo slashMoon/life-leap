@@ -3,14 +3,118 @@
 @tailwind utilities;
 
 :root {
-  --bg-cosmic: #0a0e1a;
-  --accent-gold: #d4a853;
-  --text-primary: #f5f0e6;
-  --text-muted: #9ca3af;
+  --ll-bg: #07080c;
+  --ll-bg-elevated: #16130f;
+  --ll-gold: #d4a853;
+  --ll-gold-bright: #f3e2b3;
+  --ll-ink: #f6f1e6;
+  --ll-muted: #cbbfaa;
+  --ll-success: #3ddc84;
+  --ll-danger: #e85d4c;
+  --ll-line: rgba(212, 168, 83, 0.4);
+  --bg-cosmic: var(--ll-bg);
+  --accent-gold: var(--ll-gold);
+  --text-primary: var(--ll-ink);
+  --text-muted: var(--ll-muted);
 }
 
 body {
-  color: var(--text-primary);
-  background: radial-gradient(ellipse at center, #141b2d 0%, var(--bg-cosmic) 70%);
+  color: var(--ll-ink);
+  background-color: var(--ll-bg);
+  background-image:
+    radial-gradient(1.2px 1.2px at 7% 12%, rgba(255, 255, 255, 0.85) 50%, transparent 52%),
+    radial-gradient(1px 1px at 18% 38%, rgba(255, 255, 255, 0.55) 50%, transparent 52%),
+    radial-gradient(1.4px 1.4px at 28% 78%, rgba(243, 226, 179, 0.9) 50%, transparent 52%),
+    radial-gradient(1px 1px at 42% 22%, rgba(255, 255, 255, 0.45) 50%, transparent 52%),
+    radial-gradient(1px 1px at 56% 64%, rgba(255, 255, 255, 0.6) 50%, transparent 52%),
+    radial-gradient(1.6px 1.6px at 63% 18%, rgba(243, 226, 179, 0.75) 50%, transparent 52%),
+    radial-gradient(1px 1px at 74% 46%, rgba(255, 255, 255, 0.5) 50%, transparent 52%),
+    radial-gradient(1.2px 1.2px at 86% 28%, rgba(255, 255, 255, 0.7) 50%, transparent 52%),
+    radial-gradient(1px 1px at 92% 72%, rgba(243, 226, 179, 0.65) 50%, transparent 52%),
+    radial-gradient(1px 1px at 12% 88%, rgba(255, 255, 255, 0.4) 50%, transparent 52%),
+    radial-gradient(ellipse 55% 18% at 78% 8%, rgba(212, 168, 83, 0.2), transparent 70%),
+    radial-gradient(ellipse 40% 14% at 12% 90%, rgba(212, 168, 83, 0.14), transparent 72%),
+    radial-gradient(ellipse at center, #14110d 0%, var(--ll-bg) 72%);
+  background-attachment: fixed;
   min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: -10% -20%;
+  background:
+    radial-gradient(ellipse 28% 6% at 30% 40%, rgba(243, 226, 179, 0.16), transparent 70%),
+    radial-gradient(ellipse 36% 8% at 70% 62%, rgba(212, 168, 83, 0.12), transparent 72%);
+  transform: rotate(-18deg);
+  z-index: 0;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ll-page {
+  margin-inline: auto;
+  padding: 1.25rem 1rem 2.5rem;
+}
+
+.ll-page-md {
+  max-width: 48rem;
+}
+
+.ll-page-lg {
+  max-width: 64rem;
+}
+
+.ll-page-xl {
+  max-width: 80rem;
+}
+
+.ll-title {
+  color: var(--ll-gold-bright) !important;
+  margin-bottom: 0 !important;
+}
+
+.ll-up {
+  color: var(--ll-success);
+}
+
+.ll-down {
+  color: var(--ll-danger);
+}
+
+.ll-wheel-frame {
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid var(--ll-line);
+  background:
+    radial-gradient(circle at 50% 46%, rgba(36, 28, 16, 0.55), rgba(5, 6, 10, 0.2) 62%),
+    transparent;
+  box-shadow:
+    0 0 0 1px rgba(243, 226, 179, 0.08),
+    0 0 48px rgba(212, 168, 83, 0.16);
+  padding: 0.5rem;
+}
+
+.ll-wheel-caption {
+  margin: 0.75rem auto 0;
+  width: min(92%, 28rem);
+  border-radius: 0.75rem;
+  border: 1px solid var(--ll-line);
+  background: color-mix(in srgb, var(--ll-bg-elevated) 88%, transparent);
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .ll-page {
+    padding: 0.75rem 0.75rem 2rem;
+  }
+
+  .ll-wheel-caption {
+    font-size: 0.8125rem;
+  }
 }

@@ -71,7 +71,7 @@ export function RandomIdentityResult({
 }: RandomIdentityResultProps) {
   const debt = sumNativeLiabilities(identity.nativeLiabilities);
   return (
-    <Card className="sticky bottom-4 mt-6 border-gold/30 bg-[#141b2dcc] backdrop-blur">
+    <Card className="sticky bottom-4 mt-6 border-gold/30 backdrop-blur">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <Typography.Text className="text-gold text-lg">
@@ -109,7 +109,7 @@ interface RandomIdentityDrawProps {
 
 export function RandomIdentityDraw({ loading, onDraw }: RandomIdentityDrawProps) {
   return (
-    <Card className="mb-8 border-gold/20 bg-[#141b2d]/60 text-center">
+    <Card className="mb-8 border-gold/20 text-center">
       <Typography.Paragraph type="secondary" className="!mb-4">
         系统将从身份池中随机分配开局职业，身份可复用（多名玩家可能抽到相同身份）
       </Typography.Paragraph>

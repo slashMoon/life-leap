@@ -73,7 +73,7 @@ export default function IdentitySelectPage() {
 
   if (me?.role === "banker") {
     return (
-      <main className="mx-auto max-w-lg p-6">
+      <main className="ll-page ll-page-md">
         <Alert
           type="info"
           showIcon
@@ -91,10 +91,10 @@ export default function IdentitySelectPage() {
   const drawnIdentity = drawnId ? getIdentity(drawnId) : undefined;
 
   return (
-    <main className="mx-auto max-w-5xl p-6 pb-24">
+    <main className="ll-page ll-page-lg pb-24">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <div>
-          <Typography.Title level={3} style={{ color: "#d4a853", margin: 0 }}>
+          <Typography.Title level={3} className="ll-title">
             随机身份
           </Typography.Title>
           <Typography.Paragraph type="secondary" className="!mb-0">
@@ -115,7 +115,7 @@ export default function IdentitySelectPage() {
         />
       )}
 
-      <Typography.Title level={5} className="!mt-8 !text-gray-400">
+      <Typography.Title level={5} className="!mt-8 !text-[var(--ll-muted)]">
         身份池参考
       </Typography.Title>
       <IdentityPool identities={GAME_IDENTITIES} />

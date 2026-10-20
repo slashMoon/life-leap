@@ -1,21 +1,21 @@
 import type { BoardTile } from "@/types/game";
 
-/** 格子类型 → 原型配色 */
+/** 格子类型对应实物沙盘的图标色。盘面底色统一为黑，颜色只用于图标。 */
 export const TILE_COLORS: Record<string, { fill: string; stroke: string; icon: string }> = {
-  opportunity: { fill: "#1a3d2e", stroke: "#4ade80", icon: "🍀" },
-  risk: { fill: "#3d3518", stroke: "#facc15", icon: "⚠️" },
-  market: { fill: "#1a2a4a", stroke: "#60a5fa", icon: "💹" },
-  settlement: { fill: "#3d1a1a", stroke: "#f87171", icon: "📕" },
-  child: { fill: "#2d1a3d", stroke: "#c084fc", icon: "👶" },
-  health: { fill: "#1a2d3d", stroke: "#38bdf8", icon: "🚀" },
-  study: { fill: "#1a2d3d", stroke: "#38bdf8", icon: "🚀" },
-  charity: { fill: "#2d1a3d", stroke: "#c084fc", icon: "❤️" },
-  financial_storm: { fill: "#2d1a3d", stroke: "#c084fc", icon: "🌀" },
-  investment: { fill: "#1a2a4a", stroke: "#60a5fa", icon: "🎯" },
-  wealth_leisure: { fill: "#2d1a3d", stroke: "#c084fc", icon: "⏳" },
-  quality_life: { fill: "#1a3d2e", stroke: "#4ade80", icon: "💎" },
-  tax_audit: { fill: "#2d1a3d", stroke: "#c084fc", icon: "📋" },
-  divorce: { fill: "#2d1a3d", stroke: "#c084fc", icon: "💔" },
+  opportunity: { fill: "#07080c", stroke: "#3ddc84", icon: "🍀" },
+  risk: { fill: "#07080c", stroke: "#f5c542", icon: "⚠️" },
+  market: { fill: "#07080c", stroke: "#5b9dff", icon: "💱" },
+  settlement: { fill: "#07080c", stroke: "#e85d4c", icon: "📕" },
+  child: { fill: "#07080c", stroke: "#c084fc", icon: "👶" },
+  health: { fill: "#07080c", stroke: "#ff7a45", icon: "🚀" },
+  study: { fill: "#07080c", stroke: "#ff7a45", icon: "🚀" },
+  charity: { fill: "#07080c", stroke: "#f3e2b3", icon: "🎗️" },
+  financial_storm: { fill: "#07080c", stroke: "#ff6b6b", icon: "⛈️" },
+  investment: { fill: "#07080c", stroke: "#5b9dff", icon: "🌀" },
+  wealth_leisure: { fill: "#07080c", stroke: "#c084fc", icon: "⏳" },
+  quality_life: { fill: "#07080c", stroke: "#3ddc84", icon: "💎" },
+  tax_audit: { fill: "#07080c", stroke: "#7eb6ff", icon: "📋" },
+  divorce: { fill: "#07080c", stroke: "#c084fc", icon: "💔" },
 };
 
 export function getTileStyle(type: string) {
@@ -36,14 +36,15 @@ export function describeArcSegment(
   startAngle: number,
   endAngle: number
 ): string {
-  const x1 = cx + rOuter * Math.cos(startAngle);
-  const y1 = cy + rOuter * Math.sin(startAngle);
-  const x2 = cx + rOuter * Math.cos(endAngle);
-  const y2 = cy + rOuter * Math.sin(endAngle);
-  const x3 = cx + rInner * Math.cos(endAngle);
-  const y3 = cy + rInner * Math.sin(endAngle);
-  const x4 = cx + rInner * Math.cos(startAngle);
-  const y4 = cy + rInner * Math.sin(startAngle);
+  const n = (value: number) => Math.round(value * 100) / 100;
+  const x1 = n(cx + rOuter * Math.cos(startAngle));
+  const y1 = n(cy + rOuter * Math.sin(startAngle));
+  const x2 = n(cx + rOuter * Math.cos(endAngle));
+  const y2 = n(cy + rOuter * Math.sin(endAngle));
+  const x3 = n(cx + rInner * Math.cos(endAngle));
+  const y3 = n(cy + rInner * Math.sin(endAngle));
+  const x4 = n(cx + rInner * Math.cos(startAngle));
+  const y4 = n(cy + rInner * Math.sin(startAngle));
   const large = endAngle - startAngle > Math.PI ? 1 : 0;
 
   return [
@@ -70,9 +71,10 @@ export function labelPosition(
   radius: number,
   angle: number
 ) {
+  const n = (value: number) => Math.round(value * 100) / 100;
   return {
-    x: cx + radius * Math.cos(angle),
-    y: cy + radius * Math.sin(angle),
+    x: n(cx + radius * Math.cos(angle)),
+    y: n(cy + radius * Math.sin(angle)),
   };
 }
 

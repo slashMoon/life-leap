@@ -63,9 +63,9 @@ export default function GamePage() {
   }, [player.identityId, roomId, router]);
 
   return (
-    <main className="min-h-screen p-4">
+    <main className="ll-page ll-page-xl min-h-screen">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <Typography.Title level={4} style={{ color: "#d4a853", margin: 0 }}>
+        <Typography.Title level={4} className="ll-title">
           人生跃迁 · {player.identityName ?? nickname}
         </Typography.Title>
         <Space>

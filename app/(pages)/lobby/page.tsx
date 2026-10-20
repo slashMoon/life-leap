@@ -54,9 +54,9 @@ export default function LobbyPage() {
   };
 
   return (
-    <main className="mx-auto max-w-4xl p-6">
+    <main className="ll-page ll-page-lg">
       <Space align="center" className="mb-2">
-        <Typography.Title level={2} style={{ color: "#d4a853", margin: 0 }}>
+        <Typography.Title level={2} className="ll-title">
           游戏大厅
         </Typography.Title>
         <Tag color="gold">Mock 数据模式</Tag>

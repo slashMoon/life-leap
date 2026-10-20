@@ -1,8 +1,9 @@
 "use client";
 
-import { Card, Descriptions, Statistic } from "antd";
+import { Button, Card, Descriptions, Space, Statistic } from "antd";
 import type { CashFlowSnapshot, LifeCircle } from "@/types/game";
 import type { NativeLiabilities } from "@/types/identity";
+import type { PlayerHolding } from "@/types/player";
 
 interface CashFlowPanelProps {
   cashFlow?: CashFlowSnapshot | null;
@@ -13,6 +14,8 @@ interface CashFlowPanelProps {
   creditCardDebt?: number;
   timePoints?: number;
   qualityLifePoints?: number;
+  holdings?: PlayerHolding[];
+  onRepay?: (amount: number) => void;
 }
 
 export function CashFlowPanel({
@@ -24,6 +27,8 @@ export function CashFlowPanel({
   creditCardDebt = 0,
   timePoints = 0,
   qualityLifePoints = 0,
+  holdings = [],
+  onRepay,
 }: CashFlowPanelProps) {
   const data = cashFlow ?? {
     laborIncome: 15000,
@@ -55,6 +60,9 @@ export function CashFlowPanel({
         <Descriptions.Item label="总支出">
           {data.totalExpense.toLocaleString()}
         </Descriptions.Item>
+        <Descriptions.Item label="总资产">
+          {data.totalAssets.toLocaleString()}
+        </Descriptions.Item>
         <Descriptions.Item label="净资产">
           {(data.netWorth / 10000).toFixed(1)} 万
         </Descriptions.Item>
@@ -71,19 +79,17 @@ export function CashFlowPanel({
             {creditCardDebt.toLocaleString()}
           </Descriptions.Item>
         )}
-        {(circle === "老板" || circle === "核心") && (
-          <>
-            <Descriptions.Item label="时间积分">
-              {timePoints} / 1000
-            </Descriptions.Item>
-            <Descriptions.Item label="品质生活积分">
-              {qualityLifePoints} / 100
-            </Descriptions.Item>
-          </>
-        )}
+        <Descriptions.Item label="时间积分">{timePoints}</Descriptions.Item>
+        <Descriptions.Item label="品质生活积分">{qualityLifePoints}</Descriptions.Item>
         <Descriptions.Item label="现金">
           {(cash ?? 0).toLocaleString()}
         </Descriptions.Item>
+        {holdings.length > 0 && (
+          <Descriptions.Item label="持仓">
+            {holdings.length} 项 /{" "}
+            {holdings.reduce((sum, holding) => sum + holding.value, 0).toLocaleString()}
+          </Descriptions.Item>
+        )}
         {nativeLiabilities && (
           <>
             <Descriptions.Item label="原生·房贷">
@@ -103,6 +109,24 @@ export function CashFlowPanel({
           </>
         )}
       </Descriptions>
+      {onRepay && (
+        <Space className="mt-3" wrap>
+          <Button
+            size="small"
+            disabled={(cash ?? 0) <= 0 || data.totalLiabilities <= 0}
+            onClick={() => onRepay(1000)}
+          >
+            偿还 1,000
+          </Button>
+          <Button
+            size="small"
+            disabled={(cash ?? 0) <= 0 || data.totalLiabilities <= 0}
+            onClick={() => onRepay(Math.min(cash ?? 0, data.totalLiabilities))}
+          >
+            用现金偿还
+          </Button>
+        </Space>
+      )}
     </Card>
   );
 }

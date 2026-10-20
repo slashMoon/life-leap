@@ -26,6 +26,7 @@ import {
   createDecisionEvent,
   isDecisionTile,
 } from "./decisions";
+import { recalculateCashFlow } from "./ledger";
 import {
   appendLog,
   finalizeEvent,
@@ -73,12 +74,10 @@ function applySettlement(state: PlayerRuntimeState): {
     parts.push(`信用卡利息 +${cardInterest.toLocaleString()}`);
   }
 
-  const liabilityPatch =
-    interest > 0
-      ? { totalLiabilities: next.cashFlow.totalLiabilities + interest }
-      : undefined;
-
-  next = withCashFlow(next, liabilityPatch ?? {}, income - interest);
+  next = recalculateCashFlow({
+    ...next,
+    cash: Math.max(0, next.cash + income - interest),
+  });
   parts.unshift(
     `流动现金 ${income >= 0 ? "+" : ""}${income.toLocaleString()}`
   );
@@ -175,7 +174,14 @@ export function applyTileEffect(
     case "market": {
       const card = pickCardForTile(tile, next.circle, next.track);
       if (card) {
-        const result = applyMarketEffect(next, card);
+        const result = applyMarketEffect(next, card, tile);
+        if (result.pendingSale) {
+          return {
+            ...result.state,
+            pendingDecision: result.pendingSale,
+            lastEvent: createDecisionEvent(result.pendingSale, result.state.cashFlow),
+          };
+        }
         next = appendLog(result.state, result.message);
         event = {
           message: result.message,
@@ -184,10 +190,8 @@ export function applyTileEffect(
           cashFlow: next.cashFlow,
         };
       } else {
-        const delta = Math.round(next.cashFlow.netWorth * 0.05);
-        next = withCashFlow(next, {}, delta);
         event = {
-          message: `市场波动 · ${delta >= 0 ? "+" : ""}${delta.toLocaleString()}`,
+          message: "市场信息：没有抽到可执行的报价",
           cashFlow: next.cashFlow,
         };
         next = appendLog(next, event.message);
@@ -246,7 +250,7 @@ export function applyTileEffect(
       next = appendLog(next, tile.label);
       break;
     case "financial_storm": {
-      next = { ...withCashFlow(next, {}, -next.cash), cash: 0 };
+      next = recalculateCashFlow({ ...next, cash: 0 });
       event = {
         message: "金融风暴：损失全部现金",
         cashFlow: next.cashFlow,
@@ -267,14 +271,20 @@ export function applyTileEffect(
     case "divorce": {
       const isMale = next.gender === "male";
       const loss = isMale ? next.cash : Math.round(next.cash / 2);
-      next = withCashFlow(
-        next,
-        {
-          totalExpense: Math.max(0, next.cashFlow.totalExpense - 3000),
-          totalLiabilities: next.cashFlow.totalLiabilities + 100000,
-        },
-        -loss
-      );
+      const native = {
+        housingMortgage: 0,
+        educationLoan: 0,
+        carLoan: 0,
+        creditCard: 0,
+        extra: 0,
+        ...next.nativeLiabilities,
+      };
+      next = recalculateCashFlow({
+        ...next,
+        cash: Math.max(0, next.cash - loss),
+        baseExpense: Math.max(0, (next.baseExpense ?? next.cashFlow.totalExpense) - 3000),
+        nativeLiabilities: { ...native, extra: native.extra + 100_000 },
+      });
       event = {
         message: isMale
           ? "离婚：男性玩家损失全部现金"
@@ -320,6 +330,11 @@ export function applyTileEffect(
 
 export { resolvePendingDecision } from "./decisions";
 
+/** 结账日入账，供对局与规则测试复用 */
+export function applyMonthlySettlement(state: PlayerRuntimeState): PlayerRuntimeState {
+  return applySettlement(state).state;
+}
+
 export function createInitialPlayerState(identityId?: IdentityId): PlayerRuntimeState {
   if (identityId) {
     return createPlayerStateFromIdentity(identityId);
@@ -338,11 +353,12 @@ export function loadPlayerState(
   if (raw) {
     try {
       const parsed = JSON.parse(raw) as PlayerRuntimeState;
-      const merged = {
+      const merged = recalculateCashFlow({
         ...createInitialPlayerState(parsed.identityId),
         ...parsed,
         pendingDecision: parsed.pendingDecision ?? null,
-      };
+        holdings: parsed.holdings ?? [],
+      });
       return merged;
     } catch {
       /* fall through */

@@ -1,4 +1,4 @@
-import { buildCashFlowSnapshot } from "@/lib/rule-engine";
+import { recalculateCashFlow } from "@/lib/game-engine/ledger";
 import {
   buildTransitionContext,
   evaluateCircleTransition,
@@ -6,29 +6,7 @@ import {
 import type { LifeCircle } from "@/types/game";
 import type { PlayerRuntimeState, TileEventResult } from "@/types/player";
 
-export function withCashFlow(
-  state: PlayerRuntimeState,
-  patch: Partial<{
-    laborIncome: number;
-    passiveIncome: number;
-    totalExpense: number;
-    totalLiabilities: number;
-  }>,
-  cashDelta = 0
-): PlayerRuntimeState {
-  const prev = state.cashFlow;
-  const cash = Math.max(0, state.cash + cashDelta);
-  const totalLiabilities = patch.totalLiabilities ?? prev.totalLiabilities;
-  const cashFlow = buildCashFlowSnapshot({
-    laborIncome: patch.laborIncome ?? prev.laborIncome,
-    passiveIncome: patch.passiveIncome ?? prev.passiveIncome,
-    totalExpense: patch.totalExpense ?? prev.totalExpense,
-    totalAssets: cash + Math.max(0, prev.netWorth - prev.totalLiabilities),
-    totalLiabilities,
-  });
-
-  return { ...state, cash, cashFlow };
-}
+export { recalculateCashFlow, repayDebt, sellHolding, withCashFlow } from "@/lib/game-engine/ledger";
 
 export function appendLog(
   state: PlayerRuntimeState,
@@ -44,23 +22,26 @@ export function applyCircleTransition(
   state: PlayerRuntimeState,
   onTransition: (circle: LifeCircle, message: string) => void
 ): PlayerRuntimeState {
-  const result = evaluateCircleTransition(buildTransitionContext(state));
-  if (!result.changed) return state;
+  let next = recalculateCashFlow(state);
 
-  let next = appendLog(
-    { ...state, circle: result.to },
-    `跃迁 · ${state.circle} → ${result.to} · ${result.reason ?? ""}`
-  );
-  onTransition(result.to, `进入【${result.to}圈】`);
+  for (let step = 0; step < 2; step += 1) {
+    const result = evaluateCircleTransition(buildTransitionContext(next));
+    if (!result.changed) break;
 
-  next = {
-    ...next,
-    cashAtCircleEntry: next.cash,
-  };
-
-  if (result.to === "老板" && next.track === "outer") {
-    next = { ...next, track: "inner", boardIndex: 0 };
+    next = appendLog(
+      { ...next, circle: result.to },
+      `跃迁 · ${result.from} → ${result.to} · ${result.reason ?? ""}`
+    );
+    onTransition(result.to, `进入【${result.to}圈】`);
+    next = {
+      ...next,
+      cashAtCircleEntry: next.cash,
+    };
+    if (result.to === "老板" && next.track === "outer") {
+      next = { ...next, track: "inner", boardIndex: 0 };
+    }
   }
+
   return next;
 }
 

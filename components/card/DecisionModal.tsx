@@ -23,6 +23,7 @@ export function DecisionModal({
     investment: "投资项目",
     wealth_leisure: "有钱有闲",
     quality_life: "品质生活",
+    market: "市场出价",
   };
   const title = titleMap[tileType] ?? "卡牌决策";
 
@@ -64,28 +65,46 @@ export function DecisionModal({
           )}
           {preview.passiveIncomeDelta != null && (
             <Descriptions.Item label="被动收入">
-              <span className="text-green-400">
-                +{preview.passiveIncomeDelta.toLocaleString()} 元/月
+              <span className={preview.passiveIncomeDelta >= 0 ? "text-green-400" : "text-red-400"}>
+                {preview.passiveIncomeDelta > 0 ? "+" : ""}
+                {preview.passiveIncomeDelta.toLocaleString()} 元/月
               </span>
             </Descriptions.Item>
           )}
           {preview.expenseDelta != null && (
             <Descriptions.Item label="月支出">
-              <span className="text-red-400">
-                +{preview.expenseDelta.toLocaleString()} 元/月
+              <span className={preview.expenseDelta > 0 ? "text-red-400" : "text-green-400"}>
+                {preview.expenseDelta > 0 ? "+" : ""}
+                {preview.expenseDelta.toLocaleString()} 元/月
               </span>
             </Descriptions.Item>
           )}
           {preview.liabilityDelta != null && (
-            <Descriptions.Item label="新增负债">
-              <span className="text-red-400">
-                +{preview.liabilityDelta.toLocaleString()} 元
+            <Descriptions.Item label={preview.liabilityDelta < 0 ? "负债变化" : "新增负债"}>
+              <span className={preview.liabilityDelta < 0 ? "text-green-400" : "text-red-400"}>
+                {preview.liabilityDelta > 0 ? "+" : ""}
+                {preview.liabilityDelta.toLocaleString()} 元
+              </span>
+            </Descriptions.Item>
+          )}
+          {preview.assetValueDelta != null && preview.assetValueDelta !== 0 && (
+            <Descriptions.Item label="资产市值">
+              <span className={preview.assetValueDelta > 0 ? "text-green-400" : "text-red-400"}>
+                {preview.assetValueDelta > 0 ? "+" : ""}
+                {preview.assetValueDelta.toLocaleString()} 元
               </span>
             </Descriptions.Item>
           )}
         </Descriptions>
         ) : (
-          <Typography.Text type="secondary">此卡无直接财务变动</Typography.Text>
+          <Typography.Text type="secondary">
+            {preview.summary || "此卡无直接财务变动"}
+          </Typography.Text>
+        )}
+        {preview.summary && (preview.assetValueDelta || preview.passiveIncomeDelta) && (
+          <Typography.Paragraph type="secondary" className="!mb-0 mt-2 text-xs">
+            {preview.summary}
+          </Typography.Paragraph>
         )}
         {preview.cost > 0 && !preview.canAfford && (
           <Typography.Text type="danger" className="mt-2 block text-sm">
@@ -95,13 +114,13 @@ export function DecisionModal({
       </Card>
 
       <Space className="flex w-full justify-end">
-        <Button onClick={onDecline}>放弃</Button>
+        <Button onClick={onDecline}>{tileType === "market" ? "保留" : "放弃"}</Button>
         <Button
           type="primary"
           onClick={onAccept}
           disabled={preview.cost > 0 && !preview.canAfford}
         >
-          参与
+          {tileType === "market" ? "出售" : "参与"}
         </Button>
       </Space>
     </Modal>

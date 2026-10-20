@@ -6,6 +6,7 @@ import type {
   TileEventResult,
 } from "@/types/player";
 import {
+  acceptPendingSale,
   applyParticipationEffect,
   buildDecisionPreview,
 } from "@/lib/cards/apply-effect";
@@ -94,6 +95,39 @@ export function resolvePendingDecision(
         preview,
       },
     };
+  }
+
+  if (pending.sale) {
+    const sold = acceptPendingSale(next, pending);
+    if (!sold.sold) {
+      return {
+        ...next,
+        pendingDecision: pending,
+        lastEvent: {
+          message: sold.message,
+          cardTitle: pending.cardName,
+          cardContent: pending.cardContent,
+          cashFlow: next.cashFlow,
+          requiresDecision: true,
+          preview: pending.preview,
+        },
+      };
+    }
+    next = appendLog(sold.state, sold.message);
+    let saleEvent: TileEventResult = {
+      message: sold.message,
+      cardTitle: pending.cardName,
+      cardContent: pending.cardContent,
+      cashFlow: sold.state.cashFlow,
+    };
+    next = applyCircleTransition(next, (circle, circleMsg) => {
+      saleEvent = {
+        ...saleEvent,
+        circle,
+        message: `${saleEvent.message} · ${circleMsg}`,
+      };
+    });
+    return { ...next, lastEvent: saleEvent };
   }
 
   const card = getCardById(pending.cardId);

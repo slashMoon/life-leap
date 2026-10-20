@@ -1,17 +1,21 @@
 import {
+  DEFAULT_CORE_NET_WORTH_WAN,
+  DEFAULT_CORE_PASSIVE_MULTIPLIER,
   INNER_TO_CORE_RULES,
   OUTER_TO_INNER_RULES,
+  coreNetWorthYuan,
 } from "@/lib/constants/circle-rules";
 import type { CashFlowSnapshot, LifeCircle } from "@/types/game";
 
-export interface CircleTransitionContext {
+export interface CircleRuleOverrides {
+  /** 净资产门槛，单位：万 */
+  coreNetWorthThreshold?: number;
+  corePassiveIncomeMultiplier?: number;
+}
+
+export interface CircleTransitionContext extends CircleRuleOverrides {
   circle: LifeCircle;
   cashFlow: CashFlowSnapshot;
-  cash: number;
-  cashAtCircleEntry: number;
-  timePoints: number;
-  qualityLifePoints: number;
-  bankLoan: number;
 }
 
 export interface CircleTransitionResult {
@@ -31,27 +35,31 @@ export interface CircleTransitionProgress {
 
 const CIRCLE_ORDER: LifeCircle[] = ["牛马", "老板", "核心"];
 
+export function resolveCoreThresholds(rules?: CircleRuleOverrides) {
+  const netWorthWan = rules?.coreNetWorthThreshold ?? DEFAULT_CORE_NET_WORTH_WAN;
+  const passiveIncomeMultiplier =
+    rules?.corePassiveIncomeMultiplier ?? DEFAULT_CORE_PASSIVE_MULTIPLIER;
+  return {
+    netWorthWan,
+    netWorth: coreNetWorthYuan(netWorthWan),
+    passiveIncomeMultiplier,
+  };
+}
+
 function evaluateOuterToInner(ctx: CircleTransitionContext): {
   ok: boolean;
   blockers: string[];
 } {
   const blockers: string[] = [];
-  const passiveOk =
-    ctx.cashFlow.passiveIncome > ctx.cashFlow.totalExpense;
-  const debtOk = ctx.cashFlow.totalLiabilities <= 0;
+  const passiveOk = ctx.cashFlow.passiveIncome > ctx.cashFlow.totalExpense;
 
   if (!passiveOk) {
     blockers.push(
-      `非劳务收入需大于总支出（当前 ${ctx.cashFlow.passiveIncome.toLocaleString()} / ${ctx.cashFlow.totalExpense.toLocaleString()}）`
-    );
-  }
-  if (!debtOk) {
-    blockers.push(
-      `需无负债（当前负债 ${ctx.cashFlow.totalLiabilities.toLocaleString()}）`
+      `非劳动收入需大于总支出（当前 ${ctx.cashFlow.passiveIncome.toLocaleString()} / ${ctx.cashFlow.totalExpense.toLocaleString()}）`
     );
   }
 
-  return { ok: passiveOk && debtOk, blockers };
+  return { ok: passiveOk, blockers };
 }
 
 function evaluateInnerToCore(ctx: CircleTransitionContext): {
@@ -59,48 +67,30 @@ function evaluateInnerToCore(ctx: CircleTransitionContext): {
   blockers: string[];
 } {
   const blockers: string[] = [];
-  const cashGain = ctx.cash - ctx.cashAtCircleEntry;
-  const gainOk = cashGain >= INNER_TO_CORE_RULES.liquidCashGain;
-  const timeOk = ctx.timePoints >= INNER_TO_CORE_RULES.timePoints;
-  const qualityOk =
-    ctx.qualityLifePoints >= INNER_TO_CORE_RULES.qualityLifePoints;
-  const bankLoanOk = ctx.bankLoan <= 0;
-  const debtOk = ctx.cashFlow.totalLiabilities <= 0;
+  const rules = resolveCoreThresholds(ctx);
+  const netWorthOk = ctx.cashFlow.netWorth >= rules.netWorth;
+  const passiveOk =
+    ctx.cashFlow.passiveIncome >=
+    ctx.cashFlow.totalExpense * rules.passiveIncomeMultiplier;
 
-  if (!gainOk) {
+  if (!netWorthOk) {
     blockers.push(
-      `现金需增加 ${INNER_TO_CORE_RULES.liquidCashGain.toLocaleString()}（当前 +${Math.max(0, cashGain).toLocaleString()}）`
+      `净资产需 ≥ ${rules.netWorthWan} 万（当前 ${(ctx.cashFlow.netWorth / 10_000).toFixed(1)} 万）`
     );
   }
-  if (!timeOk) {
+  if (!passiveOk) {
     blockers.push(
-      `时间积分需 ${INNER_TO_CORE_RULES.timePoints}（当前 ${ctx.timePoints}）`
-    );
-  }
-  if (!qualityOk) {
-    blockers.push(
-      `品质生活积分需 ${INNER_TO_CORE_RULES.qualityLifePoints}（当前 ${ctx.qualityLifePoints}）`
-    );
-  }
-  if (!bankLoanOk) {
-    blockers.push(`需无银行贷款（当前 ${ctx.bankLoan.toLocaleString()}）`);
-  }
-  if (!debtOk) {
-    blockers.push(
-      `需无负债（当前 ${ctx.cashFlow.totalLiabilities.toLocaleString()}）`
+      `被动收入需 ≥ 总支出 × ${rules.passiveIncomeMultiplier}（当前 ${ctx.cashFlow.passiveIncome.toLocaleString()} / ${ctx.cashFlow.totalExpense.toLocaleString()}）`
     );
   }
 
-  return {
-    ok: gainOk && timeOk && qualityOk && bankLoanOk && debtOk,
-    blockers,
-  };
+  return { ok: netWorthOk && passiveOk, blockers };
 }
 
 /**
- * 圈层跃迁判定（按游戏规则图）
- * - 牛马 → 老板：非劳务收入 > 总支出，且无负债
- * - 老板 → 核心：现金 +20 万、时间 1000 分、品质生活 100 分，且无银行贷款、无负债
+ * 圈层跃迁判定（与 README 一致）
+ * - 牛马 → 老板：非劳动收入 > 总支出
+ * - 老板 → 核心：净资产 ≥ 门槛（默认 200 万）且被动收入 ≥ 总支出 × 倍数（默认 2）
  */
 export function evaluateCircleTransition(
   ctx: CircleTransitionContext
@@ -135,61 +125,38 @@ export function getCircleTransitionProgress(
   if (ctx.circle === "核心") return null;
 
   if (ctx.circle === "牛马") {
-    const check = evaluateOuterToInner(ctx);
     return {
       target: "老板",
       ruleTitle: OUTER_TO_INNER_RULES.title,
       items: [
         {
-          label: "非劳务收入 > 总支出",
+          label: "非劳动收入 > 总支出",
           current: `${ctx.cashFlow.passiveIncome.toLocaleString()} / ${ctx.cashFlow.totalExpense.toLocaleString()}`,
           required: ">",
           met: ctx.cashFlow.passiveIncome > ctx.cashFlow.totalExpense,
-        },
-        {
-          label: "无负债",
-          current: ctx.cashFlow.totalLiabilities.toLocaleString(),
-          required: "0",
-          met: ctx.cashFlow.totalLiabilities <= 0,
         },
       ],
     };
   }
 
-  const cashGain = Math.max(0, ctx.cash - ctx.cashAtCircleEntry);
+  const rules = resolveCoreThresholds(ctx);
   return {
     target: "核心",
     ruleTitle: INNER_TO_CORE_RULES.title,
     items: [
       {
-        label: "现金增加",
-        current: `+${cashGain.toLocaleString()}`,
-        required: `+${INNER_TO_CORE_RULES.liquidCashGain.toLocaleString()}`,
-        met: cashGain >= INNER_TO_CORE_RULES.liquidCashGain,
+        label: "净资产",
+        current: `${(ctx.cashFlow.netWorth / 10_000).toFixed(1)} 万`,
+        required: `≥ ${rules.netWorthWan} 万`,
+        met: ctx.cashFlow.netWorth >= rules.netWorth,
       },
       {
-        label: "时间积分",
-        current: String(ctx.timePoints),
-        required: String(INNER_TO_CORE_RULES.timePoints),
-        met: ctx.timePoints >= INNER_TO_CORE_RULES.timePoints,
-      },
-      {
-        label: "品质生活积分",
-        current: String(ctx.qualityLifePoints),
-        required: String(INNER_TO_CORE_RULES.qualityLifePoints),
-        met: ctx.qualityLifePoints >= INNER_TO_CORE_RULES.qualityLifePoints,
-      },
-      {
-        label: "无银行贷款",
-        current: ctx.bankLoan.toLocaleString(),
-        required: "0",
-        met: ctx.bankLoan <= 0,
-      },
-      {
-        label: "无负债",
-        current: ctx.cashFlow.totalLiabilities.toLocaleString(),
-        required: "0",
-        met: ctx.cashFlow.totalLiabilities <= 0,
+        label: `被动收入 ≥ 总支出 × ${rules.passiveIncomeMultiplier}`,
+        current: `${ctx.cashFlow.passiveIncome.toLocaleString()} / ${ctx.cashFlow.totalExpense.toLocaleString()}`,
+        required: `≥ ${rules.passiveIncomeMultiplier}×`,
+        met:
+          ctx.cashFlow.passiveIncome >=
+          ctx.cashFlow.totalExpense * rules.passiveIncomeMultiplier,
       },
     ],
   };
@@ -204,22 +171,13 @@ export function getNextCircle(current: LifeCircle): LifeCircle | null {
 export function buildTransitionContext(
   state: Pick<
     import("@/types/player").PlayerRuntimeState,
-    | "circle"
-    | "cashFlow"
-    | "cash"
-    | "cashAtCircleEntry"
-    | "timePoints"
-    | "qualityLifePoints"
-    | "bankLoan"
+    "circle" | "cashFlow" | "coreNetWorthThreshold" | "corePassiveIncomeMultiplier"
   >
 ): CircleTransitionContext {
   return {
     circle: state.circle,
     cashFlow: state.cashFlow,
-    cash: state.cash,
-    cashAtCircleEntry: state.cashAtCircleEntry ?? state.cash,
-    timePoints: state.timePoints ?? 0,
-    qualityLifePoints: state.qualityLifePoints ?? 0,
-    bankLoan: state.bankLoan ?? 0,
+    coreNetWorthThreshold: state.coreNetWorthThreshold,
+    corePassiveIncomeMultiplier: state.corePassiveIncomeMultiplier,
   };
 }

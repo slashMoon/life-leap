@@ -1,11 +1,36 @@
-import type { CashFlowSnapshot, DiceRollResult, GameState } from "./game";
+import type { CashFlowSnapshot, DiceRollResult } from "./game";
+import type { IdentityId, RoomPlayerRole } from "./identity";
+import type { GameSnapshot } from "@/lib/game-session/types";
 
-/** 客户端 → 服务端 */
+export type { GameSnapshot };
+
+/** 客户端 → 服务端。客户端只提交意图，不提交账本。 */
 export interface ClientToServerEvents {
-  "room:join": (payload: { roomId: string; userId: string }) => void;
+  "room:join": (payload: {
+    roomId: string;
+    userId: string;
+    nickname?: string;
+    /** true 时创建或恢复棋盘座位；false 只加入房间频道（房间页在线） */
+    playing?: boolean;
+    identityId?: IdentityId;
+    role?: RoomPlayerRole;
+    order?: number;
+    coreNetWorthThreshold?: number;
+    corePassiveIncomeMultiplier?: number;
+  }) => void;
   "room:leave": (payload: { roomId: string; userId: string }) => void;
   "room:ready": (payload: { roomId: string; userId: string }) => void;
   "game:roll-dice": (payload: { roomId: string; userId: string }) => void;
+  "game:decide": (payload: {
+    roomId: string;
+    userId: string;
+    accept: boolean;
+  }) => void;
+  "game:repay": (payload: {
+    roomId: string;
+    userId: string;
+    amount: number;
+  }) => void;
   "game:draw-card": (payload: {
     roomId: string;
     userId: string;
@@ -21,6 +46,7 @@ export interface ClientToServerEvents {
   "chat:message": (payload: {
     roomId: string;
     userId: string;
+    nickname?: string;
     content: string;
   }) => void;
 }
@@ -28,9 +54,13 @@ export interface ClientToServerEvents {
 /** 服务端 → 客户端 */
 export interface ServerToClientEvents {
   "room:state": (state: unknown) => void;
-  "room:player-joined": (player: unknown) => void;
+  "room:player-joined": (player: {
+    userId: string;
+    nickname?: string;
+    playing?: boolean;
+  }) => void;
   "room:player-left": (payload: { userId: string }) => void;
-  "game:state": (state: GameState) => void;
+  "game:state": (state: GameSnapshot) => void;
   "game:dice-rolled": (result: DiceRollResult) => void;
   "game:tile-landed": (payload: {
     userId: string;

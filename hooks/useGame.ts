@@ -3,138 +3,218 @@
 import { useCallback, useEffect } from "react";
 import { message } from "antd";
 import { apiFetch } from "@/lib/api/fetch";
-import { recalculateCashFlow, repayDebt } from "@/lib/game-engine/ledger";
-import { executeTurn } from "@/lib/game-engine/play-turn";
-import {
-  loadPlayerState,
-  savePlayerState,
-} from "@/lib/game-engine/tile-effects";
+import { getSelectedIdentity } from "@/lib/client/identity";
+import type { RoomDetail } from "@/hooks/useRoom";
 import { useGameStore } from "@/stores/game-store";
-import type { RoomConfig } from "@/types/game";
+import type { GameSnapshot } from "@/lib/game-session/types";
+import type { IdentityId, RoomPlayerRole } from "@/types/identity";
 import { useSocket } from "./useSocket";
+import type { PlayerRuntimeState } from "@/types/player";
 
-export function useGame(roomId: string, userId: string) {
+function playerStamp(state: PlayerRuntimeState) {
+  return [
+    state.boardIndex,
+    state.track,
+    state.cash,
+    state.circle,
+    state.round,
+    state.lastDice ?? "",
+    state.pendingDecision ? "1" : "0",
+    state.eventLog.length,
+    state.eventLog[0] ?? "",
+    state.holdings.length,
+    state.cashFlow.totalLiabilities,
+  ].join("|");
+}
+
+export function useGame(roomId: string, userId: string, nickname: string) {
   const { socket, connected } = useSocket(roomId);
   const player = useGameStore((s) => s.player);
+  const snapshot = useGameStore((s) => s.snapshot);
   const isRolling = useGameStore((s) => s.isRolling);
+  const synced = useGameStore((s) => s.synced);
   const setSession = useGameStore((s) => s.setSession);
-  const setPlayer = useGameStore((s) => s.setPlayer);
   const setRolling = useGameStore((s) => s.setRolling);
-  const applyTurnResult = useGameStore((s) => s.applyTurnResult);
-  const resolveDecisionStore = useGameStore((s) => s.resolveDecision);
+  const setPendingAction = useGameStore((s) => s.setPendingAction);
+  const applyServerState = useGameStore((s) => s.applyServerState);
+
+  const isMyTurn = synced && snapshot?.currentUserId === userId;
+  const hasPendingDecision = !!player.pendingDecision;
 
   useEffect(() => {
     setSession(roomId, userId);
-    setPlayer(loadPlayerState(roomId, userId));
-  }, [roomId, userId, setSession, setPlayer]);
+  }, [roomId, userId, setSession]);
 
   useEffect(() => {
     if (!socket) return;
-    socket.emit("room:join", { roomId, userId });
-  }, [socket, roomId, userId]);
 
-  useEffect(() => {
-    let cancelled = false;
-    apiFetch<{ config?: RoomConfig }>(`/api/room/${roomId}`)
-      .then((room) => {
-        if (cancelled || !room.config) return;
-        const current = useGameStore.getState().player;
-        const next = recalculateCashFlow({
-          ...current,
-          coreNetWorthThreshold: room.config.coreNetWorthThreshold,
-          corePassiveIncomeMultiplier: room.config.corePassiveIncomeMultiplier,
-        });
-        setPlayer(next);
-        savePlayerState(roomId, userId, next);
-      })
-      .catch(() => undefined);
-    return () => {
-      cancelled = true;
+    const join = async () => {
+      const selected = getSelectedIdentity(roomId, userId) ?? undefined;
+      let identityId: IdentityId | undefined = selected ?? undefined;
+      let role: RoomPlayerRole = "player";
+      let order: number | undefined;
+      let coreNetWorthThreshold: number | undefined;
+      let corePassiveIncomeMultiplier: number | undefined;
+      try {
+        const room = await apiFetch<RoomDetail>(`/api/room/${roomId}`);
+        const me = room.players?.find(
+          (item) => item.userId === userId || item.nickname === nickname
+        );
+        if (me?.role === "banker") role = "banker";
+        if (typeof me?.order === "number") order = me.order;
+        if (me?.identityId) identityId = me.identityId;
+        coreNetWorthThreshold = room.config?.coreNetWorthThreshold;
+        corePassiveIncomeMultiplier = room.config?.corePassiveIncomeMultiplier;
+      } catch {
+        /* 没有房间接口时仍以本地身份入座，服务端用医生身份兜底 */
+      }
+      if (!socket.connected) return;
+      socket.emit("room:join", {
+        roomId,
+        userId,
+        nickname,
+        playing: true,
+        role,
+        order,
+        identityId,
+        coreNetWorthThreshold,
+        corePassiveIncomeMultiplier,
+      });
     };
-  }, [roomId, userId, setPlayer]);
 
-  const persist = useCallback(
-    (state: typeof player) => {
-      savePlayerState(roomId, userId, state);
-    },
-    [roomId, userId]
-  );
+    const onState = (next: GameSnapshot) => {
+      const store = useGameStore.getState();
+      const before = store.player;
+      const action = store.pendingAction;
+      const after =
+        next.seats.find((seat) => seat.userId === userId)?.state ?? before;
+      const changed = playerStamp(before) !== playerStamp(after);
+      applyServerState(next, userId);
+      if (!action || !changed) return;
+      setPendingAction(null);
+      if (action === "roll") {
+        setRolling(false);
+        const tileLabel = after.lastTile?.label ?? "";
+        message.success(`🎲 ${after.lastDice} 点 → ${tileLabel}`);
+        if (after.pendingDecision) {
+          message.info("请决定是否参与本次机会/进修");
+        } else if (after.circle !== before.circle) {
+          message.success(`圈层跃迁：${before.circle} → ${after.circle}`);
+        }
+      } else if (action === "decide") {
+        if (after.pendingDecision) {
+          message.error(after.lastEvent?.message ?? "现金不足，无法参与");
+        } else if (after.lastEvent?.message?.startsWith("放弃")) {
+          message.info(after.lastEvent.message);
+        } else {
+          message.success(after.lastEvent?.message ?? "已处理决策");
+          if (after.circle !== before.circle) {
+            message.success(`圈层跃迁：${before.circle} → ${after.circle}`);
+          }
+        }
+      } else if (action === "repay") {
+        const paid = before.cash - after.cash;
+        if (paid > 0) message.success(`已偿还 ${paid.toLocaleString()} 元`);
+        else message.info("没有可偿还的负债，或现金不足");
+      }
+    };
+
+    const onError = (payload: { code: string; message: string }) => {
+      setRolling(false);
+      setPendingAction(null);
+      message.error(payload.message);
+    };
+
+    socket.on("connect", join);
+    socket.on("game:state", onState);
+    socket.on("error", onError);
+    if (socket.connected) void join();
+
+    return () => {
+      socket.off("connect", join);
+      socket.off("game:state", onState);
+      socket.off("error", onError);
+    };
+  }, [
+    socket,
+    roomId,
+    userId,
+    nickname,
+    applyServerState,
+    setPendingAction,
+    setRolling,
+  ]);
 
   const rollDice = useCallback(async () => {
     const store = useGameStore.getState();
-    if (store.isRolling || store.player.pendingDecision) return;
+    if (
+      !socket?.connected ||
+      !store.synced ||
+      store.snapshot?.currentUserId !== userId ||
+      store.isRolling ||
+      store.player.pendingDecision
+    ) {
+      return;
+    }
     setRolling(true);
-
-    await new Promise((r) => setTimeout(r, 700));
-
-    const current = useGameStore.getState().player;
-    const next = executeTurn(current);
-    applyTurnResult(next);
-    persist(next);
-
-    if (connected && socket?.connected) {
-      socket.emit("game:roll-dice", { roomId, userId });
+    setPendingAction("roll");
+    socket.emit("game:roll-dice", { roomId, userId });
+    const started = Date.now();
+    while (Date.now() - started < 8000) {
+      if (!useGameStore.getState().isRolling) return;
+      await new Promise((resolve) => setTimeout(resolve, 40));
     }
-
-    const tileLabel = next.lastTile?.label ?? "";
-    message.success(`🎲 ${next.lastDice} 点 → ${tileLabel}`);
-
-    if (next.pendingDecision) {
-      message.info("请决定是否参与本次机会/进修");
-    } else if (next.lastEvent?.circle && next.lastEvent.circle !== current.circle) {
-      message.success(`圈层跃迁：${current.circle} → ${next.lastEvent.circle}`);
-    }
-  }, [roomId, userId, setRolling, applyTurnResult, persist, connected, socket]);
+    setRolling(false);
+    setPendingAction(null);
+  }, [socket, roomId, userId, setRolling, setPendingAction]);
 
   const resolveDecision = useCallback(
     (accept: boolean) => {
-      const before = useGameStore.getState().player;
-      resolveDecisionStore(accept);
-      const after = useGameStore.getState().player;
-
-      persist(after);
-
-      if (accept && after.pendingDecision) {
-        message.error(after.lastEvent?.message ?? "现金不足，无法参与");
+      if (!socket?.connected) {
+        message.error("未连接对局服务，无法提交决策");
         return;
       }
-
-      if (accept) {
-        message.success(`已参与 · ${before.pendingDecision?.cardName ?? ""}`);
-        if (after.lastEvent?.circle && after.lastEvent.circle !== before.circle) {
-          message.success(`圈层跃迁：${before.circle} → ${after.lastEvent.circle}`);
-        }
-      } else {
-        message.info(`已放弃 · ${before.pendingDecision?.cardName ?? ""}`);
+      const store = useGameStore.getState();
+      if (store.snapshot?.currentUserId !== userId) {
+        message.error("还没轮到你");
+        return;
       }
+      setPendingAction("decide");
+      socket.emit("game:decide", { roomId, userId, accept });
     },
-    [resolveDecisionStore, persist]
+    [socket, roomId, userId, setPendingAction]
   );
 
   const repay = useCallback(
     (amount: number) => {
-      const before = useGameStore.getState().player;
-      const result = repayDebt(before, amount);
-      if (result.paid <= 0) {
-        message.info("没有可偿还的负债，或现金不足");
+      if (!socket?.connected) {
+        message.error("未连接对局服务，无法还款");
         return;
       }
-      setPlayer(result.state);
-      persist(result.state);
-      message.success(`已偿还 ${result.paid.toLocaleString()} 元`);
+      const store = useGameStore.getState();
+      if (store.snapshot?.currentUserId !== userId) {
+        message.error("还没轮到你");
+        return;
+      }
+      setPendingAction("repay");
+      socket.emit("game:repay", { roomId, userId, amount });
     },
-    [persist, setPlayer]
+    [socket, roomId, userId, setPendingAction]
   );
 
   return {
     player,
+    snapshot,
     isRolling,
     connected,
+    synced,
+    isMyTurn,
     rollDice,
     resolveDecision,
     repay,
-    hasPendingDecision: !!player.pendingDecision,
+    hasPendingDecision,
     circle: player.circle,
     cashFlow: player.cashFlow,
+    socket,
   };
 }

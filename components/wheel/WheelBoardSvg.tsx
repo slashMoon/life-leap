@@ -32,12 +32,42 @@ const R = {
   iconInner: 265,
 };
 
+export interface WheelToken {
+  id: string;
+  label: string;
+  track: "outer" | "inner";
+  index: number;
+  color?: string;
+  active?: boolean;
+  dice?: number | null;
+}
+
 interface WheelBoardSvgProps {
   activePosition?: { track: "outer" | "inner"; index: number };
   lastDice?: number | null;
   playerLabel?: string;
+  tokens?: WheelToken[];
   onTileClick?: (tile: BoardTile) => void;
   className?: string;
+}
+
+function offsetMarker(
+  x: number,
+  y: number,
+  cx: number,
+  cy: number,
+  slot: number,
+  count: number
+) {
+  if (count <= 1) return { x, y };
+  const dx = x - cx;
+  const dy = y - cy;
+  const len = Math.hypot(dx, dy) || 1;
+  const shift = (slot - (count - 1) / 2) * 26;
+  return {
+    x: x + (-dy / len) * shift,
+    y: y + (dx / len) * shift,
+  };
 }
 
 function PlayerMarker({
@@ -45,33 +75,38 @@ function PlayerMarker({
   y,
   label,
   dice,
+  color = "#d4a853",
+  active = true,
 }: {
   x: number;
   y: number;
   label: string;
   dice?: number | null;
+  color?: string;
+  active?: boolean;
 }) {
   const initial = label?.charAt(0) || "我";
   return (
     <g className="player-marker" transform={`translate(${x}, ${y})`}>
-      {/* 脉冲光环 */}
-      <circle r={28} fill="none" stroke="#f0d78c" strokeWidth={2} opacity={0.6}>
-        <animate
-          attributeName="r"
-          values="22;32;22"
-          dur="1.8s"
-          repeatCount="indefinite"
-        />
-        <animate
-          attributeName="opacity"
-          values="0.7;0.2;0.7"
-          dur="1.8s"
-          repeatCount="indefinite"
-        />
-      </circle>
-      <circle r={22} fill="#d4a853" opacity={0.25} />
-      <circle r={18} fill="#1a1408" stroke="#f0d78c" strokeWidth={3} />
-      <circle r={14} fill="#d4a853" />
+      {active && (
+        <circle r={28} fill="none" stroke={color} strokeWidth={2} opacity={0.6}>
+          <animate
+            attributeName="r"
+            values="22;32;22"
+            dur="1.8s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="opacity"
+            values="0.7;0.2;0.7"
+            dur="1.8s"
+            repeatCount="indefinite"
+          />
+        </circle>
+      )}
+      <circle r={22} fill={color} opacity={0.25} />
+      <circle r={18} fill="#1a1408" stroke={color} strokeWidth={3} />
+      <circle r={14} fill={color} />
       <text
         textAnchor="middle"
         dominantBaseline="middle"
@@ -240,6 +275,7 @@ export function WheelBoardSvg({
   activePosition,
   lastDice,
   playerLabel = "我",
+  tokens,
   onTileClick,
   className = "",
 }: WheelBoardSvgProps) {
@@ -258,7 +294,7 @@ export function WheelBoardSvg({
   }, [activePosition]);
 
   const marker = useMemo(() => {
-    if (!activePosition) return null;
+    if (!activePosition || (tokens && tokens.length > 0)) return null;
     const isOuter = activePosition.track === "outer";
     const total = isOuter ? OUTER_TRACK.length : INNER_TRACK.length;
     return markerPosition(
@@ -270,7 +306,42 @@ export function WheelBoardSvg({
       isOuter ? R.outerInner : R.innerInner,
       isOuter ? R.outerOuter : R.innerOuter
     );
-  }, [activePosition]);
+  }, [activePosition, tokens]);
+
+  const tokenMarkers = useMemo(() => {
+    if (!tokens?.length) return [];
+    const counts = new Map<string, number>();
+    for (const token of tokens) {
+      const key = `${token.track}:${token.index}`;
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    const used = new Map<string, number>();
+    return tokens.map((token) => {
+      const key = `${token.track}:${token.index}`;
+      const slot = used.get(key) ?? 0;
+      used.set(key, slot + 1);
+      const isOuter = token.track === "outer";
+      const total = isOuter ? OUTER_TRACK.length : INNER_TRACK.length;
+      const base = markerPosition(
+        CX,
+        CY,
+        token.track,
+        token.index,
+        total,
+        isOuter ? R.outerInner : R.innerInner,
+        isOuter ? R.outerOuter : R.innerOuter
+      );
+      const pos = offsetMarker(
+        base.x,
+        base.y,
+        CX,
+        CY,
+        slot,
+        counts.get(key) ?? 1
+      );
+      return { token, ...pos };
+    });
+  }, [tokens]);
 
   const defs = useMemo(
     () => (
@@ -389,15 +460,32 @@ export function WheelBoardSvg({
         </text>
 
         {/* 玩家棋子 — 渲染在最上层 */}
-        {marker && activeTile && (
+        {tokenMarkers.length > 0 ? (
           <g filter="url(#markerShadow)">
-            <PlayerMarker
-              x={marker.x}
-              y={marker.y}
-              label={playerLabel}
-              dice={lastDice}
-            />
+            {tokenMarkers.map(({ token, x, y }) => (
+              <PlayerMarker
+                key={token.id}
+                x={x}
+                y={y}
+                label={token.label}
+                dice={token.dice}
+                color={token.color}
+                active={token.active !== false}
+              />
+            ))}
           </g>
+        ) : (
+          marker &&
+          activeTile && (
+            <g filter="url(#markerShadow)">
+              <PlayerMarker
+                x={marker.x}
+                y={marker.y}
+                label={playerLabel}
+                dice={lastDice}
+              />
+            </g>
+          )
         )}
       </svg>
 

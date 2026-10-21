@@ -55,6 +55,14 @@ export function useGame(roomId: string, userId: string, nickname: string) {
       let order: number | undefined;
       let coreNetWorthThreshold: number | undefined;
       let corePassiveIncomeMultiplier: number | undefined;
+      let companions:
+        | Array<{
+            userId: string;
+            nickname?: string;
+            order?: number;
+            identityId?: IdentityId;
+          }>
+        | undefined;
       try {
         const room = await apiFetch<RoomDetail>(`/api/room/${roomId}`);
         const me = room.players?.find(
@@ -65,6 +73,17 @@ export function useGame(roomId: string, userId: string, nickname: string) {
         if (me?.identityId) identityId = me.identityId;
         coreNetWorthThreshold = room.config?.coreNetWorthThreshold;
         corePassiveIncomeMultiplier = room.config?.corePassiveIncomeMultiplier;
+        const bots = (room.players ?? []).filter(
+          (item) => item.bot && item.userId !== userId && item.role !== "banker"
+        );
+        if (bots.length) {
+          companions = bots.map((item) => ({
+            userId: item.userId,
+            nickname: item.nickname,
+            order: item.order,
+            identityId: item.identityId,
+          }));
+        }
       } catch {
         /* 没有房间接口时仍以本地身份入座，服务端用医生身份兜底 */
       }
@@ -79,6 +98,7 @@ export function useGame(roomId: string, userId: string, nickname: string) {
         identityId,
         coreNetWorthThreshold,
         corePassiveIncomeMultiplier,
+        companions,
       });
     };
 
@@ -89,7 +109,25 @@ export function useGame(roomId: string, userId: string, nickname: string) {
       const after =
         next.seats.find((seat) => seat.userId === userId)?.state ?? before;
       const changed = playerStamp(before) !== playerStamp(after);
+      const previous = store.snapshot;
       applyServerState(next, userId);
+      const actorId = next.lastActorUserId;
+      if (previous && actorId && actorId !== userId) {
+        const prior = previous.seats.find((seat) => seat.userId === actorId)?.state;
+        const acted = next.seats.find((seat) => seat.userId === actorId);
+        if (acted) {
+          const moved = prior?.boardIndex !== acted.state.boardIndex;
+          const eventText = acted.state.lastEvent?.message;
+          const eventChanged = eventText && eventText !== prior?.lastEvent?.message;
+          if (moved && acted.state.lastDice != null) {
+            const tile = acted.state.lastTile?.label ?? "格子";
+            const extra = eventChanged && !acted.state.pendingDecision ? ` · ${eventText}` : "";
+            message.info(`${acted.nickname} 掷出 ${acted.state.lastDice} 点 → ${tile}${extra}`);
+          } else if (eventChanged) {
+            message.info(`${acted.nickname}：${eventText}`);
+          }
+        }
+      }
       if (!action || !changed) return;
       setPendingAction(null);
       if (action === "roll") {

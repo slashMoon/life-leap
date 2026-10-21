@@ -31,6 +31,7 @@ export interface RoomDetail {
     role?: RoomPlayerRole;
     identityId?: IdentityId;
     identityName?: string;
+    bot?: boolean;
   }[];
 }
 

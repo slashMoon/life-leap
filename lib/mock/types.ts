@@ -19,6 +19,7 @@ export interface MockRoomPlayer {
   circle?: string;
   identityId?: IdentityId;
   identityName?: string;
+  bot?: boolean;
 }
 
 export interface MockRoom {

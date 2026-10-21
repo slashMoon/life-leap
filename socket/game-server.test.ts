@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { after, test } from "node:test";
 import { io as ioClient, type Socket } from "socket.io-client";
 import { ensureSessionBackend, resetSessions } from "@/lib/game-session/store";
+import { clearRoomTiming, setRoomTiming } from "@/lib/game-session/timing";
 import type { GameSnapshot } from "@/lib/game-session/types";
 import type {
   ClientToServerEvents,
@@ -282,6 +283,164 @@ test("two sockets share one authoritative game", async () => {
   }
 });
 
+test("bot rolls on its own turn and returns the dice to the human", async () => {
+  resetSessions();
+  const server = await startGameServer(0);
+  const url = `http://127.0.0.1:${server.port}`;
+  const roomId = `bot-${Date.now()}`;
+  setRoomTiming(roomId, { botDelayMs: 40, disconnectMs: 30_000 });
+  const states: GameSnapshot[] = [];
+  const dice: Array<{ playerId: string; value: number; reason?: string }> = [];
+  const alice = ioClient(url, { reconnection: false }) as Client;
+  alice.on("game:state", (state) => states.push(state));
+  alice.on("game:dice-rolled", (result) => dice.push(result));
+
+  try {
+    if (!alice.connected) await once(alice, "connect");
+    alice.emit("room:join", {
+      roomId,
+      userId: "alice",
+      nickname: "星尘",
+      playing: true,
+      role: "player",
+      order: 0,
+      identityId: "doctor",
+      companions: [
+        {
+          userId: "practice_bot",
+          nickname: "旅人",
+          order: 1,
+          identityId: "security_guard",
+        },
+      ],
+    });
+    await waitFor(
+      () => states.some((state) => state.turnOrder.length === 2),
+      "bot seated"
+    );
+    const seated = states.at(-1)!;
+    assert.deepEqual(seated.turnOrder, ["alice", "practice_bot"]);
+    assert.equal(seated.currentUserId, "alice");
+    assert.equal(seat(seated, "practice_bot").bot, true);
+
+    const before = states.at(-1)!;
+    alice.emit("game:roll-dice", { roomId, userId: "alice" });
+    await waitFor(() => {
+      const last = states.at(-1);
+      return !!last && last.revision > before.revision && last.lastActorUserId === "alice";
+    }, "alice roll");
+    const cursor = states.at(-1)!;
+    if (seat(cursor, "alice").state.pendingDecision) {
+      const rev = cursor.revision;
+      alice.emit("game:decide", { roomId, userId: "alice", accept: false });
+      await waitFor(
+        () => states.some((state) => state.revision > rev && state.currentUserId === "practice_bot"),
+        "hand off to bot"
+      );
+    }
+    assert.ok(states.some((state) => state.currentUserId === "practice_bot"));
+
+    await waitFor(() => {
+      const last = states.at(-1);
+      if (!last || last.currentUserId !== "alice") return false;
+      const bot = seat(last, "practice_bot");
+      return bot.state.lastDice != null && bot.state.boardIndex > 0 && !bot.state.pendingDecision;
+    }, "bot finished");
+
+    const done = states.at(-1)!;
+    const bot = seat(done, "practice_bot");
+    assert.equal(done.currentUserId, "alice");
+    assert.ok((bot.state.lastDice ?? 0) >= 1);
+    assert.ok(bot.state.boardIndex > 0 && bot.state.boardIndex < 24);
+    assert.equal(bot.state.pendingDecision, null);
+    assert.ok(dice.some((roll) => roll.playerId === "practice_bot" && roll.reason === "bot"));
+    assert.ok(states.filter((state) => state.currentUserId === "alice").length >= 2);
+  } finally {
+    clearRoomTiming(roomId);
+    alice.disconnect();
+    await server.close();
+  }
+});
+
+test("a disconnected human is rolled after the timeout", async () => {
+  resetSessions();
+  const server = await startGameServer(0);
+  const url = `http://127.0.0.1:${server.port}`;
+  const roomId = `away-${Date.now()}`;
+  setRoomTiming(roomId, { botDelayMs: 40, disconnectMs: 120 });
+  const states: GameSnapshot[] = [];
+  const dice: Array<{ playerId: string; reason?: string }> = [];
+  const alice = ioClient(url, { reconnection: false }) as Client;
+  const bob = ioClient(url, { reconnection: false }) as Client;
+  alice.on("game:state", (state) => states.push(state));
+  alice.on("game:dice-rolled", (result) => dice.push(result));
+
+  try {
+    await Promise.all([
+      alice.connected ? Promise.resolve() : once(alice, "connect"),
+      bob.connected ? Promise.resolve() : once(bob, "connect"),
+    ]);
+    alice.emit("room:join", {
+      roomId,
+      userId: "alice",
+      nickname: "Alice",
+      playing: true,
+      role: "player",
+      order: 0,
+      identityId: "doctor",
+    });
+    bob.emit("room:join", {
+      roomId,
+      userId: "bob",
+      nickname: "Bob",
+      playing: true,
+      role: "player",
+      order: 1,
+      identityId: "security_guard",
+    });
+    await waitFor(() => states.some((state) => state.seats.length === 2), "both seated");
+
+    const before = states.at(-1)!;
+    alice.emit("game:roll-dice", { roomId, userId: "alice" });
+    await waitFor(() => {
+      const last = states.at(-1);
+      return !!last && last.revision > before.revision && last.lastActorUserId === "alice";
+    }, "alice roll");
+    if (seat(states.at(-1)!, "alice").state.pendingDecision) {
+      const rev = states.at(-1)!.revision;
+      alice.emit("game:decide", { roomId, userId: "alice", accept: false });
+      await waitFor(
+        () => states.some((state) => state.revision > rev && state.currentUserId === "bob"),
+        "bob's turn"
+      );
+    }
+    assert.equal(states.at(-1)!.currentUserId, "bob");
+
+    bob.disconnect();
+    await waitFor(
+      () => states.some((state) => state.currentUserId === "bob" && state.turnDeadlineAt != null),
+      "countdown"
+    );
+    await waitFor(() => {
+      const last = states.at(-1);
+      if (!last || last.currentUserId !== "alice") return false;
+      const away = seat(last, "bob");
+      return away.state.lastDice != null && away.state.boardIndex > 0 && !away.state.pendingDecision;
+    }, "timeout roll");
+
+    const done = seat(states.at(-1)!, "bob");
+    assert.ok(done.state.eventLog.some((line) => line.includes("等待超时")));
+    assert.ok(dice.some((roll) => roll.playerId === "bob" && roll.reason === "timeout"));
+    assert.equal(states.at(-1)!.currentUserId, "alice");
+  } finally {
+    clearRoomTiming(roomId);
+    alice.disconnect();
+    bob.disconnect();
+    await server.close();
+  }
+});
+
 after(() => {
+  clearRoomTiming();
   resetSessions();
 });

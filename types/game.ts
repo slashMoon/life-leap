@@ -81,4 +81,5 @@ export interface DiceRollResult {
   playerId: string;
   value: number;
   timestamp: number;
+  reason?: "bot" | "timeout";
 }

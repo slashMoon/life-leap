@@ -8,6 +8,8 @@ export interface GameSeat {
   role: RoomPlayerRole;
   order: number;
   connected: boolean;
+  /** 单人试玩里的机器人，到点由服务端代掷 */
+  bot?: boolean;
   state: PlayerRuntimeState;
 }
 
@@ -26,6 +28,8 @@ export interface GameSession {
   lastActorUserId: string | null;
   /** 已经发生过掷骰、决策或还款后，不再因新人加入而重排当前回合 */
   started: boolean;
+  /** 真人掉线后，到这个时间点仍未回来就代掷 */
+  turnDeadlineAt?: number | null;
   chat: ChatLine[];
   revision: number;
 }
@@ -36,12 +40,14 @@ export interface GameSnapshot {
   currentUserId: string | null;
   turnOrder: string[];
   lastActorUserId: string | null;
+  turnDeadlineAt?: number | null;
   seats: Array<{
     userId: string;
     nickname: string;
     role: RoomPlayerRole;
     order: number;
     connected: boolean;
+    bot?: boolean;
     state: PlayerRuntimeState;
   }>;
   chat: ChatLine[];
@@ -64,7 +70,8 @@ export interface SessionCommandResult {
   message?: string;
   createdSeat?: boolean;
   snapshot: GameSnapshot;
-  dice?: { playerId: string; value: number; timestamp: number };
+  skipped?: boolean;
+  dice?: { playerId: string; value: number; timestamp: number; reason?: "bot" | "timeout" };
   tile?: {
     userId: string;
     track: "outer" | "inner";

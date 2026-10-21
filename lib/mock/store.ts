@@ -2,7 +2,7 @@ import { getIdentity, pickRandomIdentityId } from "@/lib/constants/identities";
 import { isMockMode } from "./config";
 import { getMinBoardPlayers } from "@/lib/room/start-rules";
 import { defaultRoomConfig, MOCK_CARDS, MOCK_USERS, SEED_ROOMS } from "./seed";
-import type { MockCard, MockRoom, MockUser } from "./types";
+import type { MockCard, MockRoom, MockRoomPlayer, MockUser } from "./types";
 import type { RoomConfig, RoomStatus } from "@/types/game";
 import type { IdentityId } from "@/types/identity";
 import {
@@ -11,6 +11,8 @@ import {
 } from "@/types/identity";
 
 export const SYSTEM_BANKER_USER_ID = "system_banker";
+export const PRACTICE_BOT_USER_ID = "practice_bot";
+export const PRACTICE_BOT_NICKNAME = "旅人";
 
 export type MockStoreResult<T> =
   | { ok: true; value: T }
@@ -256,6 +258,24 @@ class MockStore {
     human.identityId = identityId;
     human.identityName = identity.name;
     human.status = "ready";
+
+    if (!room.players.some((player) => player.userId === PRACTICE_BOT_USER_ID)) {
+      const botIdentity = getIdentity("security_guard");
+      const bot: MockRoomPlayer = {
+        ...makePlayer(
+          roomId,
+          PRACTICE_BOT_USER_ID,
+          PRACTICE_BOT_NICKNAME,
+          room.players.length,
+          "player"
+        ),
+        identityId: botIdentity.id,
+        identityName: botIdentity.name,
+        bot: true,
+        status: "ready",
+      };
+      room.players.push(bot);
+    }
 
     return { ok: true, value: room };
   }

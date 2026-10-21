@@ -2,7 +2,7 @@
 
 import { Alert, Card, Col, Empty, List, Row, Space, Tag } from "antd";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppShell } from "@/components/shell/AppShell";
 import { CircleBanner, CircleCeremony } from "@/components/ceremony/CircleCeremony";
 import { useCeremonyPreview } from "@/components/ceremony/useCeremonyPreview";
@@ -68,13 +68,43 @@ export default function GamePage() {
     turnSeat && turnSeat.role !== "banker"
       ? turnSeat
       : boardSeats.find((seat) => seat.userId === userId);
+  const actor = snapshot?.seats.find((seat) => seat.userId === snapshot.lastActorUserId);
+  const shownDice =
+    actor && actor.userId !== userId ? actor.state.lastDice : player.lastDice;
+  const rollCue =
+    actor && actor.userId !== userId && actor.state.lastDice != null
+      ? {
+          key: `${actor.userId}:${actor.state.boardIndex}:${actor.state.lastDice}`,
+          value: actor.state.lastDice,
+        }
+      : null;
+  const [now, setNow] = useState(() => Date.now());
+  const deadline = !turnSeat?.bot ? snapshot?.turnDeadlineAt ?? null : null;
 
   useEffect(() => {
-    if (player.identityId) return;
+    if (!deadline) return;
+    const timer = window.setInterval(() => setNow(Date.now()), 250);
+    return () => window.clearInterval(timer);
+  }, [deadline]);
+
+  const remain =
+    deadline != null ? Math.max(0, Math.ceil((deadline - now) / 1000)) : null;
+  const waitHint =
+    synced && !isMyTurn && turnSeat && turnSeat.role !== "banker"
+      ? `等待 ${turnSeat.nickname} ${turnSeat.state.pendingDecision ? "决策" : "掷骰"}${
+          remain != null ? ` · ${remain}s` : ""
+        }`
+      : undefined;
+  const otherLines = boardSeats
+    .filter((seat) => seat.userId !== userId && seat.state.eventLog[0])
+    .map((seat) => `${seat.nickname} · ${seat.state.eventLog[0]}`);
+
+  useEffect(() => {
+    if (player.identityId || !synced) return;
     const previewing = new URLSearchParams(window.location.search).has("ceremony");
     if (previewing) return;
     router.replace(`/room/${roomId}/identity`);
-  }, [player.identityId, roomId, router]);
+  }, [player.identityId, synced, roomId, router]);
 
   return (
     <AppShell
@@ -134,11 +164,22 @@ export default function GamePage() {
 
           <Space className="mt-4" direction="vertical" size="middle">
             <DiceRoller
-              value={player.lastDice}
+              value={shownDice}
               onRoll={rollDice}
               loading={isRolling}
               disabled={!connected || !synced || !isMyTurn || hasPendingDecision}
+              hint={waitHint}
+              rollCue={rollCue}
             />
+
+            {actor && actor.userId !== userId && actor.state.lastEvent?.message ? (
+              <Alert
+                type="info"
+                showIcon
+                message={`${actor.nickname} · ${actor.state.lastTile?.label ?? "回合结算"}`}
+                description={actor.state.lastEvent.message}
+              />
+            ) : null}
 
             {hasPendingDecision && (
               <Alert
@@ -193,7 +234,7 @@ export default function GamePage() {
           <Card title="回合日志" size="small" className="mt-4">
             <List
               size="small"
-              dataSource={player.eventLog}
+              dataSource={[...otherLines, ...player.eventLog]}
               locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="这一局还没有落子" /> }}
               renderItem={(item) => (
                 <List.Item className="!px-0 py-1 text-xs text-[var(--ll-muted)]">

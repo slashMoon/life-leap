@@ -22,6 +22,7 @@ export function roomToJson(room: import("./types").MockRoom) {
       circle: p.circle,
       identityId: p.identityId,
       identityName: p.identityName,
+      bot: p.bot || undefined,
     })),
   };
 }

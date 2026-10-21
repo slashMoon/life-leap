@@ -138,8 +138,8 @@ export default function RoomPage() {
       }
       message.success(
         assigned?.identityName
-          ? `单人试玩就绪：${assigned.identityName}，可以开始游戏`
-          : "单人试玩就绪，可以开始游戏"
+          ? `单人试玩就绪：${assigned.identityName}。旅人会在你之后自动掷骰`
+          : "单人试玩就绪，旅人会在你之后自动掷骰"
       );
     } catch (e) {
       message.error(e instanceof Error ? e.message : "单人试玩准备失败");
@@ -265,6 +265,7 @@ export default function RoomPage() {
                   {p.role === "banker" || p.userId === bankerUserId ? (
                     <Tag color="purple">银行家</Tag>
                   ) : null}
+                  {p.bot ? <Tag color="gold">机器人</Tag> : null}
                   {p.identityName ? (
                     <Tag color="blue">{p.identityName}</Tag>
                   ) : p.role !== "banker" ? (

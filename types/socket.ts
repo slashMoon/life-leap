@@ -17,6 +17,13 @@ export interface ClientToServerEvents {
     order?: number;
     coreNetWorthThreshold?: number;
     corePassiveIncomeMultiplier?: number;
+    /** 单人试玩里尚未连上的机器人座位 */
+    companions?: Array<{
+      userId: string;
+      nickname?: string;
+      order?: number;
+      identityId?: IdentityId;
+    }>;
   }) => void;
   "room:leave": (payload: { roomId: string; userId: string }) => void;
   "room:ready": (payload: { roomId: string; userId: string }) => void;

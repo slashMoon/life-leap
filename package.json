@@ -14,7 +14,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "tsx --test lib/rule-engine/circle-transition.test.ts lib/game-engine/finance-transition.test.ts socket/game-server.test.ts",
+    "test": "tsx --test lib/rule-engine/circle-transition.test.ts lib/game-engine/finance-transition.test.ts lib/ceremony/detect-transition.test.ts socket/game-server.test.ts",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",

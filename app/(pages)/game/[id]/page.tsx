@@ -4,6 +4,8 @@ import { Alert, Card, Col, Empty, List, Row, Space, Tag } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { AppShell } from "@/components/shell/AppShell";
+import { CircleBanner, CircleCeremony } from "@/components/ceremony/CircleCeremony";
+import { useCeremonyPreview } from "@/components/ceremony/useCeremonyPreview";
 import { CardDrawer } from "@/components/card/CardDrawer";
 import { DecisionModal } from "@/components/card/DecisionModal";
 import { CashFlowPanel } from "@/components/cash-flow/CashFlowPanel";
@@ -12,6 +14,7 @@ import { ChatPanel } from "@/components/chat/ChatPanel";
 import { DiceRoller } from "@/components/dice/DiceRoller";
 import { GameWheel } from "@/components/wheel/GameWheel";
 import { getStoredUser } from "@/lib/client/user";
+import { useCircleCeremony } from "@/hooks/useCircleCeremony";
 import { useGame } from "@/hooks/useGame";
 
 const TOKEN_COLORS = ["#d4a853", "#7eb6ff", "#7dcea0", "#f1948a", "#c39bd3", "#f7dc6f"];
@@ -36,8 +39,17 @@ export default function GamePage() {
     repay,
     socket,
   } = useGame(roomId, userId, nickname);
+  const ceremony = useCircleCeremony(snapshot, userId);
+  const preview = useCeremonyPreview(nickname);
+  const fullView = preview.full ?? ceremony.full;
+  const banner = preview.banner ?? (ceremony.light
+    ? { nickname: ceremony.light.nickname, to: ceremony.light.to, userId: ceremony.light.userId }
+    : null);
 
   const boardSeats = (snapshot?.seats ?? []).filter((seat) => seat.role !== "banker");
+  const glowId =
+    banner?.userId ??
+    (banner ? boardSeats.find((seat) => seat.userId !== userId)?.userId : undefined);
   const tokens = boardSeats.map((seat, index) => ({
     id: seat.userId,
     label: seat.nickname || seat.state.identityName || seat.userId,
@@ -47,6 +59,7 @@ export default function GamePage() {
     active: seat.userId === snapshot?.currentUserId,
     dice:
       seat.userId === snapshot?.lastActorUserId ? seat.state.lastDice : null,
+    glow: glowId === seat.userId,
   }));
   const turnSeat = snapshot?.seats.find(
     (seat) => seat.userId === snapshot.currentUserId
@@ -57,9 +70,10 @@ export default function GamePage() {
       : boardSeats.find((seat) => seat.userId === userId);
 
   useEffect(() => {
-    if (!player.identityId) {
-      router.replace(`/room/${roomId}/identity`);
-    }
+    if (player.identityId) return;
+    const previewing = new URLSearchParams(window.location.search).has("ceremony");
+    if (previewing) return;
+    router.replace(`/room/${roomId}/identity`);
   }, [player.identityId, roomId, router]);
 
   return (
@@ -115,6 +129,7 @@ export default function GamePage() {
             lastDice={player.lastDice}
             playerLabel={nickname}
             tokens={tokens}
+            orbit={fullView?.to ?? circle}
           />
 
           <Space className="mt-4" direction="vertical" size="middle">
@@ -199,6 +214,27 @@ export default function GamePage() {
           </div>
         </Col>
       </Row>
+
+      {fullView && (
+        <CircleCeremony
+          view={fullView}
+          onDone={preview.full ? preview.clearFull : ceremony.dismissFull}
+        />
+      )}
+      {banner && (
+        <CircleBanner
+          nickname={banner.nickname}
+          to={banner.to}
+          onDone={preview.banner ? preview.clearBanner : ceremony.dismissLight}
+        />
+      )}
+      {preview.dev && (
+        <div className="ll-ceremony-dev">
+          <button type="button" onClick={preview.playBoss}>演示 · 老板圈</button>
+          <button type="button" onClick={preview.playCore}>演示 · 核心圈</button>
+          <button type="button" onClick={preview.playOther}>演示 · 他人跃迁</button>
+        </div>
+      )}
     </AppShell>
   );
 }

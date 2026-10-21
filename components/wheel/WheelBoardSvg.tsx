@@ -60,6 +60,8 @@ export interface WheelToken {
   color?: string;
   active?: boolean;
   dice?: number | null;
+  /** 其他玩家跃迁时，让对方棋子亮一圈 */
+  glow?: boolean;
 }
 
 interface WheelBoardSvgProps {
@@ -97,6 +99,7 @@ function PlayerMarker({
   dice,
   color = "var(--ll-gold)",
   active = true,
+  glow = false,
 }: {
   x: number;
   y: number;
@@ -104,11 +107,14 @@ function PlayerMarker({
   dice?: number | null;
   color?: string;
   active?: boolean;
+  glow?: boolean;
 }) {
   const initial = label?.charAt(0) || "我";
   return (
-    <g className="player-marker" transform={`translate(${x}, ${y})`}>
-      {active && <circle className="ll-token-ring" r={22} fill="none" stroke={color} strokeWidth={1.6} />}
+    <g className={`player-marker${glow ? " ll-token-ascend" : ""}`} transform={`translate(${x}, ${y})`}>
+      {(active || glow) && (
+        <circle className="ll-token-ring" r={22} fill="none" stroke={color} strokeWidth={1.6} />
+      )}
       <circle r={16} fill="#0c0a08" stroke={color} strokeWidth={3} />
       <circle r={11} fill={color} />
       <text
@@ -582,6 +588,7 @@ export function WheelBoardSvg({
                   dice={onTheWay ? null : token.dice}
                   color={token.color}
                   active={token.active !== false}
+                  glow={token.glow}
                 />
               );
             })}

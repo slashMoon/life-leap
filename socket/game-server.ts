@@ -81,6 +81,12 @@ export function attachGameServer(io: GameServer) {
       }
 
       void mutateSession(roomId, (session) => {
+        if (
+          session.seats.length === 0 &&
+          (payload.mode === "solo" || payload.mode === "multi")
+        ) {
+          session.mode = payload.mode;
+        }
         const result = joinSeat(session, {
           userId,
           nickname: payload.nickname,

@@ -16,6 +16,9 @@ import { GameWheel } from "@/components/wheel/GameWheel";
 import { getStoredUser } from "@/lib/client/user";
 import { useCircleCeremony } from "@/hooks/useCircleCeremony";
 import { useGame } from "@/hooks/useGame";
+import { apiFetch } from "@/lib/api/fetch";
+import type { RoomDetail } from "@/hooks/useRoom";
+import type { GameMode } from "@/types/game";
 
 const TOKEN_COLORS = ["#d4a853", "#7eb6ff", "#7dcea0", "#f1948a", "#c39bd3", "#f7dc6f"];
 
@@ -24,6 +27,7 @@ export default function GamePage() {
   const router = useRouter();
   const roomId = params.id as string;
   const { userId, nickname } = getStoredUser();
+  const [table, setTable] = useState<{ mode?: GameMode; code?: string }>({});
   const {
     player,
     snapshot,
@@ -100,6 +104,18 @@ export default function GamePage() {
     .map((seat) => `${seat.nickname} · ${seat.state.eventLog[0]}`);
 
   useEffect(() => {
+    let cancelled = false;
+    void apiFetch<RoomDetail>(`/api/room/${roomId}`)
+      .then((room) => {
+        if (!cancelled) setTable({ mode: room.mode, code: room.code });
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [roomId]);
+
+  useEffect(() => {
     if (player.identityId || !synced) return;
     const previewing = new URLSearchParams(window.location.search).has("ceremony");
     if (previewing) return;
@@ -115,6 +131,13 @@ export default function GamePage() {
       width="xl"
       meta={
         <>
+          <Tag color="gold">
+            {(snapshot?.mode ?? table.mode) === "solo"
+              ? "单机"
+              : (snapshot?.mode ?? table.mode) === "multi"
+                ? `多人 · ${table.code || roomId.slice(-4).toUpperCase()}`
+                : "读取模式"}
+          </Tag>
           {player.identityName ? <Tag color="blue">{player.identityName}</Tag> : null}
           {player.identityTier ? (
             <Tag>{player.identityTier === "high" ? "高产" : player.identityTier === "middle" ? "中产" : "低产"}</Tag>

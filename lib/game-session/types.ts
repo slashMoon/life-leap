@@ -1,4 +1,4 @@
-import type { LifeCircle } from "@/types/game";
+import type { GameMode, LifeCircle } from "@/types/game";
 import type { IdentityId, RoomPlayerRole } from "@/types/identity";
 import type { PlayerRuntimeState } from "@/types/player";
 
@@ -23,6 +23,7 @@ export interface ChatLine {
 /** 一局的权威会话。同一进程内以内存为准，Redis 只做写穿。 */
 export interface GameSession {
   roomId: string;
+  mode: GameMode;
   seats: GameSeat[];
   currentUserId: string | null;
   lastActorUserId: string | null;
@@ -36,6 +37,7 @@ export interface GameSession {
 
 export interface GameSnapshot {
   roomId: string;
+  mode: GameMode;
   phase: "playing";
   currentUserId: string | null;
   turnOrder: string[];

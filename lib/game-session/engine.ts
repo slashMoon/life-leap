@@ -16,6 +16,7 @@ const CHAT_LIMIT = 50;
 export function createEmptySession(roomId: string): GameSession {
   return {
     roomId,
+    mode: "multi",
     seats: [],
     currentUserId: null,
     lastActorUserId: null,
@@ -36,6 +37,7 @@ export function turnOrderOf(session: GameSession): string[] {
 export function toSnapshot(session: GameSession): GameSnapshot {
   return {
     roomId: session.roomId,
+    mode: session.mode === "solo" ? "solo" : "multi",
     phase: "playing",
     currentUserId: session.currentUserId,
     turnOrder: turnOrderOf(session),

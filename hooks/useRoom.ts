@@ -5,20 +5,42 @@ import { apiFetch } from "@/lib/api/fetch";
 import { getStoredUser } from "@/lib/client/user";
 import { useRoomStore } from "@/stores/room-store";
 import type { IdentityId, RoomPlayerRole } from "@/types/identity";
-import type { RoomConfig, RoomStatus } from "@/types/game";
+import type { GameMode, RoomConfig, RoomStatus } from "@/types/game";
 
 export interface RoomListItem {
   id: string;
+  code: string;
   name: string;
   status: string;
-  password: string | null;
-  players: { nickname: string; status: string }[];
+  hasPassword: boolean;
+  mode: GameMode;
+  isPublic: boolean;
+  fillBots: boolean;
+  players: { nickname: string; status: string; bot?: boolean }[];
+}
+
+function roomPassKey(id: string) {
+  return `life-leap-room-pass:${id}`;
+}
+
+export function rememberRoomPassword(id: string, password: string) {
+  sessionStorage.setItem(roomPassKey(id), password);
+}
+
+function storedRoomPassword(id: string) {
+  if (typeof window === "undefined") return undefined;
+  return sessionStorage.getItem(roomPassKey(id)) || undefined;
 }
 
 export interface RoomDetail {
   id: string;
+  code?: string;
   name: string;
   status: string;
+  hasPassword?: boolean;
+  mode?: GameMode;
+  isPublic?: boolean;
+  fillBots?: boolean;
   config: RoomConfig;
   hostUserId?: string | null;
   bankerUserId?: string | null;
@@ -67,6 +89,7 @@ export function useRoom() {
   const config = useRoomStore((s) => s.config);
   const players = useRoomStore((s) => s.players);
   const bankerUserId = useRoomStore((s) => s.bankerUserId);
+  const hostUserId = useRoomStore((s) => s.hostUserId);
   const setRoom = useRoomStore((s) => s.setRoom);
   const setPlayers = useRoomStore((s) => s.setPlayers);
   const reset = useRoomStore((s) => s.reset);
@@ -88,13 +111,20 @@ export function useRoom() {
   }, []);
 
   const createRoom = useCallback(
-    async (payload: { name: string; password?: string; config: RoomConfig }) => {
+    async (payload: {
+      name: string;
+      password?: string;
+      config: RoomConfig;
+      isPublic?: boolean;
+      fillBots?: boolean;
+    }) => {
       const { userId, nickname } = getStoredUser();
       return apiFetch<RoomDetail>("/api/room", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...payload,
+          mode: "multi",
           hostUserId: userId,
           hostNickname: nickname,
         }),
@@ -103,13 +133,30 @@ export function useRoom() {
     []
   );
 
+  const startSolo = useCallback(async (payload: { botCount: number; difficulty?: RoomConfig["difficulty"] }) => {
+    const { userId, nickname } = getStoredUser();
+    return apiFetch<RoomDetail>("/api/room", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: "solo",
+        name: `${nickname}的单机局`,
+        botCount: payload.botCount,
+        difficulty: payload.difficulty,
+        hostUserId: userId,
+        hostNickname: nickname,
+      }),
+    });
+  }, []);
+
   const joinRoom = useCallback(
-    async (id: string) => {
+    async (id: string, password?: string) => {
       const { userId, nickname } = getStoredUser();
+      const secret = password ?? storedRoomPassword(id);
       const data = await apiFetch<RoomDetail>(`/api/room/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "join", userId, nickname }),
+        body: JSON.stringify({ action: "join", userId, nickname, password: secret }),
       });
       applyRoomToStore(data, setRoom, setPlayers);
       return data;
@@ -119,8 +166,9 @@ export function useRoom() {
 
   /** 进入房间：拉取详情并加入（只调一次） */
   const enterRoom = useCallback(
-    async (id: string) => {
+    async (id: string, password?: string) => {
       const { userId, nickname } = getStoredUser();
+      const secret = password ?? storedRoomPassword(id);
       const data = await apiFetch<RoomDetail>(`/api/room/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -128,6 +176,7 @@ export function useRoom() {
           action: "enter",
           userId,
           nickname,
+          password: secret,
         }),
       });
       applyRoomToStore(data, setRoom, setPlayers);
@@ -152,10 +201,11 @@ export function useRoom() {
 
   const startGame = useCallback(
     async (id: string) => {
+      const { userId, nickname } = getStoredUser();
       const data = await apiFetch<RoomDetail>(`/api/room/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "start" }),
+        body: JSON.stringify({ action: "start", userId, nickname }),
       });
       applyRoomToStore(data, setRoom, setPlayers);
       return data;
@@ -235,6 +285,7 @@ export function useRoom() {
     status,
     config,
     players,
+    hostUserId,
     bankerUserId,
     loading,
     error,
@@ -242,6 +293,7 @@ export function useRoom() {
     fetchRoom,
     listRooms,
     createRoom,
+    startSolo,
     joinRoom,
     enterRoom,
     setPlayerReady,

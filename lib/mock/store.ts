@@ -1,25 +1,27 @@
 import { getIdentity, pickRandomIdentityId } from "@/lib/constants/identities";
-import { isMockMode } from "./config";
-import { getMinBoardPlayers } from "@/lib/room/start-rules";
-import { defaultRoomConfig, MOCK_CARDS, MOCK_USERS, SEED_ROOMS } from "./seed";
-import type { MockCard, MockRoom, MockRoomPlayer, MockUser } from "./types";
-import type { RoomConfig, RoomStatus } from "@/types/game";
-import type { IdentityId } from "@/types/identity";
 import {
-  MAX_BOARD_PLAYERS,
-  MAX_ROOM_OCCUPANTS,
-} from "@/types/identity";
+  BOT_ROSTER,
+  SYSTEM_BANKER_NICKNAME,
+  SYSTEM_BANKER_USER_ID,
+  normalizeSoloBots,
+} from "@/lib/mock/bots";
+import { defaultRoomConfig, MOCK_CARDS, MOCK_USERS, SEED_ROOMS } from "./seed";
+import { getRoomStartBlockers, isRoomHost } from "@/lib/room/start-rules";
+import type { MockCard, MockRoom, MockRoomPlayer, MockUser } from "./types";
+import type { GameMode, RoomConfig, RoomStatus } from "@/types/game";
+import type { IdentityId } from "@/types/identity";
+import { MAX_BOARD_PLAYERS, MAX_ROOM_OCCUPANTS } from "@/types/identity";
 
-export const SYSTEM_BANKER_USER_ID = "system_banker";
-export const PRACTICE_BOT_USER_ID = "practice_bot";
-export const PRACTICE_BOT_NICKNAME = "旅人";
+export { SYSTEM_BANKER_USER_ID } from "@/lib/mock/bots";
+export const PRACTICE_BOT_USER_ID = BOT_ROSTER[0].userId;
+export const PRACTICE_BOT_NICKNAME = BOT_ROSTER[0].nickname;
 
 export type MockStoreResult<T> =
   | { ok: true; value: T }
   | { ok: false; reason: string };
 
 function boardPlayers(room: MockRoom) {
-  return room.players.filter((p) => p.role !== "banker");
+  return room.players.filter((player) => player.role !== "banker");
 }
 
 function id(prefix: string) {
@@ -32,7 +34,7 @@ function makePlayer(
   nickname: string,
   order: number,
   role: "player" | "banker" = "player",
-  status = "ready"
+  status = "waiting"
 ) {
   return {
     id: `rp_${roomId}_${order}`,
@@ -46,6 +48,18 @@ function makePlayer(
   };
 }
 
+function makeCode(used: Set<string>) {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  for (let attempt = 0; attempt < 24; attempt += 1) {
+    let code = "";
+    for (let index = 0; index < 4; index += 1) {
+      code += alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+    if (!used.has(code)) return code;
+  }
+  return id("code").slice(-4).toUpperCase();
+}
+
 /** 进程内内存存储，开发 Mock 用 */
 class MockStore {
   users = new Map<string, MockUser>();
@@ -53,9 +67,9 @@ class MockStore {
   cards = new Map<string, MockCard>();
 
   constructor() {
-    MOCK_USERS.forEach((u) => this.users.set(u.id, u));
-    SEED_ROOMS.forEach((r) => this.rooms.set(r.id, structuredClone(r)));
-    MOCK_CARDS.forEach((c) => this.cards.set(c.id, c));
+    MOCK_USERS.forEach((user) => this.users.set(user.id, user));
+    SEED_ROOMS.forEach((room) => this.rooms.set(room.id, structuredClone(room)));
+    MOCK_CARDS.forEach((card) => this.cards.set(card.id, card));
   }
 
   listUsers() {
@@ -76,11 +90,101 @@ class MockStore {
   listRooms(status?: RoomStatus) {
     const all = [...this.rooms.values()];
     if (!status) return all;
-    return all.filter((r) => r.status === status);
+    return all.filter((room) => room.status === status);
+  }
+
+  /** 多人大厅只列出公开、等待中的房间。单机房和私密房不出现。 */
+  listLobbyRooms() {
+    return [...this.rooms.values()].filter(
+      (room) => room.status === "waiting" && room.mode === "multi" && room.isPublic
+    );
   }
 
   getRoom(roomId: string): MockRoom | undefined {
     return this.rooms.get(roomId);
+  }
+
+  findByCode(code: string): MockRoom | undefined {
+    const normalized = code.trim().toUpperCase();
+    if (!normalized) return undefined;
+    return [...this.rooms.values()].find((room) => room.code.toUpperCase() === normalized);
+  }
+
+  private usedCodes() {
+    return new Set([...this.rooms.values()].map((room) => room.code.toUpperCase()));
+  }
+
+  private settleHost(params: { hostUserId?: string; hostNickname?: string }) {
+    if (!params.hostUserId && !params.hostNickname) return null;
+    const userId = params.hostUserId || id("user");
+    let user = this.users.get(userId);
+    if (!user) {
+      user = {
+        id: userId,
+        nickname: params.hostNickname?.trim() || userId,
+        avatar: null,
+        createdAt: new Date().toISOString(),
+      };
+      this.users.set(user.id, user);
+    }
+    return { userId: user.id, nickname: user.nickname };
+  }
+
+  private ensureSystemBanker(room: MockRoom) {
+    const humanBanker = room.players.find(
+      (player) => player.role === "banker" && player.userId !== SYSTEM_BANKER_USER_ID
+    );
+    if (humanBanker) {
+      room.players = room.players.filter((player) => player.userId !== SYSTEM_BANKER_USER_ID);
+      room.bankerUserId = humanBanker.userId;
+      return;
+    }
+    let system = room.players.find((player) => player.userId === SYSTEM_BANKER_USER_ID);
+    if (!system) {
+      system = makePlayer(
+        room.id,
+        SYSTEM_BANKER_USER_ID,
+        SYSTEM_BANKER_NICKNAME,
+        room.players.length,
+        "banker",
+        "ready"
+      );
+      room.players.push(system);
+    } else {
+      system.role = "banker";
+      system.nickname = SYSTEM_BANKER_NICKNAME;
+      system.status = "ready";
+      system.identityId = undefined;
+      system.identityName = undefined;
+    }
+    room.bankerUserId = SYSTEM_BANKER_USER_ID;
+  }
+
+  private seatBot(room: MockRoom, slot: (typeof BOT_ROSTER)[number]) {
+    const identity = getIdentity(slot.identityId);
+    const bot: MockRoomPlayer = {
+      ...makePlayer(room.id, slot.userId, slot.nickname, room.players.length, "player", "ready"),
+      identityId: identity.id,
+      identityName: identity.name,
+      bot: true,
+    };
+    room.players.push(bot);
+    return bot;
+  }
+
+  private fillShortTable(room: MockRoom) {
+    if (!room.fillBots) return;
+    const humans = boardPlayers(room).filter((player) => !player.bot);
+    if (humans.length < 1 || boardPlayers(room).length >= 2) return;
+    const cap = Math.min(MAX_BOARD_PLAYERS, Math.max(2, room.config.maxPlayers));
+    let guard = 0;
+    while (boardPlayers(room).length < 2 && boardPlayers(room).length < cap && guard < 8) {
+      const used = new Set(room.players.map((player) => player.userId));
+      const slot = BOT_ROSTER.find((bot) => !used.has(bot.userId));
+      if (!slot) break;
+      this.seatBot(room, slot);
+      guard += 1;
+    }
   }
 
   createRoom(params: {
@@ -89,37 +193,82 @@ class MockStore {
     config?: RoomConfig;
     hostUserId?: string;
     hostNickname?: string;
+    mode?: GameMode;
+    isPublic?: boolean;
+    fillBots?: boolean;
   }): MockRoom {
     const roomId = id("room");
     const config = params.config ?? defaultRoomConfig;
-    const players = [];
-
-    if (params.hostUserId) {
-      let user = this.users.get(params.hostUserId);
-      if (!user && params.hostNickname) {
-        user = this.createUser(params.hostNickname);
-      }
-      const userId = user?.id ?? params.hostUserId;
-      const nickname =
-        user?.nickname ?? params.hostNickname ?? params.hostUserId;
-      players.push(makePlayer(roomId, userId, nickname, 0, "banker"));
-    }
-
-    const hostId = players[0]?.userId ?? params.hostUserId ?? null;
+    const host = this.settleHost(params);
+    const players = host
+      ? [makePlayer(roomId, host.userId, host.nickname, 0, "player", "waiting")]
+      : [];
 
     const room: MockRoom = {
       id: roomId,
+      code: makeCode(this.usedCodes()),
       name: params.name,
-      password: params.password ?? null,
+      password: params.password?.trim() ? params.password.trim() : null,
+      mode: params.mode === "solo" ? "solo" : "multi",
+      isPublic: params.isPublic !== false,
+      fillBots: params.fillBots !== false,
       status: "waiting",
       config,
       createdAt: new Date().toISOString(),
-      hostUserId: hostId ?? undefined,
-      bankerUserId: hostId,
+      hostUserId: host?.userId,
+      bankerUserId: null,
       players,
     };
+    this.ensureSystemBanker(room);
     this.rooms.set(roomId, room);
     return room;
+  }
+
+  createSoloRoom(params: {
+    hostUserId?: string;
+    hostNickname?: string;
+    botCount?: number;
+    difficulty?: RoomConfig["difficulty"];
+    name?: string;
+  }): MockStoreResult<MockRoom> {
+    const botCount = normalizeSoloBots(params.botCount ?? 2);
+    if (botCount == null) {
+      return { ok: false, reason: "机器人数量需要在 1 到 7 之间" };
+    }
+    const host = this.settleHost(params);
+    if (!host) return { ok: false, reason: "请先填写昵称" };
+
+    const room = this.createRoom({
+      name: params.name?.trim() || `${host.nickname}的单机局`,
+      config: {
+        ...defaultRoomConfig,
+        maxPlayers: 1 + botCount,
+        difficulty: params.difficulty ?? "normal",
+      },
+      hostUserId: host.userId,
+      hostNickname: host.nickname,
+      mode: "solo",
+      isPublic: false,
+      fillBots: false,
+    });
+
+    const human = room.players.find((player) => player.userId === host.userId);
+    if (!human) return { ok: false, reason: "单机开局失败" };
+    const identityId = pickRandomIdentityId();
+    const identity = getIdentity(identityId);
+    human.role = "player";
+    human.identityId = identityId;
+    human.identityName = identity.name;
+    human.status = "ready";
+
+    for (const slot of BOT_ROSTER.slice(0, botCount)) {
+      this.seatBot(room, slot);
+    }
+    this.ensureSystemBanker(room);
+    room.mode = "solo";
+    room.isPublic = false;
+    room.status = "playing";
+    return { ok: true, value: room };
   }
 
   updateRoomStatus(roomId: string, status: RoomStatus): MockRoom | null {
@@ -132,23 +281,38 @@ class MockStore {
   joinRoom(
     roomId: string,
     userId: string,
-    nickname: string
+    nickname: string,
+    password?: string | null
   ): MockStoreResult<MockRoom> {
     const room = this.rooms.get(roomId);
     if (!room) return { ok: false, reason: "房间不存在" };
 
     const existing = room.players.find(
-      (p) => p.userId === userId || p.nickname === nickname
+      (player) => player.userId === userId || player.nickname === nickname
     );
     if (existing) return { ok: true, value: room };
 
+    if (room.mode === "solo") {
+      return { ok: false, reason: "这是单机对局，不能加入" };
+    }
+    if (room.status !== "waiting") {
+      return { ok: false, reason: "对局已开始，无法加入" };
+    }
+    if (room.password) {
+      if (!password) return { ok: false, reason: "请输入房间密码" };
+      if (password !== room.password) return { ok: false, reason: "房间密码错误" };
+    }
+
+    const humans = boardPlayers(room).filter((player) => !player.bot);
+    if (humans.length >= room.config.maxPlayers) {
+      return { ok: false, reason: `玩家已满（上限 ${room.config.maxPlayers} 人）` };
+    }
     if (room.players.length >= MAX_ROOM_OCCUPANTS) {
       return {
         ok: false,
         reason: `房间已满（1 名银行家 + 最多 ${MAX_BOARD_PLAYERS} 名玩家）`,
       };
     }
-
     if (boardPlayers(room).length >= MAX_BOARD_PLAYERS) {
       return {
         ok: false,
@@ -156,26 +320,26 @@ class MockStore {
       };
     }
 
-    room.players.push(
-      makePlayer(roomId, userId, nickname, room.players.length, "player")
-    );
+    room.players.push(makePlayer(roomId, userId, nickname, room.players.length, "player", "waiting"));
     return { ok: true, value: room };
   }
 
   setBanker(roomId: string, userId: string): MockRoom | null {
     const room = this.rooms.get(roomId);
-    if (!room) return null;
+    if (!room || room.status === "playing") return null;
 
     const target = room.players.find(
-      (p) => p.userId === userId || p.nickname === userId
+      (player) => player.userId === userId || player.nickname === userId
     );
-    if (!target) return null;
+    if (!target || target.bot || target.userId === SYSTEM_BANKER_USER_ID) return null;
 
-    room.players.forEach((p) => {
-      if (p.role === "banker") {
-        p.role = "player";
-        p.identityId = undefined;
-        p.identityName = undefined;
+    room.players = room.players.filter((player) => player.userId !== SYSTEM_BANKER_USER_ID);
+    room.players.forEach((player) => {
+      if (player.role === "banker") {
+        player.role = "player";
+        player.identityId = undefined;
+        player.identityName = undefined;
+        player.status = "waiting";
       }
     });
 
@@ -195,12 +359,13 @@ class MockStore {
     if (!room) return { ok: false, reason: "房间不存在" };
 
     const player = room.players.find(
-      (p) => p.userId === userId || p.nickname === userId
+      (item) => item.userId === userId || item.nickname === userId
     );
     if (!player) return { ok: false, reason: "你不在该房间中" };
     if (player.role === "banker") {
       return { ok: false, reason: "银行家无需选择身份" };
     }
+    if (player.bot) return { ok: false, reason: "机器人身份已分配" };
 
     const identityId = pickRandomIdentityId();
     const identity = getIdentity(identityId);
@@ -215,68 +380,33 @@ class MockStore {
     if (!room) return { ok: false, reason: "房间不存在" };
 
     const human = room.players.find(
-      (p) => p.userId === userId || p.nickname === userId
+      (player) => player.userId === userId || player.nickname === userId
     );
     if (!human) return { ok: false, reason: "你不在该房间中" };
 
-    const board = boardPlayers(room);
-    if (board.length > 0) {
+    const board = boardPlayers(room).filter((player) => !player.bot);
+    if (board.length > 1 || (board.length === 1 && board[0]?.userId !== human.userId && board[0]?.nickname !== userId)) {
       return { ok: false, reason: "房间中已有其他玩家，请直接抽取身份后开始" };
     }
 
-    let systemBanker = room.players.find(
-      (p) => p.userId === SYSTEM_BANKER_USER_ID
-    );
-    room.players.forEach((p) => {
-      if (p.role === "banker" && p.userId !== SYSTEM_BANKER_USER_ID) {
-        p.role = "player";
+    room.players.forEach((player) => {
+      if (player.role === "banker" && player.userId !== SYSTEM_BANKER_USER_ID) {
+        player.role = "player";
       }
     });
-    if (!systemBanker) {
-      systemBanker = makePlayer(
-        roomId,
-        SYSTEM_BANKER_USER_ID,
-        "系统银行家",
-        room.players.length,
-        "banker"
-      );
-      room.players.push(systemBanker);
-    } else {
-      systemBanker.role = "banker";
-      systemBanker.identityId = undefined;
-      systemBanker.identityName = undefined;
-    }
-
-    if (human.role === "banker" && human.userId !== SYSTEM_BANKER_USER_ID) {
-      human.role = "player";
-    }
-
-    room.bankerUserId = SYSTEM_BANKER_USER_ID;
-
+    human.role = "player";
     const identityId = pickRandomIdentityId();
     const identity = getIdentity(identityId);
     human.identityId = identityId;
     human.identityName = identity.name;
     human.status = "ready";
 
-    if (!room.players.some((player) => player.userId === PRACTICE_BOT_USER_ID)) {
-      const botIdentity = getIdentity("security_guard");
-      const bot: MockRoomPlayer = {
-        ...makePlayer(
-          roomId,
-          PRACTICE_BOT_USER_ID,
-          PRACTICE_BOT_NICKNAME,
-          room.players.length,
-          "player"
-        ),
-        identityId: botIdentity.id,
-        identityName: botIdentity.name,
-        bot: true,
-        status: "ready",
-      };
-      room.players.push(bot);
+    if (!room.players.some((player) => player.bot)) {
+      this.seatBot(room, BOT_ROSTER[0]);
     }
-
+    this.ensureSystemBanker(room);
+    room.mode = "solo";
+    room.isPublic = false;
     return { ok: true, value: room };
   }
 
@@ -296,9 +426,9 @@ class MockStore {
     const room = this.rooms.get(roomId);
     if (!room) return null;
     const player = room.players.find(
-      (p) => p.userId === userId || p.nickname === userId
+      (item) => item.userId === userId || item.nickname === userId
     );
-    if (!player) return null;
+    if (!player || player.bot) return null;
     if (player.role === "banker") {
       player.status = "ready";
       return room;
@@ -308,43 +438,58 @@ class MockStore {
     return room;
   }
 
-  canStartGame(roomId: string): { ok: boolean; reason?: string } {
+  canStartGame(roomId: string, userId?: string, nickname?: string) {
     const room = this.rooms.get(roomId);
     if (!room) return { ok: false, reason: "房间不存在" };
-    if (room.players.length > MAX_ROOM_OCCUPANTS) {
-      return {
-        ok: false,
-        reason: `房间人数超过上限（最多 ${MAX_ROOM_OCCUPANTS} 人）`,
-      };
-    }
-    if (!room.bankerUserId) {
-      return { ok: false, reason: "请先指定一名银行家" };
-    }
-    const players = boardPlayers(room);
-    const minPlayers = getMinBoardPlayers(isMockMode());
-    if (players.length < minPlayers) {
-      return {
-        ok: false,
-        reason: `至少需要 ${minPlayers} 名玩家（当前 ${players.length} 名）`,
-      };
-    }
-    if (players.length > MAX_BOARD_PLAYERS) {
-      return {
-        ok: false,
-        reason: `棋盘玩家超过上限（最多 ${MAX_BOARD_PLAYERS} 人）`,
-      };
-    }
-    const missing = players.filter((p) => !p.identityId);
-    if (missing.length) {
-      return { ok: false, reason: "所有玩家需先随机抽取身份" };
-    }
+    if (room.mode === "solo") return { ok: true };
+    const blockers = getRoomStartBlockers({
+      mode: room.mode,
+      fillBots: room.fillBots,
+      maxPlayers: room.config.maxPlayers,
+      hostUserId: room.hostUserId,
+      bankerUserId: room.bankerUserId,
+      actorUserId: userId,
+      actorNickname: nickname,
+      players: room.players,
+    });
+    if (blockers.length) return { ok: false, reason: blockers[0] };
     return { ok: true };
   }
 
+  startMatch(roomId: string, userId: string, nickname?: string): MockStoreResult<MockRoom> {
+    const room = this.rooms.get(roomId);
+    if (!room) return { ok: false, reason: "房间不存在" };
+    if (!isRoomHost(room, userId, nickname)) {
+      return { ok: false, reason: "只有房主可以开始" };
+    }
+    if (room.status === "playing") return { ok: true, value: room };
+    if (room.mode === "solo") {
+      room.status = "playing";
+      return { ok: true, value: room };
+    }
+
+    this.ensureSystemBanker(room);
+    this.fillShortTable(room);
+    const blockers = getRoomStartBlockers({
+      mode: room.mode,
+      fillBots: room.fillBots,
+      maxPlayers: room.config.maxPlayers,
+      hostUserId: room.hostUserId,
+      bankerUserId: room.bankerUserId,
+      players: room.players,
+    });
+    if (blockers.length) return { ok: false, reason: blockers[0] };
+    room.status = "playing";
+    room.players.forEach((player) => {
+      if (player.role !== "banker") player.status = "playing";
+    });
+    return { ok: true, value: room };
+  }
+
   listCards(type?: string) {
-    const all = [...this.cards.values()].filter((c) => c.status);
+    const all = [...this.cards.values()].filter((card) => card.status);
     if (!type) return all;
-    return all.filter((c) => c.type === type);
+    return all.filter((card) => card.type === type);
   }
 }
 
@@ -356,7 +501,11 @@ function isMockStoreReady(store: MockStore | undefined): store is MockStore {
     typeof store.assignRandomIdentity === "function" &&
     typeof store.prepareSoloPlay === "function" &&
     typeof store.setBanker === "function" &&
-    typeof store.canStartGame === "function"
+    typeof store.canStartGame === "function" &&
+    typeof store.createSoloRoom === "function" &&
+    typeof store.startMatch === "function" &&
+    typeof store.findByCode === "function" &&
+    typeof store.listLobbyRooms === "function"
   );
 }
 
@@ -368,18 +517,23 @@ function ensureMockStore(): MockStore {
   const next = new MockStore();
   if (existing) {
     const stale = existing as MockStore;
-    stale.users.forEach((u, k) => next.users.set(k, u));
-    stale.rooms.forEach((room, k) => {
-      next.rooms.set(k, {
+    stale.users.forEach((user, key) => next.users.set(key, user));
+    stale.rooms.forEach((room, key) => {
+      const migrated: MockRoom = {
         ...room,
-        bankerUserId: room.bankerUserId ?? room.hostUserId ?? null,
-        players: room.players.map((p) => ({
-          ...p,
-          role: p.role ?? (p.userId === room.bankerUserId ? "banker" : "player"),
+        code: room.code || room.id.slice(-4).toUpperCase(),
+        mode: room.mode ?? "multi",
+        isPublic: room.isPublic ?? room.mode !== "solo",
+        fillBots: room.fillBots ?? room.mode !== "solo",
+        bankerUserId: room.bankerUserId ?? null,
+        players: room.players.map((player) => ({
+          ...player,
+          role: player.role ?? (player.userId === room.bankerUserId ? "banker" : "player"),
         })),
-      });
+      };
+      next.rooms.set(key, migrated);
     });
-    stale.cards.forEach((c, k) => next.cards.set(k, c));
+    stale.cards.forEach((card, key) => next.cards.set(key, card));
   }
 
   globalForMock.mockStore = next;

@@ -7,6 +7,7 @@ import { getSelectedIdentity } from "@/lib/client/identity";
 import type { RoomDetail } from "@/hooks/useRoom";
 import { useGameStore } from "@/stores/game-store";
 import type { GameSnapshot } from "@/lib/game-session/types";
+import type { GameMode } from "@/types/game";
 import type { IdentityId, RoomPlayerRole } from "@/types/identity";
 import { useSocket } from "./useSocket";
 import type { PlayerRuntimeState } from "@/types/player";
@@ -55,6 +56,7 @@ export function useGame(roomId: string, userId: string, nickname: string) {
       let order: number | undefined;
       let coreNetWorthThreshold: number | undefined;
       let corePassiveIncomeMultiplier: number | undefined;
+      let mode: GameMode | undefined;
       let companions:
         | Array<{
             userId: string;
@@ -73,6 +75,7 @@ export function useGame(roomId: string, userId: string, nickname: string) {
         if (me?.identityId) identityId = me.identityId;
         coreNetWorthThreshold = room.config?.coreNetWorthThreshold;
         corePassiveIncomeMultiplier = room.config?.corePassiveIncomeMultiplier;
+        if (room.mode === "solo" || room.mode === "multi") mode = room.mode;
         const bots = (room.players ?? []).filter(
           (item) => item.bot && item.userId !== userId && item.role !== "banker"
         );
@@ -98,6 +101,7 @@ export function useGame(roomId: string, userId: string, nickname: string) {
         identityId,
         coreNetWorthThreshold,
         corePassiveIncomeMultiplier,
+        mode,
         companions,
       });
     };

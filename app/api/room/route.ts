@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { getPrisma } from "@/lib/prisma/client";
-import {
-  defaultRoomConfig,
-  isMockMode,
-  mockStore,
-  roomToJson,
-} from "@/lib/mock";
-import type { RoomConfig } from "@/types/game";
+import { defaultRoomConfig, isMockMode, mockStore, roomToJson } from "@/lib/mock";
+import type { GameMode, RoomConfig } from "@/types/game";
+import { MAX_BOARD_PLAYERS } from "@/types/identity";
+
+function clampMaxPlayers(value: unknown) {
+  const parsed = typeof value === "number" ? value : Number(value);
+  if (!Number.isInteger(parsed)) return defaultRoomConfig.maxPlayers;
+  return Math.min(MAX_BOARD_PLAYERS, Math.max(2, parsed));
+}
 
 export async function POST(request: Request) {
   try {
@@ -17,25 +19,57 @@ export async function POST(request: Request) {
       config = defaultRoomConfig,
       hostUserId,
       hostNickname,
+      mode,
+      isPublic,
+      fillBots,
+      botCount,
+      difficulty,
     } = body as {
-      name: string;
+      name?: string;
       password?: string;
       config?: RoomConfig;
       hostUserId?: string;
       hostNickname?: string;
+      mode?: GameMode;
+      isPublic?: boolean;
+      fillBots?: boolean;
+      botCount?: number;
+      difficulty?: RoomConfig["difficulty"];
     };
+
+    if (isMockMode() && mode === "solo") {
+      const room = mockStore.createSoloRoom({
+        hostUserId,
+        hostNickname,
+        botCount,
+        difficulty: difficulty ?? config?.difficulty,
+        name,
+      });
+      if (!room.ok) {
+        return NextResponse.json({ error: room.reason }, { status: 400 });
+      }
+      return NextResponse.json(roomToJson(room.value), { status: 201 });
+    }
 
     if (!name?.trim()) {
       return NextResponse.json({ error: "房间名不能为空" }, { status: 400 });
     }
 
     if (isMockMode()) {
+      const nextConfig: RoomConfig = {
+        ...defaultRoomConfig,
+        ...config,
+        maxPlayers: clampMaxPlayers(config?.maxPlayers),
+      };
       const room = mockStore.createRoom({
         name: name.trim(),
         password: password ?? null,
-        config,
+        config: nextConfig,
         hostUserId,
         hostNickname,
+        mode: "multi",
+        isPublic,
+        fillBots,
       });
       return NextResponse.json(roomToJson(room), { status: 201 });
     }
@@ -68,10 +102,25 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     if (isMockMode()) {
-      const rooms = mockStore.listRooms("waiting").map(roomToJson);
+      const code = new URL(request.url).searchParams.get("code");
+      if (code) {
+        const room = mockStore.findByCode(code);
+        if (!room) {
+          return NextResponse.json({ error: "没有这个房间号" }, { status: 404 });
+        }
+        return NextResponse.json({
+          id: room.id,
+          code: room.code,
+          name: room.name,
+          hasPassword: Boolean(room.password),
+          mode: room.mode,
+          status: room.status,
+        });
+      }
+      const rooms = mockStore.listLobbyRooms().map(roomToJson);
       return NextResponse.json(rooms);
     }
 

@@ -5,8 +5,12 @@ export { defaultRoomConfig } from "./seed";
 export function roomToJson(room: import("./types").MockRoom) {
   return {
     id: room.id,
+    code: room.code,
     name: room.name,
-    password: room.password,
+    hasPassword: Boolean(room.password),
+    mode: room.mode ?? "multi",
+    isPublic: room.isPublic ?? true,
+    fillBots: room.fillBots ?? false,
     status: room.status,
     config: room.config,
     createdAt: room.createdAt,

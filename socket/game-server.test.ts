@@ -440,6 +440,69 @@ test("a disconnected human is rolled after the timeout", async () => {
   }
 });
 
+test("solo mode stays on the session when the human reconnects", async () => {
+  resetSessions();
+  const server = await startGameServer(0);
+  const url = `http://127.0.0.1:${server.port}`;
+  const roomId = `solo-mode-${Date.now()}`;
+  const states: GameSnapshot[] = [];
+  const alice = ioClient(url, { reconnection: false }) as Client;
+  alice.on("game:state", (state) => states.push(state));
+
+  try {
+    if (!alice.connected) await once(alice, "connect");
+    alice.emit("room:join", {
+      roomId,
+      userId: "alice",
+      nickname: "星尘",
+      playing: true,
+      role: "player",
+      order: 0,
+      identityId: "doctor",
+      mode: "solo",
+      companions: [
+        { userId: "practice_bot", nickname: "旅人", order: 1, identityId: "security_guard" },
+        { userId: "practice_bot_2", nickname: "阿宁", order: 2, identityId: "driver" },
+      ],
+    });
+    await waitFor(
+      () => states.some((state) => state.mode === "solo" && state.turnOrder.length === 3),
+      "solo seated"
+    );
+    const seated = states.at(-1)!;
+    assert.equal(seated.mode, "solo");
+    assert.deepEqual(seated.turnOrder, ["alice", "practice_bot", "practice_bot_2"]);
+    const before = fingerprint(seated);
+
+    alice.disconnect();
+    const again = ioClient(url, { reconnection: false }) as Client;
+    const replay: GameSnapshot[] = [];
+    again.on("game:state", (state) => replay.push(state));
+    await once(again, "connect");
+    again.emit("room:join", {
+      roomId,
+      userId: "alice",
+      nickname: "星尘",
+      playing: true,
+      role: "player",
+      order: 0,
+      identityId: "doctor",
+      mode: "solo",
+      companions: [
+        { userId: "practice_bot", nickname: "旅人", order: 1, identityId: "security_guard" },
+        { userId: "practice_bot_2", nickname: "阿宁", order: 2, identityId: "driver" },
+      ],
+    });
+    await waitFor(() => replay.length > 0, "solo reconnect");
+    assert.equal(replay.at(-1)!.mode, "solo");
+    assert.deepEqual(fingerprint(replay.at(-1)!), before);
+    again.disconnect();
+  } finally {
+    alice.disconnect();
+    await server.close();
+  }
+});
+
 after(() => {
   clearRoomTiming();
   resetSessions();

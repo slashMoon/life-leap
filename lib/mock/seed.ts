@@ -76,8 +76,12 @@ function buildPlayers(
 export const SEED_ROOMS: MockRoom[] = [
   {
     id: "room_demo_001",
+    code: "DEMO",
     name: "新手体验房",
     password: null,
+    mode: "multi",
+    isPublic: true,
+    fillBots: true,
     status: "waiting",
     config: defaultRoomConfig,
     createdAt: new Date().toISOString(),
@@ -91,8 +95,12 @@ export const SEED_ROOMS: MockRoom[] = [
   },
   {
     id: "room_demo_002",
+    code: "GOLD",
     name: "老板圈冲刺房",
     password: "8888",
+    mode: "multi",
+    isPublic: true,
+    fillBots: true,
     status: "waiting",
     config: {
       ...defaultRoomConfig,

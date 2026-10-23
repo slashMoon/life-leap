@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { AppTheme } from "@/components/theme/AppTheme";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className="antialiased">
-        <AntdRegistry>{children}</AntdRegistry>
+        <AntdRegistry>
+          <AppTheme>{children}</AppTheme>
+        </AntdRegistry>
       </body>
     </html>
   );

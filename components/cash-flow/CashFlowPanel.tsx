@@ -1,9 +1,26 @@
 "use client";
 
 import { Button, Card, Descriptions, Space, Statistic } from "antd";
+import { useEffect, useRef, useState } from "react";
 import type { CashFlowSnapshot, LifeCircle } from "@/types/game";
 import type { NativeLiabilities } from "@/types/identity";
 import type { PlayerHolding } from "@/types/player";
+
+function useAmountFlash(value: number) {
+  const previous = useRef<number | null>(null);
+  const [flash, setFlash] = useState("");
+
+  useEffect(() => {
+    const before = previous.current;
+    previous.current = value;
+    if (before == null || before === value) return;
+    setFlash(value > before ? "ll-num-up" : "ll-num-down");
+    const timer = window.setTimeout(() => setFlash(""), 720);
+    return () => window.clearTimeout(timer);
+  }, [value]);
+
+  return flash;
+}
 
 interface CashFlowPanelProps {
   cashFlow?: CashFlowSnapshot | null;
@@ -30,6 +47,9 @@ export function CashFlowPanel({
   holdings = [],
   onRepay,
 }: CashFlowPanelProps) {
+  const cashFlash = useAmountFlash(cash ?? 0);
+  const flowFlash = useAmountFlash(cashFlow?.cashFlow ?? 0);
+  const worthFlash = useAmountFlash(cashFlow?.netWorth ?? 0);
   const data = cashFlow ?? {
     laborIncome: 15000,
     passiveIncome: 0,
@@ -42,14 +62,16 @@ export function CashFlowPanel({
 
   return (
     <Card title={`现金流 · ${circle}圈`}>
-      <Statistic
-        title="月现金流"
-        value={data.cashFlow}
-        precision={0}
-        valueStyle={{
-          color: data.cashFlow >= 0 ? "#52c41a" : "#ff4d4f",
-        }}
-      />
+      <div className={flowFlash}>
+        <Statistic
+          title="月现金流"
+          value={data.cashFlow}
+          precision={0}
+          valueStyle={{
+            color: data.cashFlow >= 0 ? "var(--ll-success)" : "var(--ll-danger)",
+          }}
+        />
+      </div>
       <Descriptions column={1} size="small" className="mt-4">
         <Descriptions.Item label="劳动收入">
           {data.laborIncome.toLocaleString()}
@@ -64,7 +86,7 @@ export function CashFlowPanel({
           {data.totalAssets.toLocaleString()}
         </Descriptions.Item>
         <Descriptions.Item label="净资产">
-          {(data.netWorth / 10000).toFixed(1)} 万
+          <span className={worthFlash}>{(data.netWorth / 10000).toFixed(1)} 万</span>
         </Descriptions.Item>
         <Descriptions.Item label="总负债">
           {data.totalLiabilities.toLocaleString()}
@@ -82,7 +104,7 @@ export function CashFlowPanel({
         <Descriptions.Item label="时间积分">{timePoints}</Descriptions.Item>
         <Descriptions.Item label="品质生活积分">{qualityLifePoints}</Descriptions.Item>
         <Descriptions.Item label="现金">
-          {(cash ?? 0).toLocaleString()}
+          <span className={cashFlash}>{(cash ?? 0).toLocaleString()}</span>
         </Descriptions.Item>
         {holdings.length > 0 && (
           <Descriptions.Item label="持仓">

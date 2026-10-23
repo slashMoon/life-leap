@@ -1,5 +1,5 @@
 import type { IdentityId, RoomPlayerRole } from "@/types/identity";
-import type { RoomConfig, RoomStatus } from "@/types/game";
+import type { GameMode, RoomConfig, RoomStatus } from "@/types/game";
 
 export interface MockUser {
   id: string;
@@ -19,12 +19,18 @@ export interface MockRoomPlayer {
   circle?: string;
   identityId?: IdentityId;
   identityName?: string;
+  bot?: boolean;
 }
 
 export interface MockRoom {
   id: string;
+  code: string;
   name: string;
+  /** 只留在服务端。下发给客户端时改成 hasPassword。 */
   password: string | null;
+  mode: GameMode;
+  isPublic: boolean;
+  fillBots: boolean;
   status: RoomStatus;
   config: RoomConfig;
   createdAt: string;

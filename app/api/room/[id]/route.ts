@@ -52,7 +52,7 @@ export async function PATCH(request: Request, { params }: Params) {
   try {
     const { id } = await params;
     const body = await request.json();
-    const { status, action, userId, nickname } = body as {
+    const { status, action, userId, nickname, password } = body as {
       status?: RoomStatus;
       action?:
         | "join"
@@ -65,6 +65,7 @@ export async function PATCH(request: Request, { params }: Params) {
         | "setBanker";
       userId?: string;
       nickname?: string;
+      password?: string;
     };
 
     if (isMockMode()) {
@@ -80,7 +81,7 @@ export async function PATCH(request: Request, { params }: Params) {
           (p) => p.userId === userId || p.nickname === nickname
         );
         if (!alreadyIn) {
-          const joined = mockStore.joinRoom(id, userId, nickname ?? userId);
+          const joined = mockStore.joinRoom(id, userId, nickname ?? userId, password);
           if (!joined.ok) {
             return NextResponse.json({ error: joined.reason }, { status: 400 });
           }
@@ -90,7 +91,7 @@ export async function PATCH(request: Request, { params }: Params) {
       }
 
       if (action === "join" && userId) {
-        const joined = mockStore.joinRoom(id, userId, nickname ?? userId);
+        const joined = mockStore.joinRoom(id, userId, nickname ?? userId, password);
         if (!joined.ok) {
           return NextResponse.json({ error: joined.reason }, { status: 400 });
         }
@@ -144,12 +145,15 @@ export async function PATCH(request: Request, { params }: Params) {
       }
 
       if (action === "start" || status === "playing") {
-        const check = mockStore.canStartGame(id);
-        if (!check.ok) {
-          return NextResponse.json({ error: check.reason }, { status: 400 });
+        if (!userId) {
+          return NextResponse.json({ error: "只有房主可以开始" }, { status: 403 });
         }
-        room = mockStore.updateRoomStatus(id, "playing") ?? room;
-        return NextResponse.json(roomToJson(room));
+        const started = mockStore.startMatch(id, userId, nickname);
+        if (!started.ok) {
+          const statusCode = started.reason === "只有房主可以开始" ? 403 : 400;
+          return NextResponse.json({ error: started.reason }, { status: statusCode });
+        }
+        return NextResponse.json(roomToJson(started.value));
       }
 
       if (status) {

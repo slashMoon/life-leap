@@ -36,10 +36,21 @@ export function DecisionModal({
           <Tag color="gold">{tile.label}</Tag>
         </Space>
       }
-      footer={null}
+      footer={
+        <div className="ll-modal-actions">
+          <Button onClick={onDecline}>{tileType === "market" ? "保留" : "放弃"}</Button>
+          <Button
+            type="primary"
+            onClick={onAccept}
+            disabled={preview.cost > 0 && !preview.canAfford}
+          >
+            {tileType === "market" ? "出售" : "参与"}
+          </Button>
+        </div>
+      }
       closable={false}
       maskClosable={false}
-      width={480}
+      width="min(480px, calc(100vw - 32px))"
     >
       <Typography.Title level={5} style={{ marginTop: 0 }}>
         {cardName}
@@ -51,21 +62,21 @@ export function DecisionModal({
         <Descriptions column={1} size="small">
           {preview.cost > 0 && (
           <Descriptions.Item label="一次性支出">
-            <span className="text-red-400">
+            <span className="ll-down">
               -{preview.cost.toLocaleString()} 元
             </span>
           </Descriptions.Item>
           )}
           {preview.laborIncomeDelta != null && (
             <Descriptions.Item label="月薪变化">
-              <span className="text-green-400">
+              <span className="ll-up">
                 +{preview.laborIncomeDelta.toLocaleString()} 元/月
               </span>
             </Descriptions.Item>
           )}
           {preview.passiveIncomeDelta != null && (
             <Descriptions.Item label="被动收入">
-              <span className={preview.passiveIncomeDelta >= 0 ? "text-green-400" : "text-red-400"}>
+              <span className={preview.passiveIncomeDelta >= 0 ? "ll-up" : "ll-down"}>
                 {preview.passiveIncomeDelta > 0 ? "+" : ""}
                 {preview.passiveIncomeDelta.toLocaleString()} 元/月
               </span>
@@ -73,7 +84,7 @@ export function DecisionModal({
           )}
           {preview.expenseDelta != null && (
             <Descriptions.Item label="月支出">
-              <span className={preview.expenseDelta > 0 ? "text-red-400" : "text-green-400"}>
+              <span className={preview.expenseDelta > 0 ? "ll-down" : "ll-up"}>
                 {preview.expenseDelta > 0 ? "+" : ""}
                 {preview.expenseDelta.toLocaleString()} 元/月
               </span>
@@ -81,7 +92,7 @@ export function DecisionModal({
           )}
           {preview.liabilityDelta != null && (
             <Descriptions.Item label={preview.liabilityDelta < 0 ? "负债变化" : "新增负债"}>
-              <span className={preview.liabilityDelta < 0 ? "text-green-400" : "text-red-400"}>
+              <span className={preview.liabilityDelta < 0 ? "ll-up" : "ll-down"}>
                 {preview.liabilityDelta > 0 ? "+" : ""}
                 {preview.liabilityDelta.toLocaleString()} 元
               </span>
@@ -89,7 +100,7 @@ export function DecisionModal({
           )}
           {preview.assetValueDelta != null && preview.assetValueDelta !== 0 && (
             <Descriptions.Item label="资产市值">
-              <span className={preview.assetValueDelta > 0 ? "text-green-400" : "text-red-400"}>
+              <span className={preview.assetValueDelta > 0 ? "ll-up" : "ll-down"}>
                 {preview.assetValueDelta > 0 ? "+" : ""}
                 {preview.assetValueDelta.toLocaleString()} 元
               </span>
@@ -113,16 +124,6 @@ export function DecisionModal({
         )}
       </Card>
 
-      <Space className="flex w-full justify-end">
-        <Button onClick={onDecline}>{tileType === "market" ? "保留" : "放弃"}</Button>
-        <Button
-          type="primary"
-          onClick={onAccept}
-          disabled={preview.cost > 0 && !preview.canAfford}
-        >
-          {tileType === "market" ? "出售" : "参与"}
-        </Button>
-      </Space>
     </Modal>
   );
 }

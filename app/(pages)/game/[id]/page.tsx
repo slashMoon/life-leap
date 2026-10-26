@@ -1,9 +1,11 @@
 "use client";
 
-import { Alert, Card, Col, List, Row, Space, Tag, Typography } from "antd";
-import Link from "next/link";
+import { Alert, Card, Col, Empty, List, Row, Space, Tag } from "antd";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { AppShell } from "@/components/shell/AppShell";
+import { CircleBanner, CircleCeremony } from "@/components/ceremony/CircleCeremony";
+import { useCeremonyPreview } from "@/components/ceremony/useCeremonyPreview";
 import { CardDrawer } from "@/components/card/CardDrawer";
 import { DecisionModal } from "@/components/card/DecisionModal";
 import { CashFlowPanel } from "@/components/cash-flow/CashFlowPanel";
@@ -12,7 +14,11 @@ import { ChatPanel } from "@/components/chat/ChatPanel";
 import { DiceRoller } from "@/components/dice/DiceRoller";
 import { GameWheel } from "@/components/wheel/GameWheel";
 import { getStoredUser } from "@/lib/client/user";
+import { useCircleCeremony } from "@/hooks/useCircleCeremony";
 import { useGame } from "@/hooks/useGame";
+import { apiFetch } from "@/lib/api/fetch";
+import type { RoomDetail } from "@/hooks/useRoom";
+import type { GameMode } from "@/types/game";
 
 const TOKEN_COLORS = ["#d4a853", "#7eb6ff", "#7dcea0", "#f1948a", "#c39bd3", "#f7dc6f"];
 
@@ -21,6 +27,7 @@ export default function GamePage() {
   const router = useRouter();
   const roomId = params.id as string;
   const { userId, nickname } = getStoredUser();
+  const [table, setTable] = useState<{ mode?: GameMode; code?: string }>({});
   const {
     player,
     snapshot,
@@ -36,8 +43,17 @@ export default function GamePage() {
     repay,
     socket,
   } = useGame(roomId, userId, nickname);
+  const ceremony = useCircleCeremony(snapshot, userId);
+  const preview = useCeremonyPreview(nickname);
+  const fullView = preview.full ?? ceremony.full;
+  const banner = preview.banner ?? (ceremony.light
+    ? { nickname: ceremony.light.nickname, to: ceremony.light.to, userId: ceremony.light.userId }
+    : null);
 
   const boardSeats = (snapshot?.seats ?? []).filter((seat) => seat.role !== "banker");
+  const glowId =
+    banner?.userId ??
+    (banner ? boardSeats.find((seat) => seat.userId !== userId)?.userId : undefined);
   const tokens = boardSeats.map((seat, index) => ({
     id: seat.userId,
     label: seat.nickname || seat.state.identityName || seat.userId,
@@ -47,6 +63,7 @@ export default function GamePage() {
     active: seat.userId === snapshot?.currentUserId,
     dice:
       seat.userId === snapshot?.lastActorUserId ? seat.state.lastDice : null,
+    glow: glowId === seat.userId,
   }));
   const turnSeat = snapshot?.seats.find(
     (seat) => seat.userId === snapshot.currentUserId
@@ -55,42 +72,88 @@ export default function GamePage() {
     turnSeat && turnSeat.role !== "banker"
       ? turnSeat
       : boardSeats.find((seat) => seat.userId === userId);
+  const actor = snapshot?.seats.find((seat) => seat.userId === snapshot.lastActorUserId);
+  const shownDice =
+    actor && actor.userId !== userId ? actor.state.lastDice : player.lastDice;
+  const rollCue =
+    actor && actor.userId !== userId && actor.state.lastDice != null
+      ? {
+          key: `${actor.userId}:${actor.state.boardIndex}:${actor.state.lastDice}`,
+          value: actor.state.lastDice,
+        }
+      : null;
+  const [now, setNow] = useState(() => Date.now());
+  const deadline = !turnSeat?.bot ? snapshot?.turnDeadlineAt ?? null : null;
 
   useEffect(() => {
-    if (!player.identityId) {
-      router.replace(`/room/${roomId}/identity`);
-    }
-  }, [player.identityId, roomId, router]);
+    if (!deadline) return;
+    const timer = window.setInterval(() => setNow(Date.now()), 250);
+    return () => window.clearInterval(timer);
+  }, [deadline]);
+
+  const remain =
+    deadline != null ? Math.max(0, Math.ceil((deadline - now) / 1000)) : null;
+  const waitHint =
+    synced && !isMyTurn && turnSeat && turnSeat.role !== "banker"
+      ? `等待 ${turnSeat.nickname} ${turnSeat.state.pendingDecision ? "决策" : "掷骰"}${
+          remain != null ? ` · ${remain}s` : ""
+        }`
+      : undefined;
+  const otherLines = boardSeats
+    .filter((seat) => seat.userId !== userId && seat.state.eventLog[0])
+    .map((seat) => `${seat.nickname} · ${seat.state.eventLog[0]}`);
+
+  useEffect(() => {
+    let cancelled = false;
+    void apiFetch<RoomDetail>(`/api/room/${roomId}`)
+      .then((room) => {
+        if (!cancelled) setTable({ mode: room.mode, code: room.code });
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [roomId]);
+
+  useEffect(() => {
+    if (player.identityId || !synced) return;
+    const previewing = new URLSearchParams(window.location.search).has("ceremony");
+    if (previewing) return;
+    router.replace(`/room/${roomId}/identity`);
+  }, [player.identityId, synced, roomId, router]);
 
   return (
-    <main className="min-h-screen p-4">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <Typography.Title level={4} style={{ color: "#d4a853", margin: 0 }}>
-          人生跃迁 · {player.identityName ?? nickname}
-        </Typography.Title>
-        <Space>
-          {player.identityName && (
-            <Tag color="blue">{player.identityName}</Tag>
-          )}
-          {player.identityTier && (
+    <AppShell
+      step="game"
+      roomId={roomId}
+      title={player.identityName ?? nickname}
+      kicker="对局"
+      width="xl"
+      meta={
+        <>
+          <Tag color="gold">
+            {(snapshot?.mode ?? table.mode) === "solo"
+              ? "单机"
+              : (snapshot?.mode ?? table.mode) === "multi"
+                ? `多人 · ${table.code || roomId.slice(-4).toUpperCase()}`
+                : "读取模式"}
+          </Tag>
+          {player.identityName ? <Tag color="blue">{player.identityName}</Tag> : null}
+          {player.identityTier ? (
             <Tag>{player.identityTier === "high" ? "高产" : player.identityTier === "middle" ? "中产" : "低产"}</Tag>
-          )}
+          ) : null}
           <Tag color="gold">第 {player.round} 回合</Tag>
           <Tag>{circle}圈</Tag>
-          {player.windFireWheel && <Tag color="orange">风火轮</Tag>}
+          {player.windFireWheel ? <Tag color="orange">风火轮</Tag> : null}
           <Tag color={connected && synced ? "success" : "default"}>
             {connected && synced ? "服务端对局" : connected ? "同步中" : "未连接"}
           </Tag>
           <Tag color={isMyTurn ? "gold" : "default"}>
-            {turnSeat
-              ? isMyTurn
-                ? "轮到你"
-                : `轮到 ${turnSeat.nickname}`
-              : "等待入座"}
+            {turnSeat ? (isMyTurn ? "轮到你" : `轮到 ${turnSeat.nickname}`) : "等待入座"}
           </Tag>
-          <Link href={`/room/${roomId}`}>返回房间</Link>
-        </Space>
-      </div>
+        </>
+      }
+    >
 
       {!connected && (
         <Alert
@@ -119,15 +182,27 @@ export default function GamePage() {
             lastDice={player.lastDice}
             playerLabel={nickname}
             tokens={tokens}
+            orbit={fullView?.to ?? circle}
           />
 
           <Space className="mt-4" direction="vertical" size="middle">
             <DiceRoller
-              value={player.lastDice}
+              value={shownDice}
               onRoll={rollDice}
               loading={isRolling}
               disabled={!connected || !synced || !isMyTurn || hasPendingDecision}
+              hint={waitHint}
+              rollCue={rollCue}
             />
+
+            {actor && actor.userId !== userId && actor.state.lastEvent?.message ? (
+              <Alert
+                type="info"
+                showIcon
+                message={`${actor.nickname} · ${actor.state.lastTile?.label ?? "回合结算"}`}
+                description={actor.state.lastEvent.message}
+              />
+            ) : null}
 
             {hasPendingDecision && (
               <Alert
@@ -182,9 +257,10 @@ export default function GamePage() {
           <Card title="回合日志" size="small" className="mt-4">
             <List
               size="small"
-              dataSource={player.eventLog}
+              dataSource={[...otherLines, ...player.eventLog]}
+              locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="这一局还没有落子" /> }}
               renderItem={(item) => (
-                <List.Item className="py-1 text-xs text-gray-400">
+                <List.Item className="!px-0 py-1 text-xs text-[var(--ll-muted)]">
                   {item}
                 </List.Item>
               )}
@@ -202,6 +278,27 @@ export default function GamePage() {
           </div>
         </Col>
       </Row>
-    </main>
+
+      {fullView && (
+        <CircleCeremony
+          view={fullView}
+          onDone={preview.full ? preview.clearFull : ceremony.dismissFull}
+        />
+      )}
+      {banner && (
+        <CircleBanner
+          nickname={banner.nickname}
+          to={banner.to}
+          onDone={preview.banner ? preview.clearBanner : ceremony.dismissLight}
+        />
+      )}
+      {preview.dev && (
+        <div className="ll-ceremony-dev">
+          <button type="button" onClick={preview.playBoss}>演示 · 老板圈</button>
+          <button type="button" onClick={preview.playCore}>演示 · 核心圈</button>
+          <button type="button" onClick={preview.playOther}>演示 · 他人跃迁</button>
+        </div>
+      )}
+    </AppShell>
   );
 }

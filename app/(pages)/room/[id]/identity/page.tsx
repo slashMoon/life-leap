@@ -1,9 +1,9 @@
 "use client";
 
 import { Alert, Button, Spin, Typography, message } from "antd";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AppShell } from "@/components/shell/AppShell";
 import {
   IdentityPool,
   RandomIdentityDraw,
@@ -23,6 +23,7 @@ export default function IdentitySelectPage() {
   const { players, enterRoom, assignRandomIdentity, loading, run } = useRoom();
   const [booting, setBooting] = useState(true);
   const [drawnId, setDrawnId] = useState<IdentityId | undefined>();
+  const [confirming, setConfirming] = useState(false);
 
   useEffect(() => {
     enterRoom(roomId)
@@ -58,6 +59,7 @@ export default function IdentitySelectPage() {
       message.warning("请先随机抽取身份");
       return;
     }
+    setConfirming(true);
     saveSelectedIdentity(roomId, userId, drawnId);
     message.success(`身份已确认：${getIdentity(drawnId).name}`);
     router.push(`/room/${roomId}`);
@@ -65,15 +67,17 @@ export default function IdentitySelectPage() {
 
   if (booting) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
-        <Spin size="large" tip="加载中…" />
-      </main>
+      <AppShell step="identity" roomId={roomId} title="随机身份" kicker="身份" width="lg">
+        <div className="ll-stage-wrap">
+          <Spin size="large" tip="加载中…" />
+        </div>
+      </AppShell>
     );
   }
 
   if (me?.role === "banker") {
     return (
-      <main className="mx-auto max-w-lg p-6">
+      <AppShell step="identity" roomId={roomId} title="银行家无需抽身份" kicker="身份" width="md">
         <Alert
           type="info"
           showIcon
@@ -84,41 +88,36 @@ export default function IdentitySelectPage() {
         <Button type="primary" onClick={() => router.push(`/room/${roomId}`)}>
           返回房间
         </Button>
-      </main>
+      </AppShell>
     );
   }
 
   const drawnIdentity = drawnId ? getIdentity(drawnId) : undefined;
 
   return (
-    <main className="mx-auto max-w-5xl p-6 pb-24">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
-        <div>
-          <Typography.Title level={3} style={{ color: "#d4a853", margin: 0 }}>
-            随机身份
-          </Typography.Title>
-          <Typography.Paragraph type="secondary" className="!mb-0">
-            从身份池中随机分配开局职业 · 身份可复用
-          </Typography.Paragraph>
-        </div>
-        <Link href={`/room/${roomId}`}>返回房间</Link>
-      </div>
-
+    <AppShell
+      step="identity"
+      roomId={roomId}
+      title="随机身份"
+      kicker="身份"
+      width="lg"
+      meta={<Typography.Text type="secondary">身份可复用</Typography.Text>}
+    >
       {!drawnIdentity ? (
         <RandomIdentityDraw loading={loading} onDraw={handleDraw} />
       ) : (
         <RandomIdentityResult
           identity={drawnIdentity}
-          loading={loading}
+          loading={loading || confirming}
           onRedraw={handleDraw}
           onConfirm={handleConfirm}
         />
       )}
 
-      <Typography.Title level={5} className="!mt-8 !text-gray-400">
+      <Typography.Title level={5} className="!mt-8 !text-[var(--ll-muted)]">
         身份池参考
       </Typography.Title>
-      <IdentityPool identities={GAME_IDENTITIES} />
-    </main>
+      <IdentityPool identities={GAME_IDENTITIES} activeId={drawnId} />
+    </AppShell>
   );
 }

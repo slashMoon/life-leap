@@ -13,6 +13,7 @@ export interface RoomPlayerView {
   circle?: string;
   identityId?: IdentityId;
   identityName?: string;
+  bot?: boolean;
 }
 
 interface RoomStore {

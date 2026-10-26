@@ -1,6 +1,10 @@
 import { createServer, type Server as HttpServer } from "http";
 import { Server } from "socket.io";
 import {
+  clearDeadlineIfCurrentConnected,
+  seatBots,
+} from "@/lib/game-session/autoplay";
+import {
   appendChat,
   decideForSeat,
   joinSeat,
@@ -9,12 +13,14 @@ import {
   rollForSeat,
   toSnapshot,
 } from "@/lib/game-session/engine";
+import { isMockMode } from "@/lib/mock/config";
 import { mutateSession, readSession } from "@/lib/game-session/store";
 import type { SessionCommandResult } from "@/lib/game-session/types";
 import type {
   ClientToServerEvents,
   ServerToClientEvents,
 } from "@/types/socket";
+import { clearAutoplayTimers, scheduleAutoplay } from "./autoplay-scheduler";
 
 export type GameServer = Server<ClientToServerEvents, ServerToClientEvents>;
 
@@ -25,12 +31,13 @@ function broadcast(
   roomId: string,
   result: SessionCommandResult
 ) {
-  if (!result.ok) return;
+  if (!result.ok || result.skipped) return;
   io.to(roomId).emit("game:state", result.snapshot);
   if (result.dice) io.to(roomId).emit("game:dice-rolled", result.dice);
   if (result.tile) io.to(roomId).emit("game:tile-landed", result.tile);
   if (result.circle) io.to(roomId).emit("game:circle-changed", result.circle);
   if (result.chat) io.to(roomId).emit("chat:message", result.chat);
+  void scheduleAutoplay(io, roomId);
 }
 
 async function run(
@@ -73,8 +80,14 @@ export function attachGameServer(io: GameServer) {
         return;
       }
 
-      void mutateSession(roomId, (session) =>
-        joinSeat(session, {
+      void mutateSession(roomId, (session) => {
+        if (
+          session.seats.length === 0 &&
+          (payload.mode === "solo" || payload.mode === "multi")
+        ) {
+          session.mode = payload.mode;
+        }
+        const result = joinSeat(session, {
           userId,
           nickname: payload.nickname,
           role: payload.role,
@@ -82,8 +95,11 @@ export function attachGameServer(io: GameServer) {
           identityId: payload.identityId,
           coreNetWorthThreshold: payload.coreNetWorthThreshold,
           corePassiveIncomeMultiplier: payload.corePassiveIncomeMultiplier,
-        })
-      )
+        });
+        if (isMockMode()) seatBots(session, payload.companions);
+        clearDeadlineIfCurrentConnected(session);
+        return { ...result, snapshot: toSnapshot(session) };
+      })
         .then((result) => {
           broadcast(io, roomId, result);
           if (result.createdSeat) {
@@ -140,10 +156,15 @@ export function attachGameServer(io: GameServer) {
       for (const roomId of rooms) {
         void readSession(roomId)
           .then((session) => {
-            if (!session?.seats.some((seat) => seat.userId === userId)) return;
+            if (!session?.seats.some((seat) => seat.userId === userId && !seat.bot)) {
+              return;
+            }
             return mutateSession(roomId, (current) => {
               markDisconnected(current, userId);
-              return current;
+              return toSnapshot(current);
+            }).then((snapshot) => {
+              io.to(roomId).emit("game:state", snapshot);
+              return scheduleAutoplay(io, roomId);
             });
           })
           .catch(() => undefined);
@@ -182,6 +203,7 @@ export function startGameServer(port = 0, corsOrigin?: string | string[]) {
         port: bound,
         close: () =>
           new Promise((done) => {
+            clearAutoplayTimers();
             io.close();
             httpServer.close(() => done());
           }),

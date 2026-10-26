@@ -1,4 +1,4 @@
-import type { CashFlowSnapshot, DiceRollResult } from "./game";
+import type { CashFlowSnapshot, DiceRollResult, GameMode } from "./game";
 import type { IdentityId, RoomPlayerRole } from "./identity";
 import type { GameSnapshot } from "@/lib/game-session/types";
 
@@ -17,6 +17,15 @@ export interface ClientToServerEvents {
     order?: number;
     coreNetWorthThreshold?: number;
     corePassiveIncomeMultiplier?: number;
+    /** 单机 solo / 多人 multi。只在这张桌子还没人时写入会话。 */
+    mode?: GameMode;
+    /** 单人试玩里尚未连上的机器人座位 */
+    companions?: Array<{
+      userId: string;
+      nickname?: string;
+      order?: number;
+      identityId?: IdentityId;
+    }>;
   }) => void;
   "room:leave": (payload: { roomId: string; userId: string }) => void;
   "room:ready": (payload: { roomId: string; userId: string }) => void;

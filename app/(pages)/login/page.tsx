@@ -1,38 +1,58 @@
 "use client";
 
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, Form, Input, Space } from "antd";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { AppShell } from "@/components/shell/AppShell";
 
 export default function LoginPage() {
   const router = useRouter();
+  const [form] = Form.useForm<{ nickname: string }>();
+  const [entering, setEntering] = useState<"solo" | "multi" | null>(null);
 
-  const onFinish = (values: { nickname: string }) => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("life-leap-user", JSON.stringify(values));
-    }
-    router.push("/lobby");
+  const enter = async (dest: "solo" | "multi") => {
+    const values = await form.validateFields();
+    setEntering(dest);
+    localStorage.setItem("life-leap-user", JSON.stringify(values));
+    router.push(dest === "solo" ? "/solo" : "/lobby");
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <Card
-        title="人生跃迁 · 登录"
-        className="w-full max-w-md"
-        styles={{ body: { background: "#141b2d" } }}
-      >
-        <Form layout="vertical" onFinish={onFinish}>
-          <Form.Item
-            label="昵称"
-            name="nickname"
-            rules={[{ required: true, message: "请输入昵称" }]}
-          >
-            <Input placeholder="你的游戏昵称" size="large" />
-          </Form.Item>
-          <Button type="primary" htmlType="submit" block size="large">
-            进入大厅
-          </Button>
-        </Form>
-      </Card>
-    </main>
+    <AppShell step="login" title="进入沙盘" kicker="圈层突围" width="md">
+      <div className="ll-stage-wrap">
+        <Card title="用昵称入座" className="w-full max-w-md">
+          <Form form={form} layout="vertical" requiredMark={false}>
+            <Form.Item
+              label="昵称"
+              name="nickname"
+              rules={[{ required: true, whitespace: true, message: "请输入昵称" }]}
+            >
+              <Input placeholder="你的游戏昵称" size="large" autoFocus maxLength={16} />
+            </Form.Item>
+            <Space direction="vertical" className="w-full" size="middle">
+              <Button
+                type="primary"
+                block
+                size="large"
+                loading={entering === "solo"}
+                disabled={entering !== null && entering !== "solo"}
+                onClick={() => void enter("solo")}
+              >
+                单机模式
+              </Button>
+              <Button
+                block
+                size="large"
+                loading={entering === "multi"}
+                disabled={entering !== null && entering !== "multi"}
+                onClick={() => void enter("multi")}
+              >
+                多人模式
+              </Button>
+            </Space>
+          </Form>
+        </Card>
+      </div>
+    </AppShell>
   );
 }

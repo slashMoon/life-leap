@@ -4,6 +4,9 @@ export type LifeCircle = "牛马" | "老板" | "核心";
 /** 房间状态 */
 export type RoomStatus = "waiting" | "playing" | "ended";
 
+/** 单机 / 多人。写在房间和对局会话上，方便界面和日后落库。 */
+export type GameMode = "solo" | "multi";
+
 /** 玩家状态 */
 export type PlayerStatus = "ready" | "playing" | "offline";
 
@@ -81,4 +84,5 @@ export interface DiceRollResult {
   playerId: string;
   value: number;
   timestamp: number;
+  reason?: "bot" | "timeout";
 }

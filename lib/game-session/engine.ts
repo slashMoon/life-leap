@@ -16,6 +16,7 @@ const CHAT_LIMIT = 50;
 export function createEmptySession(roomId: string): GameSession {
   return {
     roomId,
+    mode: "multi",
     seats: [],
     currentUserId: null,
     lastActorUserId: null,
@@ -36,16 +37,19 @@ export function turnOrderOf(session: GameSession): string[] {
 export function toSnapshot(session: GameSession): GameSnapshot {
   return {
     roomId: session.roomId,
+    mode: session.mode === "solo" ? "solo" : "multi",
     phase: "playing",
     currentUserId: session.currentUserId,
     turnOrder: turnOrderOf(session),
     lastActorUserId: session.lastActorUserId,
+    turnDeadlineAt: session.turnDeadlineAt ?? null,
     seats: session.seats.map((seat) => ({
       userId: seat.userId,
       nickname: seat.nickname,
       role: seat.role,
       order: seat.order,
       connected: seat.connected,
+      bot: seat.bot,
       state: seat.state,
     })),
     chat: session.chat,

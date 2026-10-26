@@ -6,7 +6,13 @@ import { IDENTITY_TIER_LABELS } from "@/types/identity";
 import { sumNativeLiabilities } from "@/lib/constants/identities";
 
 /** 身份池展示（只读，供随机抽取参考） */
-export function IdentityPool({ identities }: { identities: GameIdentity[] }) {
+export function IdentityPool({
+  identities,
+  activeId,
+}: {
+  identities: GameIdentity[];
+  activeId?: string;
+}) {
   const tiers = [
     { key: "high" as const, label: IDENTITY_TIER_LABELS.high },
     { key: "middle" as const, label: IDENTITY_TIER_LABELS.middle },
@@ -28,7 +34,7 @@ export function IdentityPool({ identities }: { identities: GameIdentity[] }) {
                 const debt = sumNativeLiabilities(identity.nativeLiabilities);
                 return (
                   <Col xs={24} sm={12} lg={8} key={identity.id}>
-                    <Card className="h-full opacity-90">
+                    <Card className={identity.id === activeId ? "ll-lift ll-selected h-full" : "ll-lift h-full"}>
                       <Space direction="vertical" size="small" className="w-full">
                         <Space wrap>
                           <Tag color="gold">#{identity.order}</Tag>
@@ -71,8 +77,8 @@ export function RandomIdentityResult({
 }: RandomIdentityResultProps) {
   const debt = sumNativeLiabilities(identity.nativeLiabilities);
   return (
-    <Card className="sticky bottom-4 mt-6 border-gold/30 bg-[#141b2dcc] backdrop-blur">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+    <div className="ll-dock">
+      <div className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-4">
         <div>
           <Typography.Text className="text-gold text-lg">
             抽中：{identity.name}
@@ -98,7 +104,7 @@ export function RandomIdentityResult({
           </Button>
         </Space>
       </div>
-    </Card>
+    </div>
   );
 }
 
@@ -109,7 +115,7 @@ interface RandomIdentityDrawProps {
 
 export function RandomIdentityDraw({ loading, onDraw }: RandomIdentityDrawProps) {
   return (
-    <Card className="mb-8 border-gold/20 bg-[#141b2d]/60 text-center">
+    <Card className="mb-8 text-center">
       <Typography.Paragraph type="secondary" className="!mb-4">
         系统将从身份池中随机分配开局职业，身份可复用（多名玩家可能抽到相同身份）
       </Typography.Paragraph>

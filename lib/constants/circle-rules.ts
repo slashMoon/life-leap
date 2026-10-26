@@ -1,28 +1,30 @@
 import type { LifeCircle } from "@/types/game";
 
-/** 牛马圈 → 老板圈：财务自由 */
+/**
+ * 跃迁规则与 README、`人生跃迁游戏文档.md` §5.3 一致。
+ * 不把「无负债 / 时间积分 / 品质积分」当作门槛。
+ * `技术方案文档.md` 里的「人生意义前置任务」也不在当前对局里判定。
+ */
 export const OUTER_TO_INNER_RULES = {
-  title: "财务自由（外圈进入内圈）",
-  /** 非劳务收入 > 总支出 */
+  title: "财务自由（牛马圈 → 老板圈）",
+  /** 非劳动收入 > 总支出 */
   requirePassiveIncomeGtExpense: true,
-  /** 无负债 */
-  requireNoDebt: true,
 } as const;
 
-/** 老板圈 → 核心圈：身心自由 */
+/** 房间未另行配置时的核心圈门槛，与 RoomConfig 默认值一致 */
+export const DEFAULT_CORE_NET_WORTH_WAN = 200;
+export const DEFAULT_CORE_PASSIVE_MULTIPLIER = 2;
+
+/** 老板圈 → 核心圈。净资产单位是元，由「万」换算 */
 export const INNER_TO_CORE_RULES = {
-  title: "身心自由（内圈进入核心圈）",
-  /** 进入老板圈后现金增加（元） */
-  liquidCashGain: 200_000,
-  /** 时间累计分 */
-  timePoints: 1000,
-  /** 品质生活累计分 */
-  qualityLifePoints: 100,
-  /** 无银行贷款 */
-  requireNoBankLoan: true,
-  /** 无负债 */
-  requireNoDebt: true,
+  title: "财务安全（老板圈 → 核心圈）",
+  netWorth: DEFAULT_CORE_NET_WORTH_WAN * 10_000,
+  passiveIncomeMultiplier: DEFAULT_CORE_PASSIVE_MULTIPLIER,
 } as const;
+
+export function coreNetWorthYuan(thresholdWan: number): number {
+  return thresholdWan * 10_000;
+}
 
 /** 牛马圈：银行贷款上限 = 流动现金 × 倍数，1000 元递增，年利率按结账日 10% */
 export const OUTER_BANK_LOAN = {

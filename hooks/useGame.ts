@@ -2,12 +2,15 @@
 
 import { useCallback, useEffect } from "react";
 import { message } from "antd";
+import { apiFetch } from "@/lib/api/fetch";
+import { recalculateCashFlow, repayDebt } from "@/lib/game-engine/ledger";
 import { executeTurn } from "@/lib/game-engine/play-turn";
 import {
   loadPlayerState,
   savePlayerState,
 } from "@/lib/game-engine/tile-effects";
 import { useGameStore } from "@/stores/game-store";
+import type { RoomConfig } from "@/types/game";
 import { useSocket } from "./useSocket";
 
 export function useGame(roomId: string, userId: string) {
@@ -29,6 +32,26 @@ export function useGame(roomId: string, userId: string) {
     if (!socket) return;
     socket.emit("room:join", { roomId, userId });
   }, [socket, roomId, userId]);
+
+  useEffect(() => {
+    let cancelled = false;
+    apiFetch<{ config?: RoomConfig }>(`/api/room/${roomId}`)
+      .then((room) => {
+        if (cancelled || !room.config) return;
+        const current = useGameStore.getState().player;
+        const next = recalculateCashFlow({
+          ...current,
+          coreNetWorthThreshold: room.config.coreNetWorthThreshold,
+          corePassiveIncomeMultiplier: room.config.corePassiveIncomeMultiplier,
+        });
+        setPlayer(next);
+        savePlayerState(roomId, userId, next);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [roomId, userId, setPlayer]);
 
   const persist = useCallback(
     (state: typeof player) => {
@@ -88,12 +111,28 @@ export function useGame(roomId: string, userId: string) {
     [resolveDecisionStore, persist]
   );
 
+  const repay = useCallback(
+    (amount: number) => {
+      const before = useGameStore.getState().player;
+      const result = repayDebt(before, amount);
+      if (result.paid <= 0) {
+        message.info("没有可偿还的负债，或现金不足");
+        return;
+      }
+      setPlayer(result.state);
+      persist(result.state);
+      message.success(`已偿还 ${result.paid.toLocaleString()} 元`);
+    },
+    [persist, setPlayer]
+  );
+
   return {
     player,
     isRolling,
     connected,
     rollDice,
     resolveDecision,
+    repay,
     hasPendingDecision: !!player.pendingDecision,
     circle: player.circle,
     cashFlow: player.cashFlow,

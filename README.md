@@ -103,12 +103,16 @@ stores/         # Zustand 状态
 types/          # 游戏 / Socket 类型定义
 ```
 
-## 核心规则（已实现骨架）
+## 核心规则
+
+对局判定与下表一致，并读取房间配置 `RoomConfig`（`lib/constants/circle-rules.ts`、`lib/rule-engine/circle-transition.ts`）：
 
 | 跃迁 | 条件 |
 |------|------|
 | 牛马 → 老板 | 非劳动收入 > 总支出 |
-| 老板 → 核心 | 净资产 ≥ 200 万 且 被动收入 ≥ 总支出 × 2 |
+| 老板 → 核心 | 净资产 ≥ `coreNetWorthThreshold` 万（默认 200 万）且 被动收入 ≥ 总支出 × `corePassiveIncomeMultiplier`（默认 2） |
+
+`coreNetWorthThreshold` 的单位是万。不另设「无负债 / 时间积分 / 品质积分」或「人生意义任务」门槛；积分仍会累计，但不阻挡跃迁。
 
 盘面：外圈 24 格 + 内圈 16 格，见 `lib/constants/board.ts`。
 

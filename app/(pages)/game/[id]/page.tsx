@@ -19,8 +19,17 @@ export default function GamePage() {
   const router = useRouter();
   const roomId = params.id as string;
   const { userId, nickname } = getStoredUser();
-  const { player, rollDice, isRolling, connected, circle, cashFlow, resolveDecision, hasPendingDecision } =
-    useGame(roomId, userId);
+  const {
+    player,
+    rollDice,
+    isRolling,
+    connected,
+    circle,
+    cashFlow,
+    resolveDecision,
+    hasPendingDecision,
+    repay,
+  } = useGame(roomId, userId);
 
   useEffect(() => {
     if (!player.identityId) {
@@ -124,6 +133,8 @@ export default function GamePage() {
             creditCardDebt={player.creditCardDebt}
             timePoints={player.timePoints}
             qualityLifePoints={player.qualityLifePoints}
+            holdings={player.holdings}
+            onRepay={repay}
           />
 
           <CircleProgressPanel player={player} />

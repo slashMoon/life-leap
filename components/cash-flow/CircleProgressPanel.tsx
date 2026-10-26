@@ -14,10 +14,8 @@ interface CircleProgressPanelProps {
     | "circle"
     | "cashFlow"
     | "cash"
-    | "cashAtCircleEntry"
-    | "timePoints"
-    | "qualityLifePoints"
-    | "bankLoan"
+    | "coreNetWorthThreshold"
+    | "corePassiveIncomeMultiplier"
   >;
 }
 
@@ -27,7 +25,7 @@ export function CircleProgressPanel({ player }: CircleProgressPanelProps) {
   if (!progress) {
     return (
       <Card title="圈层目标" size="small" className="mt-4">
-        <Typography.Text type="success">已达核心圈 · 身心自由</Typography.Text>
+        <Typography.Text type="success">已达核心圈</Typography.Text>
       </Card>
     );
   }

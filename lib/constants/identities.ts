@@ -1,4 +1,8 @@
-import { buildCashFlowSnapshot } from "@/lib/rule-engine";
+import {
+  DEFAULT_CORE_NET_WORTH_WAN,
+  DEFAULT_CORE_PASSIVE_MULTIPLIER,
+} from "@/lib/constants/circle-rules";
+import { recalculateCashFlow } from "@/lib/game-engine/ledger";
 import type { GameIdentity, IdentityId } from "@/types/identity";
 import type { PlayerRuntimeState } from "@/types/player";
 
@@ -135,23 +139,27 @@ export function createPlayerStateFromIdentity(identityId: IdentityId): PlayerRun
   const identity = getIdentity(identityId);
   const totalLiabilities = sumNativeLiabilities(identity.nativeLiabilities);
   const cash = identity.bankSavings + identity.liquidCash;
-  const totalAssets = cash;
 
-  const cashFlow = buildCashFlowSnapshot({
-    laborIncome: identity.salary,
-    passiveIncome: 0,
-    totalExpense: identity.totalExpense,
-    totalAssets,
-    totalLiabilities,
-  });
-
-  return {
+  const state = recalculateCashFlow({
     track: "outer",
     boardIndex: 0,
     circle: "牛马",
     round: 1,
     cash,
-    cashFlow,
+    laborIncome: identity.salary,
+    baseExpense: identity.totalExpense,
+    holdings: [],
+    coreNetWorthThreshold: DEFAULT_CORE_NET_WORTH_WAN,
+    corePassiveIncomeMultiplier: DEFAULT_CORE_PASSIVE_MULTIPLIER,
+    cashFlow: {
+      laborIncome: identity.salary,
+      passiveIncome: 0,
+      totalExpense: identity.totalExpense,
+      cashFlow: 0,
+      netWorth: 0,
+      totalAssets: cash,
+      totalLiabilities,
+    },
     identityId,
     identityName: identity.name,
     identityTier: identity.tier,
@@ -168,9 +176,14 @@ export function createPlayerStateFromIdentity(identityId: IdentityId): PlayerRun
     lastTile: null,
     lastEvent: null,
     pendingDecision: null,
+    eventLog: [],
+  });
+
+  return {
+    ...state,
     eventLog: [
       `游戏开始 · ${identity.name} · 牛马圈 · 起点结账日`,
-      `原生负债 ${totalLiabilities.toLocaleString()} 元 · 月现金流 ${cashFlow.cashFlow.toLocaleString()} 元`,
+      `原生负债 ${totalLiabilities.toLocaleString()} 元 · 月现金流 ${state.cashFlow.cashFlow.toLocaleString()} 元`,
     ],
   };
 }

@@ -22,8 +22,8 @@ export function DiceRoller({
   const [display, setDisplay] = useState<number | null>(value ?? null);
 
   useEffect(() => {
-    if (value != null) setDisplay(value);
-  }, [value]);
+    if (!spinning && value != null) setDisplay(value);
+  }, [value, spinning]);
 
   const handleRoll = async () => {
     if (disabled || loading || spinning) return;
@@ -52,7 +52,11 @@ export function DiceRoller({
         className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-gold/50 bg-[#141b2d] text-4xl shadow-lg transition hover:border-gold hover:shadow-gold/20 disabled:opacity-40"
         aria-label="掷骰子"
       >
-        {display != null ? FACES[display - 1] : "🎲"}
+        {display != null && display >= 1 && display <= 6
+          ? FACES[display - 1]
+          : display != null
+            ? display
+            : "🎲"}
       </button>
       <div>
         <Button

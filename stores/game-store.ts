@@ -3,76 +3,73 @@ import type { CashFlowSnapshot, LifeCircle } from "@/types/game";
 import type { BoardTile } from "@/types/game";
 import type { PlayerRuntimeState, TileEventResult } from "@/types/player";
 import { createInitialPlayerState } from "@/lib/game-engine/tile-effects";
-import { resolvePendingDecision } from "@/lib/game-engine/decisions";
+import type { GameSnapshot } from "@/lib/game-session/types";
+
+export type PendingAction = "roll" | "decide" | "repay" | null;
 
 interface GameStore {
   roomId: string | null;
   userId: string | null;
   player: PlayerRuntimeState;
+  snapshot: GameSnapshot | null;
+  synced: boolean;
   isRolling: boolean;
+  pendingAction: PendingAction;
   setSession: (roomId: string, userId: string) => void;
-  setPlayer: (player: PlayerRuntimeState) => void;
   setRolling: (v: boolean) => void;
-  setLastDice: (v: number) => void;
-  applyTurnResult: (player: PlayerRuntimeState) => void;
-  resolveDecision: (accept: boolean) => void;
+  setPendingAction: (action: PendingAction) => void;
+  applyServerState: (snapshot: GameSnapshot, userId: string) => void;
   reset: () => void;
-  /** 兼容旧字段 */
   circle: LifeCircle;
   cashFlow: CashFlowSnapshot | null;
 }
 
+const initial = createInitialPlayerState();
+
 export const useGameStore = create<GameStore>((set) => ({
   roomId: null,
   userId: null,
-  player: createInitialPlayerState(),
+  player: initial,
+  snapshot: null,
+  synced: false,
   isRolling: false,
-  circle: "牛马",
-  cashFlow: null,
+  pendingAction: null,
+  circle: initial.circle,
+  cashFlow: initial.cashFlow,
 
-  setSession: (roomId, userId) => set({ roomId, userId }),
-
-  setPlayer: (player) =>
-    set({
-      player,
-      circle: player.circle,
-      cashFlow: player.cashFlow,
-    }),
+  setSession: (roomId, userId) => set({ roomId, userId, synced: false }),
 
   setRolling: (isRolling) => set({ isRolling }),
 
-  setLastDice: (lastDice) =>
-    set((s) => ({
-      player: { ...s.player, lastDice },
-    })),
+  setPendingAction: (pendingAction) => set({ pendingAction }),
 
-  applyTurnResult: (player) =>
-    set({
-      player,
-      circle: player.circle,
-      cashFlow: player.cashFlow,
-      isRolling: false,
-    }),
-
-  resolveDecision: (accept) =>
-    set((s) => {
-      const next = resolvePendingDecision(s.player, accept);
+  applyServerState: (snapshot, userId) =>
+    set((current) => {
+      const mine = snapshot.seats.find((seat) => seat.userId === userId);
+      const player = mine?.state ?? current.player;
       return {
-        player: next,
-        circle: next.circle,
-        cashFlow: next.cashFlow,
+        snapshot,
+        synced: true,
+        roomId: snapshot.roomId,
+        userId,
+        player,
+        circle: player.circle,
+        cashFlow: player.cashFlow,
       };
     }),
 
   reset: () => {
-    const initial = createInitialPlayerState();
+    const next = createInitialPlayerState();
     set({
       roomId: null,
       userId: null,
-      player: initial,
+      player: next,
+      snapshot: null,
+      synced: false,
       isRolling: false,
-      circle: initial.circle,
-      cashFlow: initial.cashFlow,
+      pendingAction: null,
+      circle: next.circle,
+      cashFlow: next.cashFlow,
     });
   },
 }));

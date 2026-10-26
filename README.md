@@ -57,6 +57,8 @@ pnpm dev          # http://localhost:3000
 pnpm dev:socket   # http://localhost:3001
 ```
 
+对局账本（现金、持仓、负债、圈层、位置、回合日志）以 Socket 进程为唯一权威来源。客户端只发送掷骰、决策、还款和聊天。未配置 `REDIS_URL`，或 Redis 连不上时，状态保存在该进程内存里，重启进程会清空未写穿的对局。单人 Mock 试玩同样走这条链路，请用 `pnpm dev:all`。
+
 ### 5. 生产构建
 
 ```bash
@@ -120,7 +122,7 @@ types/          # 游戏 / Socket 类型定义
 
 1. PixiJS 渲染双圈转盘（`components/wheel/GameWheel.tsx`）
 2. 从 Excel 配套文件导入卡牌数据到 `Card` 表
-3. Redis 持久化房间 / 游戏状态（替代 Socket 内存 Map）
+3. 对局会话已可选写穿 Redis（无 Redis 时用进程内存）；MySQL 对局记录仍待做
 4. 用户认证（NextAuth 或 JWT）
 5. 复盘导出 Excel / 图片
 

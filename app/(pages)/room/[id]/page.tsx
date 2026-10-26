@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { getStoredUser } from "@/lib/client/user";
 import { useRoom } from "@/hooks/useRoom";
+import { useSocket } from "@/hooks/useSocket";
 import { useRoomStore } from "@/stores/room-store";
 import { getIdentity } from "@/lib/constants/identities";
 import { isMockMode } from "@/lib/mock/config";
@@ -28,6 +29,7 @@ export default function RoomPage() {
     players,
     bankerUserId,
     enterRoom,
+    fetchRoom,
     setPlayerReady,
     startGame,
     setBanker,
@@ -37,6 +39,7 @@ export default function RoomPage() {
   } = useRoom();
   const [booting, setBooting] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const { socket, connected: roomLive } = useSocket(roomId);
 
   useEffect(() => {
     let cancelled = false;
@@ -64,6 +67,33 @@ export default function RoomPage() {
       cancelled = true;
     };
   }, [roomId, enterRoom]);
+
+  useEffect(() => {
+    if (!socket || booting || loadError) return;
+    const refresh = () => {
+      void fetchRoom(roomId).catch(() => undefined);
+    };
+    const join = () => {
+      socket.emit("room:join", {
+        roomId,
+        userId,
+        nickname,
+        playing: false,
+      });
+      refresh();
+    };
+    const onJoined = (player: { userId?: string }) => {
+      if (!player.userId || player.userId === userId) return;
+      refresh();
+    };
+    socket.on("connect", join);
+    socket.on("room:player-joined", onJoined);
+    if (socket.connected) join();
+    return () => {
+      socket.off("connect", join);
+      socket.off("room:player-joined", onJoined);
+    };
+  }, [socket, booting, loadError, roomId, userId, nickname, fetchRoom]);
 
   const me = useMemo(
     () => players.find((p) => p.userId === userId || p.nickname === nickname),
@@ -165,9 +195,14 @@ export default function RoomPage() {
       <Card
         title={`房间：${name}`}
         extra={
-          <Tag color={status === "playing" ? "processing" : "default"}>
-            {status}
-          </Tag>
+          <span className="flex items-center gap-2">
+            <Tag color={roomLive ? "success" : "default"}>
+              {roomLive ? "实时" : "未连接"}
+            </Tag>
+            <Tag color={status === "playing" ? "processing" : "default"}>
+              {status}
+            </Tag>
+          </span>
         }
       >
         <Alert

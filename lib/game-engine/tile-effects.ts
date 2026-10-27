@@ -37,14 +37,35 @@ function totalIncome(state: PlayerRuntimeState) {
   return state.cashFlow.laborIncome + state.cashFlow.passiveIncome;
 }
 
-/** 结账日：领取流动现金 + 贷款/信用卡利息 */
+/** 当前月薪。职业身份的劳动收入，卡牌改过月薪后以账本为准。 */
+export function monthlySalary(state: PlayerRuntimeState) {
+  return state.laborIncome ?? state.cashFlow.laborIncome;
+}
+
+export function paydayWageLog(wage: number) {
+  return `结账日 · 银行家支付工资 ${wage.toLocaleString("zh-CN")}`;
+}
+
+/** 银行家按月薪发工资。路过和落在结账日都会走这里。 */
+export function payPaydayWage(state: PlayerRuntimeState): PlayerRuntimeState {
+  const wage = monthlySalary(state);
+  const next = recalculateCashFlow({
+    ...state,
+    cash: state.cash + wage,
+  });
+  return appendLog(next, paydayWageLog(wage));
+}
+
+/** 结账日：银行家发工资，再扣支出、记贷款/信用卡利息，并重算现金流。 */
 function applySettlement(state: PlayerRuntimeState): {
   state: PlayerRuntimeState;
   event: TileEventResult;
 } {
-  let next = state;
-  const parts: string[] = [];
-  const income = next.cashFlow.cashFlow;
+  const wage = monthlySalary(state);
+  const passive = state.cashFlow.passiveIncome;
+  const expense = state.cashFlow.totalExpense;
+  let next = payPaydayWage(state);
+  const parts: string[] = [paydayWageLog(wage)];
 
   const bankLoan = next.bankLoan ?? 0;
   const creditDebt = next.creditCardDebt ?? 0;
@@ -62,7 +83,7 @@ function applySettlement(state: PlayerRuntimeState): {
       ...next,
       bankLoan: bankLoan + bankInterest,
     };
-    parts.push(`银行贷款利息 +${bankInterest.toLocaleString()}`);
+    parts.push(`银行贷款利息 +${bankInterest.toLocaleString("zh-CN")}`);
   }
   if (creditDebt > 0) {
     const cardInterest = Math.round(creditDebt * cardRate);
@@ -71,16 +92,16 @@ function applySettlement(state: PlayerRuntimeState): {
       ...next,
       creditCardDebt: creditDebt + cardInterest,
     };
-    parts.push(`信用卡利息 +${cardInterest.toLocaleString()}`);
+    parts.push(`信用卡利息 +${cardInterest.toLocaleString("zh-CN")}`);
   }
+
+  if (passive > 0) parts.push(`被动收入 +${passive.toLocaleString("zh-CN")}`);
+  if (expense > 0) parts.push(`月支出 -${expense.toLocaleString("zh-CN")}`);
 
   next = recalculateCashFlow({
     ...next,
-    cash: Math.max(0, next.cash + income - interest),
+    cash: Math.max(0, next.cash + passive - expense - interest),
   });
-  parts.unshift(
-    `流动现金 ${income >= 0 ? "+" : ""}${income.toLocaleString()}`
-  );
 
   next = appendLog(next, `第 ${next.round} 回合结账`);
   next = { ...next, round: next.round + 1 };
@@ -88,7 +109,7 @@ function applySettlement(state: PlayerRuntimeState): {
   return {
     state: next,
     event: {
-      message: `结账日：${parts.join(" · ")}`,
+      message: parts.join(" · "),
       cashFlow: next.cashFlow,
       roundDelta: 1,
     },

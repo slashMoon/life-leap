@@ -24,3 +24,19 @@ export function advanceOnTrack(
   const index = movePosition(currentIndex, steps, size);
   return { index, tile: getTile(track, index) };
 }
+
+/** 从当前格的下一格走到落点，含落点。起点本身不算经过。 */
+export function tilesAlongMove(
+  track: "outer" | "inner",
+  fromIndex: number,
+  steps: number
+): BoardTile[] {
+  if (steps <= 0) return [];
+  const size = track === "outer" ? OUTER_TRACK_SIZE : INNER_TRACK_SIZE;
+  const tiles: BoardTile[] = [];
+  for (let step = 1; step <= steps; step += 1) {
+    const tile = getTile(track, (fromIndex + step) % size);
+    if (tile) tiles.push(tile);
+  }
+  return tiles;
+}

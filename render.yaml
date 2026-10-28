@@ -1,0 +1,19 @@
+# Mock 演示：一个常驻 Web Service，不创建 MySQL 或 Key Value。
+# 网页和 Socket.IO 由 scripts/start-demo.mjs 共用公网 PORT。
+# 创建后 region 不能修改。国内访问可把 region 改成 singapore；默认文档使用 oregon。
+services:
+  - type: web
+    name: life-leap-demo
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /api/health
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    autoDeployTrigger: commit
+    envVars:
+      - key: USE_MOCK_DATA
+        value: "true"
+      # prisma generate 在构建时读取。Mock 模式不会连接这串地址。
+      - key: DATABASE_URL
+        value: mysql://mock:mock@127.0.0.1:3306/life_leap

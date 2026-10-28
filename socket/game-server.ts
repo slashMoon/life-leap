@@ -173,16 +173,40 @@ export function attachGameServer(io: GameServer) {
   });
 }
 
-export function startGameServer(port = 0, corsOrigin?: string | string[]) {
-  const httpServer: HttpServer = createServer();
-  const origin =
-    corsOrigin ??
-    [
-      process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+function collectOrigins(value: string | undefined): string[] {
+  if (!value) return [];
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => {
+      try {
+        return new URL(item).origin;
+      } catch {
+        return item.replace(/\/$/, "");
+      }
+    });
+}
+
+/** 浏览器来源。Render 运行时注入 RENDER_EXTERNAL_URL，自定义域名放在 SOCKET_CORS_ORIGINS。 */
+export function resolveSocketCorsOrigins(
+  env: NodeJS.ProcessEnv = process.env
+): string[] {
+  return [
+    ...new Set([
+      ...collectOrigins(env.NEXT_PUBLIC_APP_URL),
+      ...collectOrigins(env.RENDER_EXTERNAL_URL),
+      ...collectOrigins(env.SOCKET_CORS_ORIGINS),
       "http://localhost:3000",
       "http://127.0.0.1:3000",
       "http://localhost:3002",
-    ];
+    ]),
+  ];
+}
+
+export function startGameServer(port = 0, corsOrigin?: string | string[]) {
+  const httpServer: HttpServer = createServer();
+  const origin = corsOrigin ?? resolveSocketCorsOrigins();
   const io: GameServer = new Server(httpServer, {
     cors: { origin, methods: ["GET", "POST"] },
   });
@@ -193,8 +217,17 @@ export function startGameServer(port = 0, corsOrigin?: string | string[]) {
     httpServer: HttpServer;
     port: number;
     close: () => Promise<void>;
-  }>((resolve) => {
-    httpServer.listen(port, () => {
+  }>((resolve, reject) => {
+    let settled = false;
+    const fail = (error: Error) => {
+      if (settled) return;
+      settled = true;
+      reject(error);
+    };
+    httpServer.once("error", fail);
+    const onListening = () => {
+      if (settled) return;
+      settled = true;
       const address = httpServer.address();
       const bound = typeof address === "object" && address ? address.port : port;
       resolve({
@@ -208,6 +241,9 @@ export function startGameServer(port = 0, corsOrigin?: string | string[]) {
             httpServer.close(() => done());
           }),
       });
-    });
+    };
+    const host = process.env.SOCKET_HOST?.trim();
+    if (host) httpServer.listen(port, host, onListening);
+    else httpServer.listen(port, onListening);
   });
 }

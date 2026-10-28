@@ -8,7 +8,7 @@ import type {
   ClientToServerEvents,
   ServerToClientEvents,
 } from "@/types/socket";
-import { startGameServer } from "./game-server";
+import { resolveSocketCorsOrigins, startGameServer } from "./game-server";
 
 type Client = Socket<ServerToClientEvents, ClientToServerEvents>;
 
@@ -499,6 +499,32 @@ test("solo mode stays on the session when the human reconnects", async () => {
     again.disconnect();
   } finally {
     alice.disconnect();
+    await server.close();
+  }
+});
+
+test("socket cors includes the render demo origin", () => {
+  const origins = resolveSocketCorsOrigins({
+    RENDER_EXTERNAL_URL: "https://life-leap-demo.onrender.com",
+    NEXT_PUBLIC_APP_URL: "http://localhost:3000/",
+    SOCKET_CORS_ORIGINS: "https://play.example.com, http://127.0.0.1:3000",
+  });
+  assert.ok(origins.includes("https://life-leap-demo.onrender.com"));
+  assert.ok(origins.includes("https://play.example.com"));
+  assert.equal(origins.filter((item) => item === "http://localhost:3000").length, 1);
+  assert.ok(origins.includes("http://127.0.0.1:3000"));
+});
+
+test("SOCKET_HOST binds the realtime server to that address", async () => {
+  const previous = process.env.SOCKET_HOST;
+  process.env.SOCKET_HOST = "127.0.0.1";
+  const server = await startGameServer(0);
+  try {
+    const address = server.httpServer.address();
+    assert.equal(typeof address === "object" && address && address.address, "127.0.0.1");
+  } finally {
+    if (previous === undefined) delete process.env.SOCKET_HOST;
+    else process.env.SOCKET_HOST = previous;
     await server.close();
   }
 });

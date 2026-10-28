@@ -32,6 +32,7 @@ export function AppShell({
   meta,
   roomId,
   width = "lg",
+  mainClassName,
   children,
 }: {
   step: ShellStep;
@@ -39,7 +40,8 @@ export function AppShell({
   kicker?: string;
   meta?: ReactNode;
   roomId?: string;
-  width?: "md" | "lg" | "xl";
+  width?: "md" | "lg" | "xl" | "wide";
+  mainClassName?: string;
   children: ReactNode;
 }) {
   const [nickname, setNickname] = useState<string | null>(null);
@@ -79,7 +81,7 @@ export function AppShell({
         </nav>
         <div className="ll-user">{nickname ?? "未登录"}</div>
       </header>
-      <main className={`ll-page ll-page-${width}`}>
+      <main className={`ll-page ll-page-${width}${mainClassName ? ` ${mainClassName}` : ""}`}>
         <div className="ll-page-head">
           <div>
             {kicker ? <p className="ll-kicker">{kicker}</p> : null}

@@ -8,7 +8,9 @@ import {
 } from "@/lib/constants/board";
 import type { BoardTile } from "@/types/game";
 import { TileGlyph } from "./tile-glyphs";
+import type { WheelToken } from "./types";
 import { useTokenTravel } from "./use-token-travel";
+import { WheelCaption } from "./WheelCaption";
 import {
   describeArcSegment,
   labelPosition,
@@ -16,6 +18,8 @@ import {
   segmentAngles,
   tileKey,
 } from "./wheel-utils";
+
+export type { WheelToken };
 
 const SIZE = 800;
 const CX = SIZE / 2;
@@ -51,18 +55,6 @@ function createStars(count: number) {
 }
 
 const STARS = createStars(96);
-
-export interface WheelToken {
-  id: string;
-  label: string;
-  track: "outer" | "inner";
-  index: number;
-  color?: string;
-  active?: boolean;
-  dice?: number | null;
-  /** 其他玩家跃迁时，让对方棋子亮一圈 */
-  glow?: boolean;
-}
 
 interface WheelBoardSvgProps {
   activePosition?: { track: "outer" | "inner"; index: number };
@@ -603,30 +595,12 @@ export function WheelBoardSvg({
         )}
       </svg>
 
-      <div className="ll-wheel-caption">
-        {hovered ? (
-          <>
-            <p className="text-sm text-gold">
-              {hovered.track === "outer" ? "外圈·牛马圈" : "内圈·老板/核心圈"} · 第{" "}
-              {hovered.index + 1} 格
-            </p>
-            <p className="text-base font-medium">{hovered.label}</p>
-          </>
-        ) : activeTile && activePosition ? (
-          <>
-            <p className="text-sm text-gold">
-              当前位置 · {activePosition.track === "outer" ? "外圈" : "内圈"} 第{" "}
-              {activePosition.index + 1} 格
-              {lastDice != null && (
-                <span className="ml-2 rounded bg-gold/20 px-2 py-0.5">骰子 {lastDice} 点</span>
-              )}
-            </p>
-            <p className="text-base font-medium text-gold-light">{activeTile.label}</p>
-          </>
-        ) : (
-          <p className="text-xs text-[var(--ll-muted)]">掷骰子后棋子会移动到对应格子</p>
-        )}
-      </div>
+      <WheelCaption
+        hovered={hovered}
+        activeTile={activeTile}
+        activePosition={activePosition}
+        lastDice={lastDice}
+      />
     </div>
   );
 }

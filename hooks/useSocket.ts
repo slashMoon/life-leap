@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { io, type Socket } from "socket.io-client";
+import { resolveSocketUrl } from "@/lib/socket-url";
 import type { ClientToServerEvents, ServerToClientEvents } from "@/types/socket";
 
 type GameSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
@@ -11,8 +12,13 @@ export function useSocket(roomId?: string) {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    const url =
-      process.env.NEXT_PUBLIC_SOCKET_URL ?? "http://localhost:3001";
+    const url = resolveSocketUrl(
+      {
+        NEXT_PUBLIC_SOCKET_URL: process.env.NEXT_PUBLIC_SOCKET_URL,
+        NODE_ENV: process.env.NODE_ENV,
+      },
+      typeof window !== "undefined" ? window.location.origin : undefined
+    );
 
     const instance: GameSocket = io(url, {
       autoConnect: true,

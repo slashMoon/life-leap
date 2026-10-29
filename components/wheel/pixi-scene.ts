@@ -43,8 +43,6 @@ export interface WheelSceneState {
   lastDice?: number | null;
   playerLabel?: string;
   orbit?: LifeCircle;
-  /** 自己掷骰时传 "spin"，他人掷骰传会变化的 key，结束后传 null */
-  ritualKey?: string | null;
   onHover?: (tile: BoardTile | null) => void;
 }
 
@@ -225,12 +223,7 @@ class DualRingScene {
   private readonly starG = new Graphics();
   private readonly sheen = new Graphics();
   private readonly orbitGlow = new Graphics();
-  private readonly focusG = new Graphics();
-  private readonly hotG = new Graphics();
-  private readonly flashG = new Graphics();
-  private readonly cometG = new Graphics();
   private readonly shockG = new Graphics();
-  private readonly halo = new Graphics();
   private readonly tokenLayer = new Container();
   private dead = false;
   private removeTick: (() => void) | null = null;
@@ -238,11 +231,6 @@ class DualRingScene {
   private hovered: BoardTile | null = null;
   private pinned = false;
   private focus: RingPoint | null = null;
-  private hold: RingPoint | null = null;
-  private travel: RingPoint | null = null;
-  private flashAt: RingPoint | null = null;
-  private flashUntil = 0;
-  private lightKey = "";
 
   private tokenState = new Map<string, WheelToken>();
   private settled = new Map<string, RingPoint>();
@@ -253,16 +241,6 @@ class DualRingScene {
   private orbit: LifeCircle = "牛马";
   private orbitReady = false;
   private shock: { started: number } | null = null;
-
-  private ritualKey: string | null = null;
-  private ritualReady = false;
-  private comet = {
-    mode: "off" as "off" | "spin" | "land",
-    angle: Math.PI / 2,
-    from: 0,
-    to: 0,
-    started: 0,
-  };
 
   private playerLabel = "我";
   private lastDice: number | null = null;
@@ -287,8 +265,6 @@ class DualRingScene {
     this.focus = state.activePosition ?? null;
     this.syncOrbit(state.orbit, now);
     this.syncTokens(this.withFallback(state.tokens), now);
-    this.syncRitual(state.ritualKey ?? null, now);
-    this.lightKey = "";
   }
 
   destroy() {
@@ -369,16 +345,7 @@ class DualRingScene {
 
     this.addStartMark(stage);
 
-    for (const node of [
-      this.focusG,
-      this.hotG,
-      this.flashG,
-      this.sheen,
-      this.orbitGlow,
-      this.cometG,
-      this.shockG,
-      this.halo,
-    ]) {
+    for (const node of [this.sheen, this.orbitGlow, this.shockG]) {
       node.eventMode = "none";
     }
 
@@ -395,12 +362,7 @@ class DualRingScene {
       bezel,
       this.sheen,
       this.orbitGlow,
-      this.focusG,
-      this.hotG,
-      this.flashG,
-      this.halo,
       this.tokenLayer,
-      this.cometG,
       this.shockG
     );
   }
@@ -492,7 +454,6 @@ class DualRingScene {
 
   private syncTokens(tokens: WheelToken[], now: number) {
     const seen = new Set<string>();
-    let started = false;
     for (const token of tokens) {
       seen.add(token.id);
       this.tokenState.set(token.id, token);
@@ -519,11 +480,6 @@ class DualRingScene {
       }
       this.settled.set(token.id, from);
       this.motions.set(token.id, { steps, started: now, dur: motionDuration(steps) });
-      started = true;
-    }
-    if (started) {
-      this.hold = null;
-      this.flashAt = null;
     }
     for (const id of [...this.target.keys()]) {
       if (seen.has(id)) continue;
@@ -545,57 +501,12 @@ class DualRingScene {
     return { track: sample.track, index: sample.index };
   }
 
-  private syncRitual(key: string | null, now: number) {
-    if (!this.ritualReady) {
-      this.ritualReady = true;
-      this.ritualKey = key;
-      return;
-    }
-    if (key === this.ritualKey) return;
-    const previous = this.ritualKey;
-    this.ritualKey = key;
-    if (this.reduced) {
-      this.comet.mode = "off";
-      return;
-    }
-    if (key === "spin") {
-      this.comet.mode = "spin";
-      return;
-    }
-    if (previous === "spin" || key) this.beginLand(now);
-    else this.comet.mode = "off";
-  }
-
-  private beginLand(now: number) {
-    const target = this.destinationAngle();
-    const from = this.comet.angle;
-    let delta = ((target - from) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
-    if (delta < Math.PI * 1.15) delta += Math.PI * 2;
-    this.comet.mode = "land";
-    this.comet.from = from;
-    this.comet.to = from + delta;
-    this.comet.started = now;
-  }
-
-  private destinationAngle() {
-    for (const motion of this.motions.values()) {
-      const last = motion.steps[motion.steps.length - 1];
-      if (last) return restPose(last.toTrack, last.toIndex).angle;
-    }
-    if (this.hold) return restPose(this.hold.track, this.hold.index).angle;
-    if (this.focus) return restPose(this.focus.track, this.focus.index).angle;
-    return this.comet.angle;
-  }
-
   private frame(now: number) {
     this.drawStars(now);
     this.drawSheen(now);
     this.drawOrbit(now);
     this.advanceMotions(now);
-    this.drawLights(now);
     this.drawTokens(now);
-    this.drawHalo();
-    this.drawComet(now);
     this.drawShock(now);
   }
 
@@ -644,83 +555,16 @@ class DualRingScene {
   }
 
   private advanceMotions(now: number) {
-    let travel: RingPoint | null = null;
     const done: string[] = [];
     for (const [id, motion] of this.motions) {
       const progress = Math.min(1, (now - motion.started) / Math.max(1, motion.dur));
-      const sample = sampleMotion(motion.steps, progress);
-      if (sample) travel = { track: sample.track, index: sample.index };
       if (progress >= 1) {
         const last = motion.steps[motion.steps.length - 1];
-        if (last) {
-          const landed = { track: last.toTrack, index: last.toIndex };
-          this.settled.set(id, landed);
-          this.hold = landed;
-          this.flashAt = landed;
-          this.flashUntil = now + 560;
-        }
+        if (last) this.settled.set(id, { track: last.toTrack, index: last.toIndex });
         done.push(id);
       }
     }
     for (const id of done) this.motions.delete(id);
-    this.travel = this.motions.size > 0 ? travel : null;
-  }
-
-  private drawLights(now: number) {
-    const hot = this.travel ?? this.hold ?? this.focus;
-    const key = [
-      this.focus?.track,
-      this.focus?.index,
-      hot?.track,
-      hot?.index,
-      this.flashAt?.track,
-      this.flashAt?.index,
-    ].join(":");
-    if (key !== this.lightKey) {
-      this.lightKey = key;
-      const same =
-        this.focus &&
-        hot &&
-        this.focus.track === hot.track &&
-        this.focus.index === hot.index;
-      this.paintSector(this.focusG, same ? null : this.focus, "stroke");
-      this.paintSector(this.hotG, hot, "fill");
-      this.paintSector(this.flashG, this.flashAt, "flash");
-    }
-    this.hotG.alpha = hot ? 0.88 + 0.12 * Math.sin(now / 260) : 1;
-    if (this.flashAt) {
-      const left = this.flashUntil - now;
-      this.flashG.alpha = Math.max(0, left / 560);
-      if (left <= 0) {
-        this.flashAt = null;
-        this.flashG.clear();
-        this.lightKey = "";
-      }
-    }
-  }
-
-  private paintSector(g: Graphics, pos: RingPoint | null, mode: "stroke" | "fill" | "flash") {
-    g.clear();
-    g.alpha = 1;
-    if (!pos) return;
-    const total = trackLength(pos.track);
-    const { start, end, mid } = segmentAngles(pos.index, total);
-    const ring =
-      pos.track === "outer"
-        ? { inner: R.outerInner, outer: R.outerOuter }
-        : { inner: R.innerInner, outer: R.innerOuter };
-    traceSector(g, ring.inner + 2, ring.outer - 2, start, end);
-    if (mode === "flash") {
-      g.fill({ color: 0xfff6d8, alpha: 0.72 });
-    } else if (mode === "stroke") {
-      g.fill({ color: 0xf3e2b3, alpha: 0.16 });
-      g.stroke({ width: 3, color: 0xf3e2b3, alpha: 0.95 });
-    } else {
-      g.fill({ color: 0xf3e2b3, alpha: 0.4 });
-      g.stroke({ width: 3.4, color: 0xfff6d8, alpha: 1 });
-    }
-    const tip = labelPosition(CX, CY, ring.outer + 6, mid);
-    g.circle(tip.x, tip.y, mode === "stroke" ? 4.5 : 6.5).fill({ color: 0xfff6d8 });
   }
 
   private drawTokens(now: number) {
@@ -813,61 +657,6 @@ class DualRingScene {
       view.dice.visible = true;
     } else {
       view.dice.visible = false;
-    }
-  }
-
-  private drawHalo() {
-    this.halo.clear();
-    const spots: { x: number; y: number }[] = [];
-    if (this.motions.size > 0) {
-      const now = performance.now();
-      for (const motion of this.motions.values()) {
-        const progress = Math.min(1, (now - motion.started) / Math.max(1, motion.dur));
-        const sample = sampleMotion(motion.steps, progress);
-        if (sample) spots.push(poseFromSample(sample));
-      }
-    } else {
-      const marked = new Set<string>();
-      for (const pos of [this.hold, this.focus]) {
-        if (!pos) continue;
-        const key = `${pos.track}:${pos.index}`;
-        if (marked.has(key)) continue;
-        marked.add(key);
-        spots.push(restPose(pos.track, pos.index));
-      }
-    }
-    spots.forEach((pose, index) => {
-      this.halo.circle(pose.x, pose.y, index === 0 ? 72 : 48).fill({
-        color: 0xffc940,
-        alpha: 1,
-      });
-      this.halo.circle(pose.x, pose.y, index === 0 ? 74 : 50).stroke({
-        width: 5,
-        color: 0xfff6d8,
-        alpha: 1,
-      });
-    });
-  }
-
-  private drawComet(now: number) {
-    if (this.comet.mode === "spin") {
-      this.comet.angle += this.reduced ? 0 : 0.22;
-    } else if (this.comet.mode === "land") {
-      const t = Math.min(1, (now - this.comet.started) / 920);
-      const eased = 1 - (1 - t) ** 3;
-      this.comet.angle = this.comet.from + (this.comet.to - this.comet.from) * eased;
-      if (t >= 1) this.comet.mode = "off";
-    }
-    this.cometG.clear();
-    if (this.comet.mode === "off") return;
-    const radius = R.outerOuter - 6;
-    for (let i = 7; i >= 0; i -= 1) {
-      const angle = this.comet.angle - i * 0.09;
-      const pos = labelPosition(CX, CY, radius, angle);
-      this.cometG.circle(pos.x, pos.y, 4.2 - i * 0.4).fill({
-        color: i === 0 ? 0xfff6d8 : 0xd4a853,
-        alpha: 0.18 + ((7 - i) / 7) * 0.75,
-      });
     }
   }
 

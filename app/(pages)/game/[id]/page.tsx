@@ -229,19 +229,10 @@ export default function GamePage() {
             track: activeSeat?.state.track ?? player.track,
             index: activeSeat?.state.boardIndex ?? player.boardIndex,
           }}
-          holdPosition={
-            actor
-              ? { track: actor.state.track, index: actor.state.boardIndex }
-              : {
-                  track: activeSeat?.state.track ?? player.track,
-                  index: activeSeat?.state.boardIndex ?? player.boardIndex,
-                }
-          }
           lastDice={activeSeat?.state.lastDice ?? player.lastDice}
           playerLabel={nickname}
           tokens={tokens}
           orbit={fullView?.to ?? circle}
-          ritualKey={isRolling ? "spin" : rollCue?.key ?? null}
         />
       </ParlorFelt>
 

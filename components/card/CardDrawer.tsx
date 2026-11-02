@@ -16,7 +16,7 @@ export function CardDrawer({
   if (!visible) return null;
 
   return (
-    <AntCard title={cardName ?? "抽卡"} className="mt-4">
+    <AntCard title={cardName ?? "抽卡"} className="ll-draw">
       {cardContent ? (
         <p>{cardContent}</p>
       ) : (

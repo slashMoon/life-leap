@@ -269,7 +269,10 @@ export default function GamePage() {
           <TileLegend track={player.track} />
         </aside>
 
-        <section className="ll-col ll-col-table" aria-label="牌桌">
+        <section className="ll-col ll-col-table" aria-labelledby="ll-table-title">
+          <h2 id="ll-table-title" className="ll-table-title">
+            转动人生
+          </h2>
           <ParlorFelt seats={plaques} onSelect={openLedger}>
             <GameWheel
               activePosition={{

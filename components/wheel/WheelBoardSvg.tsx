@@ -278,7 +278,7 @@ function TrackRing({
               inner={labelInner}
               outer={labelOuter}
               active={isActive}
-              size={track === "outer" ? 12 : 11}
+              size={track === "outer" ? 16 : 15}
             />
           </g>
         );

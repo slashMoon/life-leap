@@ -207,9 +207,14 @@ export default function GamePage() {
             <CircleMicro player={player} />
           </section>
 
-          <p className="ll-status">
+          <p className={`ll-status${isMyTurn ? " is-live" : ""}`}>
             <i className={`ll-link-dot ${linkState}`} title={linkLabel} aria-label={linkLabel} />
-            第 {player.round} 回合 · {waitHint ?? turnLabel}
+            <span>
+              第 {player.round} 回合 · {waitHint ?? turnLabel}
+            </span>
+            {isMyTurn && remain != null ? (
+              <strong className="ll-status-clock">{remain}s</strong>
+            ) : null}
           </p>
 
           <section

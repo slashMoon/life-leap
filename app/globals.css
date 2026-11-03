@@ -681,7 +681,7 @@ a.ll-step:hover {
 
 .ll-page.ll-game {
   max-width: 118rem;
-  padding-top: 0.7rem;
+  padding: 0.35rem 0.75rem 0.25rem;
 }
 
 .ll-game .ll-page-head {
@@ -764,45 +764,8 @@ a.ll-step:hover {
   margin-top: 0.85rem;
 }
 
-.ll-hero-num {
-  margin: 0.05rem 0 0;
-  font-size: 2rem;
-  font-variant-numeric: tabular-nums;
-  font-weight: 650;
-  letter-spacing: 0.02em;
-  line-height: 1.15;
-}
-
-.ll-hero-num.is-up,
 .ll-gold {
   color: var(--ll-gold-bright);
-}
-
-.ll-hero-num.is-down {
-  color: var(--ll-danger);
-}
-
-.ll-points {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.45rem;
-  margin-top: 0.75rem;
-}
-
-.ll-points span {
-  padding: 0.4rem 0.55rem;
-  border-radius: 0.7rem;
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--ll-muted);
-  font-size: 0.75rem;
-}
-
-.ll-points b {
-  display: block;
-  margin-top: 0.1rem;
-  color: var(--ll-ink);
-  font-size: 0.95rem;
-  font-weight: 600;
 }
 
 .ll-player-status {
@@ -1024,24 +987,6 @@ a.ll-step:hover {
   backdrop-filter: blur(16px);
 }
 
-.ll-table-title {
-  margin: 0;
-  color: var(--ll-gold-bright);
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  line-height: 1.3;
-  text-align: center;
-}
-
-.ll-round-line {
-  margin: 0;
-  color: var(--ll-muted);
-  font-size: 0.82rem;
-  letter-spacing: 0.1em;
-  text-align: center;
-}
-
 .ll-stage-roll {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -1067,25 +1012,15 @@ a.ll-step:hover {
   animation: ll-cta-breathe 2.6s ease-in-out infinite;
 }
 
-.ll-game .ll-felt {
-  width: 100%;
-  height: min(42rem, calc(100vh - 11rem));
-  min-height: 22rem;
+.ll-col-table {
+  align-self: stretch;
+  height: calc(100vh - 3.25rem);
+  max-height: calc(100vh - 3.25rem);
+  min-height: 0;
 }
 
 .ll-game .ll-felt::after {
-  content: "";
-  position: absolute;
-  inset: 10px;
-  border: 1px solid rgba(196, 164, 108, 0.22);
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0.55;
-}
-
-.ll-game .ll-felt-wheel {
-  top: 47%;
-  width: min(50cqmin, 540px);
+  display: none;
 }
 
 @keyframes ll-cta-breathe {
@@ -1146,6 +1081,23 @@ a.ll-step:hover {
     padding-bottom: 0.4rem;
   }
 
+  .ll-col-table {
+    height: auto;
+    max-height: none;
+  }
+
+  .ll-felt-slot {
+    flex: none;
+    width: min(100%, calc(100vw - 24px));
+    height: min(calc(100vw - 24px), calc(72vh - 7.5rem));
+  }
+
+  .ll-felt,
+  .ll-game .ll-felt {
+    width: 100%;
+    height: 100%;
+  }
+
   .ll-stage-dock {
     bottom: 3.4rem;
   }
@@ -1158,26 +1110,32 @@ a.ll-step:hover {
 }
 
 .ll-parlor {
-  margin-top: 0.15rem;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  margin-top: 0;
+}
+
+.ll-felt-slot {
+  container-type: size;
+  display: grid;
+  flex: 1;
+  place-items: center;
+  width: 100%;
+  min-height: 0;
 }
 
 .ll-felt {
   container-type: size;
   position: relative;
-  width: min(100%, 62rem);
-  height: min(740px, calc(100vh - 15.5rem));
-  min-height: 28rem;
-  margin-inline: auto;
-  border-radius: 46% / 48%;
-  background:
-    radial-gradient(ellipse at 50% 46%, rgba(72, 54, 24, 0.38), rgba(8, 9, 12, 0.08) 62%),
-    radial-gradient(ellipse at 50% 50%, #1a140e 0%, #08090e 72%);
-  border: 1px solid rgba(212, 168, 83, 0.5);
-  box-shadow:
-    inset 0 0 0 12px rgba(58, 40, 16, 0.55),
-    inset 0 0 0 14px rgba(243, 226, 179, 0.18),
-    inset 0 0 90px rgba(0, 0, 0, 0.5),
-    0 28px 64px rgba(0, 0, 0, 0.46);
+  width: min(100cqw, 100cqh);
+  height: min(100cqw, 100cqh);
+  border-radius: 1.35rem;
+  background: radial-gradient(circle at 50% 48%, rgba(16, 36, 30, 0.42), transparent 70%);
+  border: 0;
+  box-shadow: none;
 }
 
 .ll-felt-wheel {
@@ -1185,8 +1143,7 @@ a.ll-step:hover {
   left: 50%;
   top: 50%;
   z-index: 1;
-  width: 54%;
-  width: min(62cqmin, 680px);
+  width: min(92cqmin, 100%);
   transform: translate(-50%, -50%);
 }
 
@@ -1202,13 +1159,20 @@ a.ll-step:hover {
 .ll-felt .ll-wheel-caption {
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 0.55rem);
-  z-index: 1;
-  width: min(92%, 22rem);
+  top: auto;
+  bottom: -1.7rem;
+  z-index: 3;
+  width: max-content;
+  max-width: min(100vw - 2rem, 40rem);
   margin: 0;
-  padding: 0.35rem 0.75rem;
+  padding: 0.15rem 0.7rem;
   transform: translateX(-50%);
   pointer-events: none;
+}
+
+.ll-felt .ll-wheel-caption p {
+  display: inline;
+  margin: 0 0.35rem 0 0;
 }
 
 .ll-seat {
@@ -1473,17 +1437,13 @@ button.ll-seat {
   .ll-felt,
   .ll-game .ll-felt {
     width: 100%;
-    height: auto;
-    aspect-ratio: 1 / 1.08;
-    min-height: 0;
-    max-height: 62vh;
-    border-radius: 1.5rem;
+    height: 100%;
+    border-radius: 1.15rem;
   }
 
   .ll-felt-wheel,
   .ll-game .ll-felt-wheel {
-    width: 74%;
-    width: min(72cqmin, 420px);
+    width: min(92cqmin, 100%);
   }
 
   .ll-seat,
@@ -1589,15 +1549,9 @@ main.ll-game {
 }
 
 .ll-game .ll-felt {
-  background:
-    radial-gradient(ellipse at 50% 46%, rgba(18, 42, 34, 0.72), rgba(11, 20, 16, 0.2) 64%),
-    radial-gradient(ellipse at 50% 50%, var(--ll-felt-deep) 0%, #060708 74%);
-  border-color: var(--ll-line);
-  box-shadow:
-    inset 0 0 0 10px var(--ll-felt-rim),
-    inset 0 0 0 11px rgba(232, 213, 168, 0.12),
-    inset 0 0 80px rgba(0, 0, 0, 0.55),
-    0 18px 40px rgba(0, 0, 0, 0.45);
+  background: radial-gradient(circle at 50% 48%, rgba(16, 36, 30, 0.4), transparent 70%);
+  border: 0;
+  box-shadow: none;
 }
 
 .ll-game .ll-seat,
@@ -1808,6 +1762,11 @@ main.ll-game {
   min-width: 0;
 }
 
+.ll-game .ll-stage-roll .ll-die {
+  width: 52px;
+  height: 52px;
+}
+
 .ll-chat-icon {
   position: relative;
   flex: none;
@@ -1941,17 +1900,115 @@ main.ll-game {
   }
 }
 
-@media (max-width: 760px) {
-  .ll-game .ll-felt {
+.ll-seat-rail {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  gap: 0.4rem;
+  margin-top: 1.35rem;
+  overflow-x: auto;
+  padding: 0.15rem 0.1rem 0.15rem;
+  scrollbar-width: thin;
+}
+
+.ll-game .ll-seat.ll-bead,
+.ll-game .ll-seat.ll-bead.is-self {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 4.5rem;
+  max-width: 4.5rem;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 0.4rem;
+  transform: none;
+  border-radius: 999px;
+}
+
+.ll-bead {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.28rem;
+  width: 4.5rem;
+  max-width: 4.5rem;
+  min-height: 44px;
+  padding: 0 0.4rem;
+  border: 1px solid var(--ll-line);
+  border-radius: 999px;
+  background: rgba(18, 17, 16, 0.92);
+  color: var(--ll-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ll-bead strong {
+  overflow: hidden;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ll-bead.is-turn {
+  border-color: var(--ll-line-strong);
+  box-shadow: 0 0 8px rgba(232, 213, 168, 0.16);
+}
+
+.ll-bead.is-self strong {
+  color: var(--ll-gold-bright);
+}
+
+.ll-bead.is-offline {
+  opacity: 0.72;
+}
+
+.ll-bead.is-afk {
+  border-style: dashed;
+}
+
+.ll-status.is-live {
+  color: var(--ll-gold-bright);
+}
+
+.ll-status-clock {
+  margin-left: auto;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(232, 213, 168, 0.16);
+  color: var(--ll-gold-bright);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+}
+
+.ll-game .ll-stage-dock {
+  margin-top: auto;
+  padding: 0.4rem 0.7rem;
+}
+
+@media (max-width: 1099px) {
+  .ll-col-table {
     height: auto;
-    aspect-ratio: 1 / 1.05;
-    min-height: 0;
-    max-height: 58vh;
-    border-radius: 1.15rem;
+    max-height: none;
   }
 
-  .ll-game .ll-seat,
-  .ll-game .ll-seat.is-self {
-    width: 6.2rem;
+  .ll-felt-slot {
+    flex: none;
+    width: min(100%, calc(100vw - 24px));
+    height: min(calc(100vw - 24px), calc(72vh - 7.5rem));
+    min-height: min(calc(100vw - 24px), calc(72vh - 7.5rem));
+  }
+
+  .ll-felt,
+  .ll-game .ll-felt {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ll-felt-wheel,
+  .ll-game .ll-felt-wheel {
+    width: min(92cqmin, 100%);
   }
 }

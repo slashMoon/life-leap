@@ -33,6 +33,7 @@ export function AppShell({
   roomId,
   width = "lg",
   mainClassName,
+  compact = false,
   children,
 }: {
   step: ShellStep;
@@ -42,6 +43,8 @@ export function AppShell({
   roomId?: string;
   width?: "md" | "lg" | "xl" | "wide";
   mainClassName?: string;
+  /** 对局页把标题收进三栏，顶栏只留流程 */
+  compact?: boolean;
   children: ReactNode;
 }) {
   const [nickname, setNickname] = useState<string | null>(null);
@@ -79,16 +82,25 @@ export function AppShell({
             );
           })}
         </nav>
-        <div className="ll-user">{nickname ?? "未登录"}</div>
+        <div className="ll-user">
+          {nickname ? (
+            <span className="ll-user-mark" aria-hidden>
+              {nickname.slice(0, 1)}
+            </span>
+          ) : null}
+          {nickname ?? "未登录"}
+        </div>
       </header>
       <main className={`ll-page ll-page-${width}${mainClassName ? ` ${mainClassName}` : ""}`}>
-        <div className="ll-page-head">
-          <div>
-            {kicker ? <p className="ll-kicker">{kicker}</p> : null}
-            <h1 className="ll-title ll-page-title">{title}</h1>
+        {compact ? null : (
+          <div className="ll-page-head">
+            <div>
+              {kicker ? <p className="ll-kicker">{kicker}</p> : null}
+              <h1 className="ll-title ll-page-title">{title}</h1>
+            </div>
+            {meta ? <div className="ll-meta">{meta}</div> : null}
           </div>
-          {meta ? <div className="ll-meta">{meta}</div> : null}
-        </div>
+        )}
         {children}
       </main>
     </div>

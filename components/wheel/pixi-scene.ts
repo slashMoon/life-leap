@@ -428,7 +428,7 @@ class DualRingScene {
         mid,
         rInner + (track === "outer" ? 18 : 16),
         rOuter - (track === "outer" ? 34 : 28),
-        track === "outer" ? 13 : 12
+        track === "outer" ? 16 : 15
       );
     });
   }

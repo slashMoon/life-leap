@@ -12,6 +12,8 @@ interface DiceRollerProps {
   hint?: string;
   /** 其他玩家掷骰时，用同一颗骰子滚到对方的点数 */
   rollCue?: { key: string; value: number } | null;
+  /** stage：牌桌下方的主操作；inline：骰子和按钮并排 */
+  variant?: "inline" | "stage";
 }
 
 const PIPS: Record<number, number[]> = {
@@ -43,6 +45,7 @@ export function DiceRoller({
   loading,
   hint,
   rollCue,
+  variant = "inline",
 }: DiceRollerProps) {
   const [spinning, setSpinning] = useState(false);
   const [display, setDisplay] = useState<number | null>(value ?? null);
@@ -86,36 +89,55 @@ export function DiceRoller({
     }
   };
 
-  return (
-    <div className="flex items-center gap-4">
-      <button
-        type="button"
+  const label = variant === "stage" ? "掷骰子" : (hint ?? "掷骰子");
+  const die = (
+    <button
+      type="button"
+      onClick={handleRoll}
+      disabled={disabled || loading || spinning}
+      className={`ll-die ${spinning ? "is-spinning" : display != null ? "is-settled" : ""}`}
+      aria-label={label}
+    >
+      {spinning ? <span className="ll-die-idle">◆</span> : <DieFace value={display} />}
+    </button>
+  );
+  const copy = (
+    <>
+      <Button
+        type="primary"
+        size="large"
+        block={variant === "stage"}
+        className={hint ? "ll-roll-cta" : "ll-roll-cta is-act"}
         onClick={handleRoll}
         disabled={disabled || loading || spinning}
-        className={`ll-die ${spinning ? "is-spinning" : display != null ? "is-settled" : ""}`}
-        aria-label={hint ?? "掷骰子"}
+        loading={loading || spinning}
       >
-        {spinning ? <span className="ll-die-idle">◆</span> : <DieFace value={display} />}
-      </button>
-      <div>
-        <Button
-          type="primary"
-          size="large"
-          onClick={handleRoll}
-          disabled={disabled || loading || spinning}
-          loading={loading || spinning}
-        >
-          {hint ?? "掷骰子"}
-        </Button>
-        {hint ? (
-          <p className="mt-1 text-sm text-[var(--ll-gold-bright)]">{hint}</p>
-        ) : null}
-        {display != null && !spinning && (
-          <p className="mt-1 text-sm text-[var(--ll-muted)]">
-            点数：<span className="font-semibold text-[var(--ll-gold-bright)]">{display}</span>
-          </p>
-        )}
+        {label}
+      </Button>
+      {hint && variant === "inline" ? (
+        <p className="mt-1 text-sm text-[var(--ll-gold-bright)]">{hint}</p>
+      ) : null}
+      {display != null && !spinning && (
+        <p className="mt-1 text-sm text-[var(--ll-muted)]">
+          点数：<span className="font-semibold text-[var(--ll-gold-bright)]">{display}</span>
+        </p>
+      )}
+    </>
+  );
+
+  if (variant === "stage") {
+    return (
+      <div className="ll-stage-roll">
+        {die}
+        <div className="ll-roll-copy">{copy}</div>
       </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-4">
+      {die}
+      <div>{copy}</div>
     </div>
   );
 }

@@ -233,8 +233,6 @@ function TrackRing({
   rInner,
   rOuter,
   activeIndex,
-  flashIndex,
-  flashNonce,
   track,
   onTileClick,
   onHover,
@@ -243,8 +241,6 @@ function TrackRing({
   rInner: number;
   rOuter: number;
   activeIndex?: number;
-  flashIndex?: number;
-  flashNonce?: number;
   track: "outer" | "inner";
   onTileClick?: (tile: BoardTile) => void;
   onHover: (tile: BoardTile | null) => void;
@@ -273,24 +269,6 @@ function TrackRing({
               className={isActive ? "ll-tile is-active" : "ll-tile"}
               d={describeArcSegment(CX, CY, rInner, rOuter, start, end)}
             />
-            {isActive && (
-              <path
-                className="ll-tile-hot"
-                d={describeArcSegment(CX, CY, rInner + 2, rOuter - 2, start, end)}
-                fill="rgba(243, 226, 179, 0.16)"
-                stroke="var(--ll-gold-bright)"
-                strokeWidth={1.35}
-              />
-            )}
-            {flashIndex === tile.index && (
-              <path
-                key={flashNonce}
-                className="ll-land-flash"
-                d={describeArcSegment(CX, CY, rInner, rOuter, start, end)}
-                fill="rgba(243, 226, 179, 0.55)"
-                stroke="none"
-              />
-            )}
             <g transform={`translate(${icon.x}, ${icon.y}) rotate(${iconRotate})`}>
               <TileGlyph type={tile.type} />
             </g>
@@ -300,7 +278,7 @@ function TrackRing({
               inner={labelInner}
               outer={labelOuter}
               active={isActive}
-              size={track === "outer" ? 12 : 11}
+              size={track === "outer" ? 16 : 15}
             />
           </g>
         );
@@ -474,8 +452,6 @@ export function WheelBoardSvg({
           rInner={R.outerInner}
           rOuter={R.outerOuter}
           activeIndex={travel.highlight?.track === "outer" ? travel.highlight.index : activeOuter}
-          flashIndex={travel.landed?.track === "outer" ? travel.landed.index : undefined}
-          flashNonce={travel.landed?.nonce}
           track="outer"
           onTileClick={onTileClick}
           onHover={setHovered}
@@ -496,8 +472,6 @@ export function WheelBoardSvg({
           rInner={R.innerInner}
           rOuter={R.innerOuter}
           activeIndex={travel.highlight?.track === "inner" ? travel.highlight.index : activeInner}
-          flashIndex={travel.landed?.track === "inner" ? travel.landed.index : undefined}
-          flashNonce={travel.landed?.nonce}
           track="inner"
           onTileClick={onTileClick}
           onHover={setHovered}

@@ -74,6 +74,37 @@ export function CircleProgressPanel({ player }: CircleProgressPanelProps) {
   );
 }
 
+/** MeChip 旁的四段微进度，高度交给父级压在一行里。 */
+export function CircleMicro({
+  player,
+}: {
+  player: CircleProgressPanelProps["player"];
+}) {
+  const progress = getCircleTransitionProgress(buildTransitionContext(player));
+  if (!progress) {
+    return <span className="ll-micro-label">已达核心圈</span>;
+  }
+  const met = progress.items.filter((item) => item.met).length;
+  const filled = progress.items.length
+    ? Math.round((met / progress.items.length) * 4)
+    : 0;
+  return (
+    <span className="ll-micro" title={`${player.circle} → ${progress.target}`}>
+      <span className="ll-micro-label">
+        {player.circle} → {progress.target}
+      </span>
+      <span className="ll-micro-pips" aria-hidden>
+        {Array.from({ length: 4 }, (_, index) => (
+          <i key={index} className={index < filled ? "is-on" : ""} />
+        ))}
+      </span>
+      <span className="ll-sr">
+        {progress.ruleTitle} {met}/{progress.items.length}
+      </span>
+    </span>
+  );
+}
+
 export function circleLabel(circle: LifeCircle) {
   const map: Record<LifeCircle, string> = {
     牛马: "牛马圈（外圈）",

@@ -6,10 +6,9 @@ import { useEffect, useState } from "react";
 import { AppShell } from "@/components/shell/AppShell";
 import { CircleBanner, CircleCeremony } from "@/components/ceremony/CircleCeremony";
 import { useCeremonyPreview } from "@/components/ceremony/useCeremonyPreview";
-import { CardDrawer } from "@/components/card/CardDrawer";
 import { DecisionModal } from "@/components/card/DecisionModal";
 import { CashFlowPanel } from "@/components/cash-flow/CashFlowPanel";
-import { CircleProgressPanel } from "@/components/cash-flow/CircleProgressPanel";
+import { CircleMicro } from "@/components/cash-flow/CircleProgressPanel";
 import { ChatPanel } from "@/components/chat/ChatPanel";
 import { DiceRoller } from "@/components/dice/DiceRoller";
 import { GameWheel } from "@/components/wheel/GameWheel";
@@ -20,12 +19,11 @@ import { getStoredUser } from "@/lib/client/user";
 import { orderAroundSelf } from "@/lib/table/seat-layout";
 import { useCircleCeremony } from "@/hooks/useCircleCeremony";
 import { useGame } from "@/hooks/useGame";
-import { apiFetch } from "@/lib/api/fetch";
-import type { RoomDetail } from "@/hooks/useRoom";
-import type { GameMode } from "@/types/game";
 import type { GameSnapshot } from "@/lib/game-session/types";
 
-const TOKEN_COLORS = ["#d4a853", "#7eb6ff", "#7dcea0", "#f1948a", "#c39bd3", "#f7dc6f"];
+const TOKEN_COLORS = ["#c4a46a", "#8aabcf", "#7aaa90", "#d4a09a", "#b39bc0", "#d4c48a"];
+
+type GamePane = "table" | "feed" | "ledger";
 
 function seatColor(seats: { userId: string }[], userId: string) {
   const index = seats.findIndex((seat) => seat.userId === userId);
@@ -37,8 +35,8 @@ export default function GamePage() {
   const router = useRouter();
   const roomId = params.id as string;
   const { userId, nickname } = getStoredUser();
-  const [table, setTable] = useState<{ mode?: GameMode; code?: string }>({});
   const [focusId, setFocusId] = useState(userId);
+  const [pane, setPane] = useState<GamePane>("table");
   const {
     player,
     snapshot,
@@ -111,18 +109,6 @@ export default function GamePage() {
     .map((seat) => `${seat.nickname} · ${seat.state.eventLog[0]}`);
 
   useEffect(() => {
-    let cancelled = false;
-    void apiFetch<RoomDetail>(`/api/room/${roomId}`)
-      .then((room) => {
-        if (!cancelled) setTable({ mode: room.mode, code: room.code });
-      })
-      .catch(() => undefined);
-    return () => {
-      cancelled = true;
-    };
-  }, [roomId]);
-
-  useEffect(() => {
     if (player.identityId || !synced) return;
     const previewing = new URLSearchParams(window.location.search).has("ceremony");
     if (previewing) return;
@@ -158,14 +144,9 @@ export default function GamePage() {
 
   const openLedger = (id: string) => {
     setFocusId(id);
+    if (window.matchMedia("(max-width: 1099px)").matches) setPane("ledger");
   };
 
-  const modeLabel =
-    (snapshot?.mode ?? table.mode) === "solo"
-      ? "单机"
-      : (snapshot?.mode ?? table.mode) === "multi"
-        ? `多人 · ${table.code || roomId.slice(-4).toUpperCase()}`
-        : "读取模式";
   const tierLabel =
     player.identityTier === "high"
       ? "高产"
@@ -176,8 +157,8 @@ export default function GamePage() {
           : null;
   const linkLabel = connected && synced ? "服务端对局" : connected ? "同步中" : "未连接";
   const turnLabel = turnSeat ? (isMyTurn ? "轮到你" : `轮到 ${turnSeat.nickname}`) : "等待入座";
-  const flowValue = player.cashFlow.cashFlow;
   const selfColor = seatColor(boardSeats, userId);
+  const linkState = connected && synced ? "is-on" : connected ? "is-sync" : "";
 
   const eventTitle = hasPendingDecision
     ? "请先完成决策"
@@ -202,77 +183,54 @@ export default function GamePage() {
         <Alert
           type="warning"
           showIcon
-          className="mb-4"
+          className="ll-toast"
           message="掷骰与账本由服务端计算。请同时启动 Socket 服务（pnpm dev:all）后再操作。"
         />
       )}
       {connected && !synced && (
-        <Alert
-          type="info"
-          showIcon
-          className="mb-4"
-          message="正在从服务端同步对局状态…"
-        />
+        <Alert type="info" showIcon className="ll-toast" message="正在从服务端同步对局状态…" />
       )}
 
-      <div className="ll-board">
+      <div className="ll-board" data-pane={pane}>
         <aside className="ll-col ll-col-player" aria-label="玩家进度">
-          <section className="ll-panel ll-player">
-            <div className="ll-player-top">
-              <span className="ll-avatar" style={{ background: selfColor }} aria-hidden>
-                {(nickname || "我").slice(0, 1)}
-              </span>
-              <div className="min-w-0">
-                <h1 className="ll-player-name">{nickname}</h1>
-                <p className="ll-player-sub">
-                  {[player.identityName, tierLabel, `${circle}圈`].filter(Boolean).join(" · ")}
-                  {player.windFireWheel ? " · 风火轮" : ""}
-                </p>
-              </div>
+          <section className="ll-panel ll-me">
+            <span className="ll-avatar" style={{ background: selfColor }} aria-hidden>
+              {(nickname || "我").slice(0, 1)}
+            </span>
+            <div className="ll-me-copy">
+              <h1 className="ll-player-name">{nickname}</h1>
+              <p className="ll-player-sub">
+                {[player.identityName, tierLabel, `${circle}圈`].filter(Boolean).join(" · ")}
+                {player.windFireWheel ? <em className="ll-pill">风火轮</em> : null}
+              </p>
             </div>
-            <p className="ll-kicker ll-flow-kicker">月现金流</p>
-            <p className={`ll-hero-num ${flowValue >= 0 ? "is-up" : "is-down"}`}>
-              {flowValue >= 0 ? "+" : ""}
-              {flowValue.toLocaleString("zh-CN")}
-            </p>
-            <div className="ll-points">
-              <span>
-                时间积分
-                <b>{player.timePoints ?? 0}</b>
-              </span>
-              <span>
-                品质生活积分
-                <b>{player.qualityLifePoints ?? 0}</b>
-              </span>
-            </div>
-            <p className="ll-player-status">
-              第 {player.round} 回合 · {modeLabel} · {linkLabel} · {turnLabel}
-              {remain != null && !isMyTurn ? ` · ${remain}s` : ""}
-            </p>
+            <CircleMicro player={player} />
           </section>
 
-          <div className="ll-panel ll-progress">
-            <CircleProgressPanel player={player} />
-          </div>
+          <p className="ll-status">
+            <i className={`ll-link-dot ${linkState}`} title={linkLabel} aria-label={linkLabel} />
+            第 {player.round} 回合 · {waitHint ?? turnLabel}
+          </p>
 
-          <section className="ll-panel ll-event" aria-live="polite">
-            <h2>{eventTitle}</h2>
+          <section
+            className={`ll-panel ll-event${hasPendingDecision ? " is-pending" : ""}`}
+            aria-live="polite"
+          >
+            <div className="ll-event-head">
+              <h2>{eventTitle}</h2>
+              <TileLegend track={player.track} />
+            </div>
             <p>{eventBody}</p>
+            {player.lastEvent?.cardTitle && !player.lastEvent.requiresDecision ? (
+              <div className="ll-event-card">
+                <strong>{player.lastEvent.cardTitle}</strong>
+                {player.lastEvent.cardContent ? <p>{player.lastEvent.cardContent}</p> : null}
+              </div>
+            ) : null}
           </section>
-
-          <CardDrawer
-            visible={!!player.lastEvent?.cardTitle && !player.lastEvent.requiresDecision}
-            cardName={player.lastEvent?.cardTitle}
-            cardContent={player.lastEvent?.cardContent}
-          />
-
-          <TileLegend track={player.track} />
         </aside>
 
-        <section className="ll-col ll-col-table" aria-labelledby="ll-table-title">
-          <h2 id="ll-table-title" className="ll-table-title">
-            转动人生
-          </h2>
+        <section className="ll-col ll-col-table" aria-label="牌桌">
           <ParlorFelt seats={plaques} onSelect={openLedger}>
             <GameWheel
               activePosition={{
@@ -287,10 +245,6 @@ export default function GamePage() {
           </ParlorFelt>
 
           <div className={`ll-stage-dock${isMyTurn && !hasPendingDecision ? " is-live" : ""}`}>
-            <p className="ll-round-line">
-              第 {player.round} 回合 · {turnLabel}
-              {remain != null && !isMyTurn ? ` · ${remain}s` : ""}
-            </p>
             <DiceRoller
               variant="stage"
               value={shownDice}
@@ -301,7 +255,7 @@ export default function GamePage() {
               rollCue={rollCue}
             />
             <ChatPanel
-              variant="dock"
+              variant="icon"
               roomId={roomId}
               userId={userId}
               nickname={nickname}
@@ -321,6 +275,7 @@ export default function GamePage() {
               <Button size="small" onClick={() => setFocusId(userId)}>
                 我的账本
               </Button>
+              <CircleMicro player={focusState} />
             </div>
           )}
           <CashFlowPanel
@@ -336,11 +291,6 @@ export default function GamePage() {
             round={focusState.round}
             onRepay={focusSelf && isMyTurn ? repay : undefined}
           />
-          {focusSelf ? null : (
-            <div className="ll-panel ll-progress">
-              <CircleProgressPanel player={focusState} />
-            </div>
-          )}
           <details className="ll-panel ll-log">
             <summary>回合日志</summary>
             <List
@@ -353,6 +303,19 @@ export default function GamePage() {
             />
           </details>
         </aside>
+
+        <div className="ll-tabs" role="tablist" aria-label="对局分区">
+          <button type="button" role="tab" aria-selected={pane === "table"} onClick={() => setPane("table")}>
+            牌桌
+          </button>
+          <button type="button" role="tab" aria-selected={pane === "feed"} onClick={() => setPane("feed")}>
+            动态
+            {hasPendingDecision ? <i className="ll-tab-dot" aria-label="待决策" /> : null}
+          </button>
+          <button type="button" role="tab" aria-selected={pane === "ledger"} onClick={() => setPane("ledger")}>
+            账本
+          </button>
+        </div>
       </div>
 
       <DecisionModal

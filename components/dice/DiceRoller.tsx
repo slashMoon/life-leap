@@ -89,7 +89,7 @@ export function DiceRoller({
     }
   };
 
-  const label = hint ?? "掷骰子";
+  const label = variant === "stage" ? "掷骰子" : (hint ?? "掷骰子");
   const die = (
     <button
       type="button"

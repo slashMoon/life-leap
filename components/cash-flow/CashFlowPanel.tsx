@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "antd";
+import { Button, Segmented } from "antd";
 import { useEffect, useRef, useState } from "react";
 import type { CashFlowSnapshot, LifeCircle } from "@/types/game";
 import type { NativeLiabilities } from "@/types/identity";
@@ -53,6 +53,7 @@ export function CashFlowPanel({
   round,
   onRepay,
 }: CashFlowPanelProps) {
+  const [segment, setSegment] = useState<"flow" | "sheet">("flow");
   const cashFlash = useAmountFlash(cash ?? 0);
   const flowFlash = useAmountFlash(cashFlow?.cashFlow ?? 0);
   const worthFlash = useAmountFlash(cashFlow?.netWorth ?? 0);
@@ -75,109 +76,123 @@ export function CashFlowPanel({
         <h2>现金流 · {circle}圈</h2>
         {round != null ? <span>第 {round} 回合</span> : null}
       </header>
+      <Segmented
+        block
+        className="ll-ledger-seg"
+        value={segment}
+        onChange={(value) => setSegment(value as "flow" | "sheet")}
+        options={[
+          { label: "流水", value: "flow" },
+          { label: "资产负债", value: "sheet" },
+        ]}
+      />
 
-      <dl>
-        <div className="ll-ledger-row">
-          <dt>劳动收入</dt>
-          <dd className="ll-gold">{yuan(data.laborIncome)}</dd>
-        </div>
-        <div className="ll-ledger-row">
-          <dt>非劳动收入</dt>
-          <dd className="ll-gold">{yuan(data.passiveIncome)}</dd>
-        </div>
-        <div className="ll-ledger-row">
-          <dt>总支出</dt>
-          <dd className="ll-down">{yuan(data.totalExpense)}</dd>
-        </div>
-      </dl>
-
-      <div className={`ll-ledger-spot ${flowUp ? "" : "is-down"} ${flowFlash}`}>
-        <span>月现金流</span>
-        <strong className={flowUp ? "ll-gold" : "ll-down"}>
-          {flowUp ? "+" : ""}
-          {yuan(data.cashFlow)}
-        </strong>
-      </div>
-
-      <h3>资产负债</h3>
-      <dl>
-        <div className="ll-ledger-row">
-          <dt>总资产</dt>
-          <dd>{yuan(data.totalAssets)}</dd>
-        </div>
-        <div className="ll-ledger-row">
-          <dt>总负债</dt>
-          <dd className="ll-down">{yuan(data.totalLiabilities)}</dd>
-        </div>
-        {bankLoan > 0 ? (
-          <div className="ll-ledger-row">
-            <dt>银行贷款</dt>
-            <dd className="ll-down">{yuan(bankLoan)}</dd>
-          </div>
-        ) : null}
-        {creditCardDebt > 0 ? (
-          <div className="ll-ledger-row">
-            <dt>信用卡透支</dt>
-            <dd className="ll-down">{yuan(creditCardDebt)}</dd>
-          </div>
-        ) : null}
-        <div className="ll-ledger-row">
-          <dt>现金</dt>
-          <dd className={cashFlash}>{yuan(cash ?? 0)}</dd>
-        </div>
-        {holdings.length > 0 ? (
-          <div className="ll-ledger-row">
-            <dt>持仓</dt>
-            <dd>
-              {holdings.length} 项 / {yuan(holdings.reduce((sum, holding) => sum + holding.value, 0))}
-            </dd>
-          </div>
-        ) : null}
-        <div className="ll-ledger-row">
-          <dt>时间积分</dt>
-          <dd>{timePoints}</dd>
-        </div>
-        <div className="ll-ledger-row">
-          <dt>品质生活积分</dt>
-          <dd>{qualityLifePoints}</dd>
-        </div>
-      </dl>
-
-      <div className={`ll-ledger-spot ${worthUp ? "" : "is-down"} ${worthFlash}`}>
-        <span>
-          净资产
-          {worthUp ? null : <em className="ll-insolvent">资不抵债</em>}
-        </span>
-        <strong className={worthUp ? "ll-gold" : "ll-down"}>
-          {(data.netWorth / 10000).toFixed(1)} 万
-        </strong>
-      </div>
-
-      {nativeLiabilities ? (
-        <>
-          <h3>原生负债明细</h3>
-          <dl>
-            <div className="ll-ledger-row">
-              <dt>原生·房贷</dt>
-              <dd className="ll-down">{yuan(nativeLiabilities.housingMortgage)}</dd>
-            </div>
-            {nativeLiabilities.educationLoan > 0 ? (
+      <div className="ll-ledger-body">
+        {segment === "flow" ? (
+          <>
+            <dl>
               <div className="ll-ledger-row">
-                <dt>原生·学贷</dt>
-                <dd className="ll-down">{yuan(nativeLiabilities.educationLoan)}</dd>
+                <dt>劳动收入</dt>
+                <dd className="ll-gold">{yuan(data.laborIncome)}</dd>
               </div>
+              <div className="ll-ledger-row">
+                <dt>非劳动收入</dt>
+                <dd className="ll-gold">{yuan(data.passiveIncome)}</dd>
+              </div>
+              <div className="ll-ledger-row">
+                <dt>总支出</dt>
+                <dd className="ll-down">{yuan(data.totalExpense)}</dd>
+              </div>
+            </dl>
+            <div className={`ll-ledger-spot ${flowUp ? "" : "is-down"} ${flowFlash}`}>
+              <span>月现金流</span>
+              <strong className={flowUp ? "ll-gold" : "ll-down"}>
+                {flowUp ? "+" : ""}
+                {yuan(data.cashFlow)}
+              </strong>
+            </div>
+          </>
+        ) : (
+          <>
+            <dl>
+              <div className="ll-ledger-row">
+                <dt>总资产</dt>
+                <dd>{yuan(data.totalAssets)}</dd>
+              </div>
+              <div className="ll-ledger-row">
+                <dt>总负债</dt>
+                <dd className="ll-down">{yuan(data.totalLiabilities)}</dd>
+              </div>
+              {bankLoan > 0 ? (
+                <div className="ll-ledger-row">
+                  <dt>银行贷款</dt>
+                  <dd className="ll-down">{yuan(bankLoan)}</dd>
+                </div>
+              ) : null}
+              {creditCardDebt > 0 ? (
+                <div className="ll-ledger-row">
+                  <dt>信用卡透支</dt>
+                  <dd className="ll-down">{yuan(creditCardDebt)}</dd>
+                </div>
+              ) : null}
+              <div className="ll-ledger-row">
+                <dt>现金</dt>
+                <dd className={cashFlash}>{yuan(cash ?? 0)}</dd>
+              </div>
+              {holdings.length > 0 ? (
+                <div className="ll-ledger-row">
+                  <dt>持仓</dt>
+                  <dd>
+                    {holdings.length} 项 / {yuan(holdings.reduce((sum, holding) => sum + holding.value, 0))}
+                  </dd>
+                </div>
+              ) : null}
+              <div className="ll-ledger-row">
+                <dt>时间积分</dt>
+                <dd>{timePoints}</dd>
+              </div>
+              <div className="ll-ledger-row">
+                <dt>品质生活积分</dt>
+                <dd>{qualityLifePoints}</dd>
+              </div>
+            </dl>
+            <div className={`ll-ledger-spot ${worthUp ? "" : "is-down"} ${worthFlash}`}>
+              <span>
+                净资产
+                {worthUp ? null : <em className="ll-insolvent">资不抵债</em>}
+              </span>
+              <strong className={worthUp ? "ll-gold" : "ll-down"}>
+                {(data.netWorth / 10000).toFixed(1)} 万
+              </strong>
+            </div>
+            {nativeLiabilities ? (
+              <>
+                <h3>原生负债明细</h3>
+                <dl>
+                  <div className="ll-ledger-row">
+                    <dt>原生·房贷</dt>
+                    <dd className="ll-down">{yuan(nativeLiabilities.housingMortgage)}</dd>
+                  </div>
+                  {nativeLiabilities.educationLoan > 0 ? (
+                    <div className="ll-ledger-row">
+                      <dt>原生·学贷</dt>
+                      <dd className="ll-down">{yuan(nativeLiabilities.educationLoan)}</dd>
+                    </div>
+                  ) : null}
+                  <div className="ll-ledger-row">
+                    <dt>原生·车贷</dt>
+                    <dd className="ll-down">{yuan(nativeLiabilities.carLoan)}</dd>
+                  </div>
+                  <div className="ll-ledger-row">
+                    <dt>原生·信用卡</dt>
+                    <dd className="ll-down">{yuan(nativeLiabilities.creditCard)}</dd>
+                  </div>
+                </dl>
+              </>
             ) : null}
-            <div className="ll-ledger-row">
-              <dt>原生·车贷</dt>
-              <dd className="ll-down">{yuan(nativeLiabilities.carLoan)}</dd>
-            </div>
-            <div className="ll-ledger-row">
-              <dt>原生·信用卡</dt>
-              <dd className="ll-down">{yuan(nativeLiabilities.creditCard)}</dd>
-            </div>
-          </dl>
-        </>
-      ) : null}
+          </>
+        )}
+      </div>
 
       {onRepay ? (
         <div className="ll-repay">

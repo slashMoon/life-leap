@@ -83,7 +83,7 @@ export function motionSteps(from: RingPoint, to: RingPoint): MotionStep[] {
 export function motionDuration(steps: MotionStep[]) {
   if (steps.length === 0) return 0;
   if (steps.some((step) => step.radial)) return 980;
-  return Math.min(1680, Math.max(320, steps.length * 150));
+  return Math.min(400, Math.max(280, steps.length * 120));
 }
 
 export interface MotionSample extends MotionStep {

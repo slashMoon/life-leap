@@ -31,7 +31,7 @@ export function ParlorFelt({
   }, []);
 
   const compact = box.width < 760;
-  const plaque = compact ? { w: 108, h: 76 } : { w: 168, h: 92 };
+  const plaque = compact ? { w: 100, h: 92 } : { w: 152, h: 112 };
   const anchors = tableAnchors(Math.max(seats.length, 1), box.width, box.height, plaque);
 
   return (
